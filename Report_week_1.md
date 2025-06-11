@@ -181,7 +181,15 @@ Languages - Python, C++
 
 ## Individual contribution of each participant
 
-*...*
+Anastasia - [Check linear encoder](https://github.com/IU-Capstone-Project-2025/total_control/commit/1b2943cadd8492cfd284862eac39d235747a7244)
+
+Evgenii - [Write docker and docker compose, creating structure of repository](https://github.com/IU-Capstone-Project-2025/total_control/commit/5c677fc5d25899b8dbd0dc5a0f8e27a5ce8657f2)
+
+Artyom - [Find configuration of sensors and test hardware](https://github.com/IU-Capstone-Project-2025/total_control/commit/0db119c290c39f15f94458de5be372f6a0a9c195)
+
+Petr - [Write report and documentation](https://github.com/IU-Capstone-Project-2025/total_control/blob/Reports/Report_week_1.md)
+
+Marat - [Angle sensor development](https://github.com/IU-Capstone-Project-2025/total_control/tree/dev-angle-sensor-test)
 
 ## Confirmation of the code's operability
 
