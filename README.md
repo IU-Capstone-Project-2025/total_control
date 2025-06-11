@@ -25,12 +25,42 @@ Supported platforms:
 
 
 ### **🚀 Quick Start with Docker**  
-TO-DO
+
+To open the documentation you need to run the following service
+```bash
+docker compose up --build get_docs
+```
+
+To run the test application, it is necessary to run the following service
+```bash
+docker compose up --build test
+```
+
 ---
 
 ## 📂 **Project Structure**  
 ```
-TO-DO
+├── docker-compose.yaml      # Docker Compose configuration for multi-container setup
+├── Dockerfile               # Docker image build instructions
+├── docs/                    # Project documentation (Sphinx)
+├── firmware/                # Device firmware code
+│   ├── arduino/             # Arduino-specific firmware
+│   └── shared/              # Shared firmware components
+├── LICENSE                  # Project license file
+├── python_lib/              # Python library package
+│   ├── docs/                # Library documentation
+│   ├── setup.py             # Python package configuration
+│   ├── src/                 # Source code
+│   │   ├── inno_control/    # Main package
+│   │   │   ├── core.py      # Core functionality
+│   │   │   └── __init__.py  # Package initialization
+│   │   └── main.py          # Main application
+│   └── tests/               # Unit tests
+├── README.md                # Project overview and documentation
+├── requirements.txt         # Python dependencies
+└── scripts/                 # Utility scripts
+    └── get_docs.sh          # Documentation generation script
+
 ```
 
 ---
@@ -40,8 +70,42 @@ TO-DO
 ### **1. Local Development (Without Docker)**  
 TO-DO
 ### **2. Development in Docker**
-TO-DO
-### **4. Git & Commit Rules**  
+
+Run docker container
+```bash
+docker compose up --build terminal
+```
+
+Attach to the docker from other terminals, by running:
+```bash
+docker compose exec terminal bash
+```
+
+### **3. Build Docker**
+
+After making changes to the dockerfile, you need to build a new image and upload it to the cloud
+
+Build docker image
+```bash
+docker build -t image_name -f Dockerfile .
+```
+
+Tag docker image
+```bash
+docker tag image_name fabook/control:tag_name
+```
+Push docker image to Docker Hub (Optional)
+```bash
+docker push fabook/control:tag_name
+```
+
+> [!IMPORTANT]
+> For reproducibility purposes, it is necessary to maintain the most current version of Docker on Docker Hub. But it is not necessary to call this command on every build.
+
+> [!TIP]
+> The tag can be anything, but by default docker compose calls the image with the tag 'latest'
+
+### **5. Git & Commit Rules**  
 
 
 ### 🔹 **Core Tags (Commit Types)**  

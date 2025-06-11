@@ -1,0 +1,1 @@
+void handle_test_encoder() {}
