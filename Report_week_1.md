@@ -49,7 +49,7 @@ The objective is to design a software and hardware product for the robotics labo
 
 ### Brief market research / problem validation
 
-Переписать сказать что 
+While a mechanism is readily available on the market, it remains difficult to find a programmer capable of developing the necessary software for the laboratory setup. Currently, there are no publicly accessible programs that meet our specific requirements. This perspective is shared by professionals in the field and staff at the Innopolis Institute of Robotics. Therefore, our solution not only addresses this gap but also holds significant importance for student practice, providing them with valuable hands-on experience in a practical setting.
 
 ## Basic requirements
 
