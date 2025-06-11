@@ -49,13 +49,19 @@ The objective is to design a real-time control system that can dynamically balan
 ### Brief market research / problem validation
 
 Balance Control Testbed for Personal Mobility (Segways, Monowheels)
+
 Problem:
+
 Developing safe, robust control systems for personal mobility devices (e.g., Segways, electric unicycles) is challenging due to the cost and danger of real-world testing during early development.
+
 Validation:
+
 Companies like Segway-Ninebot, InMotion, and DIY e-mobility developers need small-scale testbeds to tune and validate control loops (pitch stabilization, tilt compensation).
 Failures in self-balancing logic can lead to expensive hardware damage or injury; hence, early-stage prototyping on simplified analogs (like a cart-pole) is valuable.
 The cart-pole is mathematically similar to self-balancing vehicle dynamics (inverted pendulum model).
+
 Opportunity:
+
 A scaled-down cart-pole system can serve as a safe development platform for core control algorithms (PID, LQR, Kalman filter, sensor fusion), before deploying them on full-size, high-inertia vehicles.
 
 
