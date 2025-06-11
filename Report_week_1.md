@@ -31,11 +31,32 @@ The objective is to design a real-time control system that can dynamically balan
 
 ### Ideas during brainstorming
 
-*Put here your ranked ideas with short description*
+1. Educational Control System Kit
+   - A modular hardware kit with software for teaching control systems, linear algebra, and system dynamics in universities.
+   
+2. RL & AI Research Platform
+   - A benchmark system for reinforcement learning (RL) algorithms, allowing sim-to-real transfer and robustness testing.
+   
+3. Balance Control Testbed for Personal Transport Devices
+   - A prototyping tool for companies developing self-balancing systems like Segways, monowheels, or hoverboards.
+   
+4. Digital Twin + Remote Lab for STEM Learning
+   - An internet-connected cart pole with a digital twin, enabling students to run experiments remotely via a web interface.
+   
+5. Low-Cost Rehabilitation and Balance Training Robot
+   - Adapt the inverted pendulum concept to assistive devices for posture training, with applications in physiotherapy.
 
 ### Brief market research / problem validation
 
-*Put here a brief market research/problem validation for 1–2 ideas*
+Balance Control Testbed for Personal Mobility (Segways, Monowheels)
+Problem:
+Developing safe, robust control systems for personal mobility devices (e.g., Segways, electric unicycles) is challenging due to the cost and danger of real-world testing during early development.
+Validation:
+Companies like Segway-Ninebot, InMotion, and DIY e-mobility developers need small-scale testbeds to tune and validate control loops (pitch stabilization, tilt compensation).
+Failures in self-balancing logic can lead to expensive hardware damage or injury; hence, early-stage prototyping on simplified analogs (like a cart-pole) is valuable.
+The cart-pole is mathematically similar to self-balancing vehicle dynamics (inverted pendulum model).
+Opportunity:
+A scaled-down cart-pole system can serve as a safe development platform for core control algorithms (PID, LQR, Kalman filter, sensor fusion), before deploying them on full-size, high-inertia vehicles.
 
 
 ## Basic requirements
@@ -278,15 +299,21 @@ The following features are not included in the initial build but may be consider
 
 ## Tech-stack
 
-Microcontroller -
+Microcontroller - STM32F407
 
-Sensors -
+Sensors:
 
-Motor driver -
+Encoder - SEAVDAN H9730 
 
-Actuator -
+Raster - h9740 360 dpi
 
-Structure -
+Angle sensor - Infineon TLE5012B
+
+Motor driver - BTS7960 43A H-Bridge
+
+Actuator - 12V or 24V gear motor with encoder (TBA)
+
+Structure - Aluminum rail, custom cart, pole
 
 
 # Weekly commitments
