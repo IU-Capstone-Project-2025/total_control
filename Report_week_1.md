@@ -122,16 +122,17 @@ Researchers deploy and benchmark RL agents (e.g., DQN, PPO) to test robustness a
 **Hardware Features:**
 
 - Cart and Rail System: Linear rail with motorized cart for 1D motion.
-- Inverted Pole: Rigid pole mounted on a hinge, free to rotate in 1D plane.
+- Pole: Rigid pole mounted on a hinge, free to rotate in 1D plane.
 - Sensors:
   - Cart position sensor.
   - Pole angle sensor.
+  - End sensor.
 - Motor for cart.
 - Microcontroller: Raspberry Pi, Arduino, or STM32-based controller.
 - Power Supply: Safe and sufficient for motor and control unit.
 - Safety Mechanisms:
   - Physical end stops or limit switches.
-  - Emergency shutdown button (optional).
+  - Emergency shutdown button.
 
 **Software Features:**
 
@@ -172,6 +173,10 @@ Motor - 12V or 24V gear motor with encoder (TBA)
 Structure - Aluminum rail, custom cart, pole
 
 Languages - Python, C++
+
+Our cool thing:
+
+![photo_2025-06-11_22-26-30](https://github.com/user-attachments/assets/337321d3-c77e-471d-9b8f-0cb01ae2c196)
 
 # Weekly commitments
 
