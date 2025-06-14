@@ -1,53 +1,63 @@
-// Modes of usage TEST-ANGLE, TEST-ENCODER, TEST-MOTOR
+#include "esp32-hal-cpu.h"
 
-#define TEST-ANGLE      
+/*       
+            Modes of usage TEST-ANGLE, TEST-ENCODER, TEST-MOTOR     
+                      CHOOSE ONE!!!!!!!
+*/
+
+#define TEST_ANGLE      
 //#define TEST-ENCODER
 //#define TEST-MOTOR
 
 
-#ifdef TEST-ANGLE
+
+#ifdef TEST_ANGLE
 #include "angle.h"
 #endif
 
-
-// TODO ecoder.h and motor.h
-#ifdef TEST-ENCODER
+#ifdef TEST_ENCODER
 #include "encoder.h"
 #endif
 
-#ifdef TEST-MOTOR
+#ifdef TEST_MOTOR
 #include "motor.h"
 #endif
 
 
+// pin's defines are located in .h files 
 void setup() {
+
+  #ifdef TEST_ANGLE
   Serial.begin(9600);
-
-  #ifdef TEST-ANGLE
-  // pinmodes if needed
+  setCpuFrequencyMhz(240);
+  pinMode(ANG_A, INPUT_PULLDOWN);
+  pinMode(ANG_B, INPUT_PULLDOWN);
+  pinMode(ANG_C, INPUT_PULLDOWN);  
+  attachInterrupt(ANG_C, isr, RISING);
   #endif
 
-  #ifdef TEST-ENCODER
-  // pinmodes if needed
+  #ifdef TEST_ENCODER
+  Serial.begin(9600);
+  pinMode(ENC_A, INPUT_PULLUP);
+  pinMode(ENC_B, INPUT_PULLUP);
+  attachInterrupt(ENC_A, readEncoder, CHANGE);
   #endif
 
-  #ifdef TEST-MOTOR
-  // pinmodes if needed
+  #ifdef TEST_MOTOR
+  // pinmodes and interrupts if needed
   #endif
 }
 
+
+// do not modify 
 void loop() {
-  #ifdef TEST-ANGLE
+  #ifdef TEST_ANGLE
   handle_test_angle();
   #endif
-
-  #ifdef TEST-ENCODER
+  #ifdef TEST_ENCODER
   handle_test_encoder();
   #endif
-  
-  #ifdef TEST-MOTOR
+  #ifdef TEST_MOTOR
   handle_test_motor();
   #endif
-  
-  
 }
