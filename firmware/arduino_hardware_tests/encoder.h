@@ -1,10 +1,9 @@
-#define ENC_A 25
-#define ENC_B 26
+#define ENC_A 16  // red wire
+#define ENC_B 17  // yellow wire
 
 
-volatile int counter = 0;
+int counter = 0;
 
-// функция в интерапте (не должно быть Serial а то насрет)
 void readEncoder() {
   int stateA = digitalRead(ENC_A);
   int stateB = digitalRead(ENC_B);
@@ -14,12 +13,23 @@ void readEncoder() {
 
 
 long prev_tick_en = 0;
+int prev_counter = 0;
+// int prev_velocity = 0;
+
 void handle_test_encoder() {
-  // вывод значений в серийный порт каждую секунду
-  if (millis() - prev_tick_en >= 1000){
+  if (millis() - prev_tick_en >= 5){
     prev_tick_en = millis();
+
+    int vel = (counter - prev_counter) * 100;
+    prev_counter = counter;
+
+    // int acc = (vel - prev_velocity) * 100;
+    // prev_velocity = vel;
+    
     Serial.print("Pos: ");
-    Serial.println(counter);
+    Serial.print(counter);
+    Serial.print(", Vel: ");
+    Serial.println(vel);
   }
 }
 

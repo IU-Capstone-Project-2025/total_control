@@ -2,12 +2,11 @@
 
 /*       
             Modes of usage TEST-ANGLE, TEST-ENCODER, TEST-MOTOR     
-                      CHOOSE ONE!!!!!!!
 */
 
 #define TEST_ANGLE      
-//#define TEST-ENCODER
-//#define TEST-MOTOR
+#define TEST_ENCODER
+//#define TEST_MOTOR
 
 
 
@@ -26,20 +25,21 @@
 
 // pin's defines are located in .h files 
 void setup() {
+  Serial.begin(921600);
+  setCpuFrequencyMhz(240);
+
 
   #ifdef TEST_ANGLE
-  Serial.begin(9600);
-  setCpuFrequencyMhz(240);
   pinMode(ANG_A, INPUT_PULLDOWN);
   pinMode(ANG_B, INPUT_PULLDOWN);
   pinMode(ANG_C, INPUT_PULLDOWN);  
-  attachInterrupt(ANG_C, isr, RISING);
+  attachInterrupt(ANG_C, zero_angle, RISING);
+  attachInterrupt(ANG_B, change_angle, RISING);
   #endif
 
   #ifdef TEST_ENCODER
-  Serial.begin(9600);
-  pinMode(ENC_A, INPUT_PULLUP);
-  pinMode(ENC_B, INPUT_PULLUP);
+  pinMode(ENC_A, INPUT);
+  pinMode(ENC_B, INPUT);
   attachInterrupt(ENC_A, readEncoder, CHANGE);
   #endif
 
