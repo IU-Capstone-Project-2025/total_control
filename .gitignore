@@ -34,3 +34,43 @@
 # Binary files
 firmware/**/*.bin
 firmware/**/*.hex
+firmware/**/*.elf
+firmware/**/*.map
+firmware/**/*.ninja
+
+# Common build data
+**/build/
+**/bin/
+**/obj/
+
+# Python Exceptions
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Исключение IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Исключение временных файлов
+*.tmp
+*.bak
+*.swp
+*~
+*.swo
+
+# Исключение системных файлов
+.DS_Store
+Thumbs.db
+
+# Исключение специфичных для ESP32 файлов
+firmware/**/sdkconfig
+firmware/**/sdkconfig.old
+firmware/**/.gdbinit
+firmware/**/config.env
