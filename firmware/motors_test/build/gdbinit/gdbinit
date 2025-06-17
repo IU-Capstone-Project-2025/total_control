@@ -1,0 +1,2 @@
+source /home/artyom/Personal/inno_study/total_control/firmware/motors_test/build/gdbinit/symbols
+source /home/artyom/Personal/inno_study/total_control/firmware/motors_test/build/gdbinit/connect
