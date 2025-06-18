@@ -14,14 +14,23 @@ Expanded User stories:
 - As a researcher I want fast and easy opertional process, so that discrete system might be considered as a continuous. Criteria - fast frequency response.
 
 Acceptance Criteria:
+
 -Simulation initializes with default parameters: M, m, L, g
+
 -The system integrates equations of motion over time
+
 -User can select time step dt
+
 -The system returns states over time
+
 -There is a form of interface to input
+
 -Parameters are validated
+
 -System uses updated parameters in the simulation or control
+
 -UI renders cart and pendulum near real-time
+
 -Plot shows I/O and angle (x,theta,u) of the system in real time 
 
 ### Prioritized backlog
