@@ -5,7 +5,7 @@ from ..exceptions import DeviceConnectionError, DeviceCommandError
 class LabDevice:
     """Base class for laboratory equipment communication via serial interface"""
     
-    def __init__(self, port: str, baudrate: int = 9600, timeout: float = 1.0):
+    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0):
         """
         Initialize the lab device connection
         
@@ -14,23 +14,24 @@ class LabDevice:
             baudrate: Communication speed in bits per second (default: 9600)
             timeout: Read timeout in seconds (default: 1.0)
         """
-        self.port = port
-        self.baudrate = baudrate
-        self.timeout = timeout
+        self._port = port
+        self._baudrate = baudrate
+        self._timeout = timeout
         self._connection = None
         
     def connect(self) -> None:
         """Establish connection with the lab device"""
         try:
             self._connection = serial.Serial(
-                port=self.port,
-                baudrate=self.baudrate,
-                timeout=self.timeout
+                port=self._port,
+                baudrate=self._baudrate,
+                timeout=self._timeout
             )
             # Device-specific initialization
             self._initialize_device()
+            
         except serial.SerialException as e:
-            raise DeviceConnectionError(f"Connection to {self.port} failed: {str(e)}")
+            raise DeviceConnectionError(f"Connection to {self._port} failed: {str(e)}")
     
     def disconnect(self) -> None:
         """Safely close the device connection"""
@@ -42,8 +43,8 @@ class LabDevice:
         """Device-specific initialization (override in child classes)"""
         pass
     
-    def _send_command(self, command: str, read_response: bool = True, 
-                    encoding: str = 'ascii') -> Optional[str]:
+    def _send_command(self, command: str, read_response: bool = False, 
+                    encoding: str = 'utf-8') -> Optional[str]:
         """
         Send command to device and optionally read response
         
@@ -60,7 +61,6 @@ class LabDevice:
         """
         if not self._connection or not self._connection.is_open:
             raise DeviceConnectionError("No active device connection")
-        
         try:
             self._connection.write(f"{command}\n".encode(encoding))
             if read_response:
@@ -69,7 +69,7 @@ class LabDevice:
         except serial.SerialException as e:
             raise DeviceCommandError(f"Command execution failed: {str(e)}")
     
-    def _read_response(self, encoding: str = 'ascii') -> str:
+    def _read(self, encoding: str = 'utf-8') -> str:
         """
         Read response from device
         
