@@ -37,6 +37,22 @@ Acceptance Criteria:
 
 [Link to the backlog](https://github.com/orgs/IU-Capstone-Project-2025/projects/17)
 
+## Schematic diagram of the project
+
+![maf](https://github.com/user-attachments/assets/fa981b79-580e-4ab4-a537-dd3b0887ffec)
+
+This diagram shows a schematic diagram of the project. 
+
+The left part describes the basic structure of the `inno_control` library, which will provide management of all laboratory installations and provide tools for working with them. 
+
+The library will supply the `CarPole` class, which will have methods for receiving data and sending requests. 
+
+A Universal Serial Bus (`USB`) will be used to provide communication between the computer with the library and the controller, which will be used to transmit data packets (maps) 
+
+The `ESP32` was selected as the controller to ensure high performance and prototyping speed. 
+
+The controller itself interacts with the peripherals (`button`, `encoders`, and `UART-CAN adapter`) via the built-in `GPIO outputs`. The motor is connected via the Controller Area Network (`CAN`) line, has its own ID and communicates via special packages.
+
 ## Project specific progress
 
 ### Backend
