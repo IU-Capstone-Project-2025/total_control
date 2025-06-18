@@ -1,0 +1,2 @@
+Important that for motors we need to install additional library, it has some prerequisits for Linux and Mac
+https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html

@@ -23,4 +23,4 @@ echo "Building html..."
 echo "Starting server at http://localhost:$PORT"
 echo "Press Ctrl+C to stop"
 
-python3 -m http.server --directory ./docs/build/html "$PORT"
+python3 -m http.server --directory ./docs/_build/html "$PORT"
