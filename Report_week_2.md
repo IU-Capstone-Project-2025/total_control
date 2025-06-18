@@ -1,7 +1,4 @@
----
-title: "Week #2"
----
-
+# Week #2
 
 ## Detailed Requirements Elaboration
 
@@ -11,66 +8,49 @@ The objective is to develop a modular platform for simulating and controlling me
 
 ### Prioritized backlog
 
-https://github.com/orgs/IU-Capstone-Project-2025/projects/17
+[Link to the backlog](https://github.com/orgs/IU-Capstone-Project-2025/projects/17)
 
 ## Project specific progress
 
+### Hardware
+
+- It was decided empirically to use the esp32 controller to control the signals.
+- The programs for testing the sensors and the motor were designed in a unified manner.
+- All sensors and the motor were retested and now work properly.
+
+### Software 
+
+- The structure of the high-level library was outlined.
+- The structure of the process of interaction between the controller and the user's computer via USB were discussed and outlined.
+  
 ### Frontend
 
-Early draft interface for user to set parameters using Sphinx.
+- The initial setup of the Sphinx project was completed to create project documentation in the form of a tree-like site.
 
-### Backend
+### Minor chores
 
-We implemented getters and setters for our state space equations and discrete time models as discussed. 
-
-
-State space:
-
-x' = Ax + Bu
-
-y = Cx
-
-
-Discrete time model:
-
-x[k+1] = x[k] + u[k] * dt
-
-
-
-f(x,u) system dynamics
-
-getInitState() Returns initial state
-
-getCurrentState() Returns current state
-
-setSysParams() Loads the needed parameters from the sensors, like mass, length, angle etc.
-
-
-
-|             | Soft                         | H.A. (Hardware Abstraction)  |
-|-------------|------------------------------|------------------------------|
-| I           | u or  θ'                     | x'                           |
-| II          | (A, B, C), w = f(x)          | M, m, L, l, (A, B, C)        |
-
-ESP32 board was selected and tested, USB connectivity was confirmed and GPIO mapping for motor and encoder is in planning phase.
-
-Prototyping phase had started, physical cart pole setup being assembled
+- The .gitignore file was generated in more detail.
 
 # Weekly commitments
 
 ## Individual contribution of each participant
 
-*...*
+Anastasia - [Encoder test for ESP32]
+
+Evgenii - [Python library structure](https://github.com/IU-Capstone-Project-2025/total_control/commit/81fd9744186f035bbc3ae94edd9649d1cfd495db)
+
+Artyom - [Motor tests for ESP32](https://github.com/IU-Capstone-Project-2025/total_control/commit/f9f691522e77aa500441cd81726b9a6e3b78c9a4)
+
+Petr - Write report and documentation
+
+Marat - [Angle sensor test for ESP32]
 
 ## Plan for Next Week
 
-Finalize cart pole hardware assembly and test with ESP32
-
-Complete final function implementation
-
-Extend backend to support basic RL experiments
-
-Begin unit testing and simmulation integration
+- Combine sensor and motor tests into one file.
+- Synchronize their operation using interrupts.
+- Find the most suitable controller operating frequency.
+- Add the ability to send signals to the controller to control the motor in real time.
 
 ## Confirmation of the code's operability
 
