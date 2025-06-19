@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
 
 #include "freertos/FreeRTOS.h"
@@ -14,39 +15,66 @@
 #include "driver/twai.h"
 #include "driver/uart.h"
 
+
 /* --------------------- Definitions and static variables ------------------ */
 #define CTRL_TSK_PRIO           10
 #define SERIAL_TSK_PRIO         24
 
-#define TX_GPIO_NUM             21
-#define RX_GPIO_NUM             22
+#define TX_GPIO_CAN             21
+#define RX_GPIO_CAN             22
+
 #define TXD_PIN                 1               
 #define RXD_PIN                 3    
 #define UART_PORT               UART_NUM_0     
-#define BUF_SIZE                128            
+#define BUF_SIZE                128          
 #define RD_BUF_SIZE             BUF_SIZE    
 #define BAUD_RATE               921600     
+#define SERIAL_MS_DELAY                20
 
-#define EXAMPLE_TAG             "TWAI Master"
+
+#define ERROR_TAG               "ERROR"
+#define MAIN_TAG                "Main"
 #define SEND_TAG                "Sending"
 #define RECIEVE_TAG             "Recieving"
 
 
-static uint32_t motor_id = 0x142;
+#define MOTOR_STOP_COMMAND      1000000
+#define GT_READY_STATE_COMMAND  1000001 
+#define GET_MOTOR_INFO          1000002
+
+#define MODE_TORQUE             1
+#define MODE_SPEED              2
+#define MODE_POSITION           3
+
+
 
 static const twai_timing_config_t t_config = TWAI_TIMING_CONFIG_1MBITS();
 static const twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
-static const twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(TX_GPIO_NUM, RX_GPIO_NUM, TWAI_MODE_NORMAL);
+static const twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(TX_GPIO_CAN, RX_GPIO_CAN, TWAI_MODE_NORMAL);
+
+static SemaphoreHandle_t motor_control_task_start_sem;
+static SemaphoreHandle_t motor_control_task_done_sem;
+static SemaphoreHandle_t need_a_move_sem;
+
+static uint32_t motor_id = 0x142;
+static int64_t torque;
+static uint8_t control_mode = MODE_TORQUE;
+static uint16_t send_info_oper_delay = 10;
+
+void uart_ready_state(char* data);
+void uart_oper_state(char* data);
+
+static void (*uart_state)(char*) = uart_ready_state; 
 
 
 
-static SemaphoreHandle_t twai_task_start_sem;
-static SemaphoreHandle_t twai_task_done_sem;
 
-static SemaphoreHandle_t need_a_move;
+
+
 
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
+
 static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
@@ -55,7 +83,7 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
 
     if (_rx_message->identifier != motor_id)
     {
-        ESP_LOGI(EXAMPLE_TAG, "strange");
+        ESP_LOGI(ERROR_TAG, "no reply?");
         // res = twai_receive(_rx_message, pdMS_TO_TICKS(100));
     }
     if(res == ESP_OK)
@@ -74,24 +102,32 @@ static void twai_output(twai_message_t *message, char* tag)
 }
 
 
-static void find_my_id(){
-    for (uint32_t i = 0x141; i <= 0x160; i++){
-        twai_message_t rx_msg;
-        twai_message_t tx_message = {.extd = 0, 
-                                    .rtr = 0, 
-                                    .ss = 1, 
-                                    .self = 0, 
-                                     .dlc_non_comp = 0, 
-                                    .identifier = motor_id, 
-                                    .data_length_code = 8, 
-                                    .data = {0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
-        twai_request(&tx_message, &rx_msg);
-        if (rx_msg.identifier == i){
-            motor_id = i;
-            break;
+static void find_my_id()
+{
+    while (true) {
+            for (uint32_t i = 0x141; i <= 0x160; i++) {
+            twai_message_t rx_msg;
+            twai_message_t tx_message = {.extd = 0, 
+                                        .rtr = 0, 
+                                        .ss = 1, 
+                                        .self = 0, 
+                                        .dlc_non_comp = 0, 
+                                        .identifier = motor_id, 
+                                        .data_length_code = 8, 
+                                        .data = {0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
+            twai_request(&tx_message, &rx_msg);
+            if (rx_msg.identifier == i) {
+                motor_id = i;
+                ESP_LOGI(MAIN_TAG, "Motor found, motor_id is %lx", motor_id);
+                return;
+            }
         }
-    }
+    ESP_LOGI(ERROR_TAG, "Motor not found, restarting motor search in 5 sec");
+    vTaskDelay(pdMS_TO_TICKS(5000));
+    }   
 }
+
+
 
 
 
@@ -115,26 +151,39 @@ static void motor_request(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_
 }
 
 
-static void motor_request_speed(int32_t vel, int32_t time){
+static void motor_request_speed_on_time(int32_t vel, int32_t time)
+{
     vel *= 100;
-    motor_request(0xA2, 0x00, 0x00, 0x00, vel, vel >> 8, vel >> 16, vel >> 24);   // sending speed setting
+    motor_request(0xA2, 0x00, 0x00, 0x00, (uint8_t) (vel), (uint8_t) (vel >> 8),  (uint8_t) (vel >> 16),  (uint8_t) (vel >> 24));   // sending speed setting
     vTaskDelay(pdMS_TO_TICKS(time));
     motor_request(0x81, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); // sending stop motor
 }
 
-static void motor_request_system_reset(){
-    motor_request(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-    vTaskDelay(pdMS_TO_TICKS(5000));
+static void motor_request_stop()
+{
+    motor_request(0x81, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
 }
 
-static void motor_request_info(){
-    motor_request(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+static void motor_request_system_reset()
+{
+    motor_request(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
     vTaskDelay(pdMS_TO_TICKS(1000));
 }
 
+static void motor_request_info()
+{
+    motor_request(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+}
 
-static void motor_request_shutdown(){
-    motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+
+static void motor_request_shutdown()
+{
+    motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);    
+}
+
+static void motor_request_torque(int16_t tau)
+{
+    motor_request(0xA1, 0x00, 0x00, 0x00, (uint8_t) (tau), (uint8_t) (tau >> 8), 0x00, 0x00);   // sending speed setting
 }
 
 
@@ -144,35 +193,36 @@ static void motor_request_shutdown(){
 
 static void twai_control_task(void *arg)
 {
-    // Wait for end of startup
-    xSemaphoreTake(twai_task_start_sem, portMAX_DELAY);
+    xSemaphoreTake(motor_control_task_start_sem, portMAX_DELAY);
     ESP_ERROR_CHECK(twai_start());
-    ESP_LOGI(EXAMPLE_TAG, "Driver started");
+    ESP_LOGI(MAIN_TAG, "Driver started");
 
-    find_my_id();
+    // find_my_id();
     
     motor_request_system_reset();
     motor_request_info();
     
     while(1){
-        xSemaphoreTake(need_a_move, portMAX_DELAY); 
-        motor_request_speed(500, 1000);
+        xSemaphoreTake(need_a_move_sem, portMAX_DELAY);
+        motor_request_torque(torque);
     }
     
     motor_request_shutdown();
 
 
     ESP_ERROR_CHECK(twai_stop());
-    ESP_LOGI(EXAMPLE_TAG, "Driver stopped");
-    //Delete Control task
-    xSemaphoreGive(need_a_move);
+    ESP_LOGI(MAIN_TAG, "Driver stopped");
+    xSemaphoreGive(motor_control_task_done_sem);
     vTaskDelete(NULL);
 }
 
-/* --------------------------- Serial Handler -------------------------- */
 
 
-void uart_init_setup() {
+
+/* --------------------------- UART Handler -------------------------- */
+
+void uart_init_setup() 
+{
     uart_config_t uart_config = {
         .baud_rate = BAUD_RATE,
         .data_bits = UART_DATA_8_BITS,
@@ -188,22 +238,20 @@ void uart_init_setup() {
 }
 
 
-void uart_event_task(void *pvParameters) {
-    uint8_t *data = (uint8_t *) malloc(RD_BUF_SIZE + 1);
+void uart_event_task(void *pvParameters) 
+{
+    char* data = (char*) malloc(RD_BUF_SIZE);
+    memset(data, 0, RD_BUF_SIZE);
     if (!data) {
-        ESP_LOGE(EXAMPLE_TAG, "Ошибка выделения памяти");
+        ESP_LOGE(MAIN_TAG, "Ошибка выделения памяти");
         vTaskDelete(NULL);
     }
-
-
-    while (true) {
-        const int rxBytes = uart_read_bytes(UART_PORT, data, RD_BUF_SIZE, pdMS_TO_TICKS(25));
+    
+    while (true)
+    {
+        const int rxBytes = uart_read_bytes(UART_PORT, data, RD_BUF_SIZE, pdMS_TO_TICKS(SERIAL_MS_DELAY));
         if (rxBytes > 0) {
-            // uart_write_bytes(UART_PORT, (const char*)data, rxBytes);
-            
-            if (strstr((const char *)data, "ROTATION")) {
-                xSemaphoreGive(need_a_move); 
-            }
+            uart_state(data);    
         }
     }
     free(data);
@@ -212,35 +260,102 @@ void uart_event_task(void *pvParameters) {
 
 
 
+
+/* --------------------------- UART states -------------------------- */
+
+void uart_ready_state(char* data)
+{
+    // start button
+    if (strstr((const char *)data, "START_OPER")) {
+        ESP_LOGI(MAIN_TAG, "starting operational state");
+        uart_state = uart_oper_state;
+    } 
+
+    if (strstr((const char *)data, "FIND_MOTOR")) {
+        find_my_id();
+    } 
+
+    if (strstr((const char *)data, "HELP")) {
+        ESP_LOGI(MAIN_TAG, "START_OPER, FIND_MOTOR, MODE_TORQUE, MODE_SPEED, MODE_POSITION, DATA_SEND_MODE");
+    } 
+
+    // motoro control mode
+    if (strstr((const char *)data, "MODE_TORQUE")) {
+        ESP_LOGI(MAIN_TAG, "motor is now controlled by torque");
+        control_mode = MODE_TORQUE;
+    } else if (strstr((const char *)data, "MODE_SPEED")) {
+        ESP_LOGI(MAIN_TAG, "motor is now controlled by speed");
+        control_mode = MODE_SPEED;
+    } else if (strstr((const char *)data, "MODE_POSITION")) {
+        ESP_LOGI(MAIN_TAG, "motor is now controlled by position");
+        control_mode = MODE_POSITION;
+    } 
+
+    // set serial port rates
+
+    // set data sending mode
+    if (strstr((const char *)data, "DATA_SEND_MODE")) {
+        ESP_LOGI(MAIN_TAG, "conifgure data sending protocols");
+        // TODO 
+    } 
+}
+
+
+void uart_oper_state(char* data)
+{
+    torque = atoi(data);
+    if (torque < INT16_MIN || torque > INT16_MAX){
+        if (torque == MOTOR_STOP_COMMAND){
+            motor_request_stop();
+            return;
+        } else if (torque == GT_READY_STATE_COMMAND) {
+            motor_request_stop();
+            ESP_LOGI(MAIN_TAG, "starting ready state");
+            uart_state = uart_ready_state;
+            return;
+        } else if (torque == GET_MOTOR_INFO) {
+            motor_request_info();
+            return;
+        }
+        torque = 0;
+    }
+    xSemaphoreGive(need_a_move_sem);       
+}
+
+
+
+
+
 /* --------------------------- Main -------------------------- */
 
 void app_main(void)
 {
     //Create tasks, queues, and semaphores
-    twai_task_start_sem = xSemaphoreCreateBinary();
-    twai_task_done_sem = xSemaphoreCreateBinary();
-    need_a_move = xSemaphoreCreateBinary();
+    motor_control_task_start_sem = xSemaphoreCreateBinary();
+    motor_control_task_done_sem = xSemaphoreCreateBinary();
+    need_a_move_sem = xSemaphoreCreateBinary();
 
     uart_init_setup();
 
-
-    xTaskCreatePinnedToCore(twai_control_task, "motor_control", 4096, NULL, CTRL_TSK_PRIO, NULL, 1);
-    xTaskCreatePinnedToCore(uart_event_task, "serial_handler", 4096, NULL, SERIAL_TSK_PRIO, NULL, 0);
-
     //Install TWAI driver
     ESP_ERROR_CHECK(twai_driver_install(&g_config, &t_config, &f_config));
-    ESP_LOGI(EXAMPLE_TAG, "Driver installed");
+    ESP_LOGI(MAIN_TAG, "Driver installed");
 
-    xSemaphoreGive(twai_task_start_sem);              //Start control task
-    xSemaphoreTake(twai_task_done_sem, portMAX_DELAY);    //Wait for completion
+
+    xTaskCreate(twai_control_task, "motor_control", 4096, NULL, CTRL_TSK_PRIO, NULL);
+    xTaskCreate(uart_event_task, "serial_handler", 4096, NULL, SERIAL_TSK_PRIO, NULL);
+
+
+    xSemaphoreGive(motor_control_task_start_sem);              //Start control task
+    xSemaphoreTake(motor_control_task_done_sem, portMAX_DELAY);    //Wait for completion
     
 
     //Uninstall TWAI driver
     ESP_ERROR_CHECK(twai_driver_uninstall());
-    ESP_LOGI(EXAMPLE_TAG, "Driver uninstalled");
+    ESP_LOGI(MAIN_TAG, "Driver uninstalled");
 
 
     //Cleanup
-    vSemaphoreDelete(twai_task_start_sem);
-    vSemaphoreDelete(twai_task_done_sem);
+    vSemaphoreDelete(motor_control_task_start_sem);
+    vSemaphoreDelete(motor_control_task_done_sem);
 }
