@@ -47,5 +47,6 @@ services:
     entrypoint: >
       bash -c "
         echo 'Starting' &&
-        python3 python_lib/src/inno_control/core.py
+        pip3 install -e inno_control/
+        python3 inno_control/examples/cartpole_connection.py
       "
