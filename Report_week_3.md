@@ -53,6 +53,70 @@ TODO: Evgenii add Video
 - Class-based code design approved for extensibility
 
 ---
+## ML integrartion 
+
+The goal is to integrate a RL system that can learn to balance cart-pole system. The program should:
+
+Interact with the real or simulated cart-pole via `step()` and `reset()` functions.
+
+Being trained with `fit()` function
+
+Predicts actions with `predict()` function
+
+The structure of ML API can look like this:
+
+```python
+  class RLAgent:
+    def init(self, env, **kwargs):
+        self.env = env
+
+    def fit(self, episodes: int = 1000):
+        raise NotImplementedError
+
+    def predict(self, state):
+        raise NotImplementedError
+
+    def evaluate(self, episodes: int = 10):
+        raise NotImplementedError
+```
+
+Then we make sure that our cart pole class has reset() that returns initial state and step(action) returns (next_state, reward, done)
+
+And then we can implement a simple RL agent
+
+```python
+
+from ml.agent import RLAgent
+
+class DQNAgent(RLAgent):
+    def init(self, env, hidden_sizes=[64, 64], lr=1e-3, gamma=0.99):
+        super().init(env)
+        # init model, optimizer, etc.
+
+    def fit(self, episodes=500):
+        for ep in range(episodes):
+            state = self.env.reset()
+            done = False
+            while not done:
+                action = self.predict(state)
+                next_state, reward, done, _ = self.env.step(action)
+                # store and train model
+
+    def predict(self, state):
+        # use epsilon-greedy or policy net
+        pass
+
+    def evaluate(self, episodes=10):
+        total_reward = 0
+        for _ in range(episodes):
+            state = self.env.reset()
+            done = False
+            while not done:
+                action = self.predict(state)
+                state, reward, done, _ = self.env.step(action)
+                total_reward += reward
+        return total_reward / episodes
+```
 
 # Weekly commitments
 
