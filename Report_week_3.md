@@ -86,36 +86,122 @@ And then we can implement a simple RL agent
 
 ```python
 
-from ml.agent import RLAgent
+import random
+import numpy as np
+from collections import deque
+import torch
+import torch.nn as nn
+import torch.optim as optim
 
-class DQNAgent(RLAgent):
-    def init(self, env, hidden_sizes=[64, 64], lr=1e-3, gamma=0.99):
-        super().init(env)
-        # init model, optimizer, etc.
+class QNetwork(nn.Module):
+    def init(self, state_dim, action_dim, hidden_sizes=[64, 64]):
+        super(QNetwork, self).init()
+        layers = []
+        input_dim = state_dim
+        for h in hidden_sizes:
+            layers.append(nn.Linear(input_dim, h))
+            layers.append(nn.ReLU())
+            input_dim = h
+        layers.append(nn.Linear(input_dim, action_dim))
+        self.model = nn.Sequential(*layers)
 
-    def fit(self, episodes=500):
+    def forward(self, x):
+        return self.model(x)
+
+class DQNAgent:
+    def init(self, env, buffer_size=10000, batch_size=64, gamma=0.99,
+                 lr=1e-3, epsilon_start=1.0, epsilon_end=0.01, epsilon_decay=0.995):
+        self.env = env
+        self.state_dim = env.observation_space.shape[0]
+        self.action_dim = env.action_space.n
+
+        self.q_network = QNetwork(self.state_dim, self.action_dim)
+        self.target_network = QNetwork(self.state_dim, self.action_dim)
+        self.target_network.load_state_dict(self.q_network.state_dict())
+
+        self.optimizer = optim.Adam(self.q_network.parameters(), lr=lr)
+        self.criterion = nn.MSELoss()
+
+        self.buffer = deque(maxlen=buffer_size)
+        self.batch_size = batch_size
+        self.gamma = gamma
+
+        self.epsilon = epsilon_start
+        self.epsilon_end = epsilon_end
+        self.epsilon_decay = epsilon_decay
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.q_network.to(self.device)
+        self.target_network.to(self.device)
+
+    def predict(self, state):
+        if np.random.rand() < self.epsilon:
+            return self.env.action_space.sample()
+        state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+        with torch.no_grad():
+            q_values = self.q_network(state_tensor)
+        return q_values.argmax().item()
+
+    def fit(self, episodes=500, target_update=10):
         for ep in range(episodes):
             state = self.env.reset()
             done = False
+            total_reward = 0
+
             while not done:
                 action = self.predict(state)
                 next_state, reward, done, _ = self.env.step(action)
-                # store and train model
+                self.buffer.append((state, action, reward, next_state, done))
+                state = next_state
+                total_reward += reward
 
-    def predict(self, state):
-        # use epsilon-greedy or policy net
-        pass
+                self._train_step()
 
-    def evaluate(self, episodes=10):
-        total_reward = 0
+            # Decay epsilon
+            self.epsilon = max(self.epsilon_end, self.epsilon * self.epsilon_decay)
+
+            # Update target network
+            if ep % target_update == 0:
+                self.target_network.load_state_dict(self.q_network.state_dict())
+
+            print(f"Episode {ep}: reward={total_reward:.2f}, epsilon={self.epsilon:.3f}")
+
+    def evaluate(self, episodes=10, render=False):
+        total_rewards = []
         for _ in range(episodes):
             state = self.env.reset()
             done = False
+            ep_reward = 0
             while not done:
+                if render:
+                    self.env.render()
                 action = self.predict(state)
                 state, reward, done, _ = self.env.step(action)
-                total_reward += reward
-        return total_reward / episodes
+                ep_reward += reward
+            total_rewards.append(ep_reward)
+        avg_reward = np.mean(total_rewards)
+        print(f"Average reward over {episodes} episodes: {avg_reward:.2f}")
+        return avg_reward
+
+    def _train_step(self):
+        if len(self.buffer) < self.batch_size:
+            return
+        minibatch = random.sample(self.buffer, self.batch_size)
+        states, actions, rewards, next_states, dones = zip(*minibatch)
+
+        states = torch.FloatTensor(states).to(self.device)
+        actions = torch.LongTensor(actions).unsqueeze(1).to(self.device)
+        rewards = torch.FloatTensor(rewards).unsqueeze(1).to(self.device)
+        next_states = torch.FloatTensor(next_states).to(self.device)
+        dones = torch.FloatTensor(dones).unsqueeze(1).to(self.device)
+        q_values = self.q_network(states).gather(1, actions)
+        next_q_values = self.target_network(next_states).max(1)[0].unsqueeze(1)
+        expected_q = rewards + self.gamma * next_q_values * (1 - dones)
+
+        loss = self.criterion(q_values, expected_q.detach())
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
 ```
 
 # Weekly commitments
