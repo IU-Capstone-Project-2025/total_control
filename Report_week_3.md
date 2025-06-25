@@ -1,12 +1,8 @@
----
-title: "Week #3"
----
-
 # Week #3
 
 ## Implemented MVP features
 
-This week we completed the core MVP features focused on the Cart-Pole system, which serves as the foundational element for more advanced systems like the double pendulum and butterfly mechanisms.
+This week we completed the core MVP features focused on the Hardware and Firmware.
 
 ### Hardware
 
@@ -24,8 +20,7 @@ This week we completed the core MVP features focused on the Cart-Pole system, wh
 
 - Common firmware structure created ([#11](https://github.com/IU-Capstone-Project-2025/total_control/issues/11))
   - Shared firmware codebase for ESP32
-  - Structured for extension to multiple systems
-
+    
 - Init script implemented ([#12](https://github.com/IU-Capstone-Project-2025/total_control/issues/12))
   - Boots ESP32 and initializes pins and components
 
@@ -35,25 +30,19 @@ This week we completed the core MVP features focused on the Cart-Pole system, wh
 
 - CartPole class structure implemented ([#14](https://github.com/IU-Capstone-Project-2025/total_control/issues/14))
   - Object-oriented design
-  - Includes step(), reset(), and render() methods (compatible with RL algorithms)
+  - Includes step(), reset(), and render() methods
 
 - Repo structured and cleaned ([#1](https://github.com/IU-Capstone-Project-2025/total_control/issues/1))
 
 ### Functional User Journey
 
-> A user connects the ESP32-powered cart-pole system, starts the firmware using the init script, and observes hardware movement while system states are logged for debugging or ML training. This demonstrates the full integration of software and hardware for a working MVP.
+> A user connects the ESP32-powered cart-pole system, starts the firmware using the init script, and observes hardware movement while system states are logged for debugging. This demonstrates the full integration of software and hardware for a working MVP.
 
 ---
 
 ## Demonstration of the working MVP
 
----
-
-## ML
-
-Planned, not yet implemented.
-
-- [#24](https://github.com/IU-Capstone-Project-2025/total_control/issues/24): Initial RL research underway. No training conducted yet.
+TODO: Evgenii add Video
 
 ---
 
@@ -69,18 +58,25 @@ Planned, not yet implemented.
 
 ## Individual contribution of each participant
 
----
+Anastasia - Assist with hardware testing
+
+Evgenii - 3D model and blueprints for controller container
+
+Artyom - [Documentation via Sphinx](https://github.com/IU-Capstone-Project-2025/total_control/commit/760a3a5d4ea73bfbf63ce265c0089f90029d4c9a#diff-8ef404030a484d54db89ecc940a02d66d8cc4f55864528606d79e3f5547b433b)
+
+Petr - [Write report](https://github.com/IU-Capstone-Project-2025/total_control/commit/5e8a2c6f1d7ce5efccc93700c9c3c01922524246)
+
+Marat - [Firmware MVP](https://github.com/IU-Capstone-Project-2025/total_control/commit/921fc9ea2c93f5e39d8e4f7ab2d8c1fe815bc01e)
+
 
 ## Plan for Next Week
 
-- Finalize firmware testing with sensor feedback
-- Integrate RL training environment (simulator or live)
-- Begin double pendulum hardware concept
-
----
+- Python library development
+- CI/CD for documentation
+- Hardware and Firmware documentation
 
 ## Confirmation of the code's operability
 
 We confirm that the code in the main branch:
 - [x] In working condition.
-- [ ] Run via docker-compose (or another alternative described in the README.md).
+- [x] Run via docker-compose (or another alternative described in the README.md).
