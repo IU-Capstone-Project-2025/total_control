@@ -57,9 +57,7 @@ docker compose up --build test
 │   │   └── main.py          # Main application
 │   └── tests/               # Unit tests
 ├── README.md                # Project overview and documentation
-├── requirements.txt         # Python dependencies
-└── scripts/                 # Utility scripts
-    └── get_docs.sh          # Documentation generation script
+└── requirements.txt         # Python dependencies
 
 ```
 

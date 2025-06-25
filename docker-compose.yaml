@@ -35,7 +35,7 @@ services:
     entrypoint: >
       bash -c "
         echo 'Starting' &&
-        ./scripts/get_docs.sh
+        ./docs/get_docs.sh
       "
 
   test:

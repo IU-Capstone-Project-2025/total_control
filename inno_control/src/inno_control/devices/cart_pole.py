@@ -14,14 +14,13 @@ class CartPole(LabDevice):
     def _initialize_device(self) -> None:
         """Initialization of CartPole"""
         try:
-            self._send_command("MODE=INIT")
+            self._send_command("MOTOR_INIT")
             
             print('Waiting for initialization of CartPole')
-            time.sleep(2.0)
-            response = self._send_command("STATE", read_response=True)
-            if response != "READY":
-                raise DeviceConfigurationError(f"Device not responding properly.\nState: {response}")
-            
+            print(self._read())
+            print(self._read())
+            print(self._read())
+            print(self._read())
             self._state = "READY"
             
         except (ValueError, DeviceCommandError) as e:
