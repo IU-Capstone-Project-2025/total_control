@@ -2,7 +2,7 @@
 
 ## Implemented MVP features
 
-This week we completed the core MVP features focused on the Hardware and Firmware.
+This week we completed the core MVP features focused on the Hardware and Firmware and common 
 
 ### Hardware
 
@@ -42,7 +42,9 @@ This week we completed the core MVP features focused on the Hardware and Firmwar
 
 ## Demonstration of the working MVP
 
-TODO: Evgenii add Video
+[Video of tests](https://drive.google.com/file/d/1z7wkOc1qnxFgIIeBLKd8Nusf9HyCIy37/view?usp=sharing)
+
+[Same video on github](https://github.com/IU-Capstone-Project-2025/total_control/blob/Reports/MWP_video_week_3.MOV)
 
 ---
 
@@ -208,9 +210,9 @@ class DQNAgent:
 
 ## Individual contribution of each participant
 
-Anastasia - Assist with hardware testing
+Anastasia - [Write 🫧 controller]() 
 
-Evgenii - 3D model and blueprints for controller container
+Evgenii - [3D model and blueprints for controller container](https://github.com/IU-Capstone-Project-2025/total_control/commit/f5d9547fc745bf995561105e6385729346f0d378)
 
 Artyom - [Documentation via Sphinx](https://github.com/IU-Capstone-Project-2025/total_control/commit/760a3a5d4ea73bfbf63ce265c0089f90029d4c9a#diff-8ef404030a484d54db89ecc940a02d66d8cc4f55864528606d79e3f5547b433b)
 
