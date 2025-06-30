@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-deploy-docs:
     runs-on: ubuntu-latest
-    container: python:3.11-slim
+    container: python:3.9-slim
 
     steps:
     - name: Checkout repository
@@ -20,7 +20,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.9"
     
     - name: Install dependencies
       run: |
