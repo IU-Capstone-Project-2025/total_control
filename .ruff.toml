@@ -2,7 +2,5 @@
 # Детальные правила (включая PEP8, сложность кода и докстринги)
 select = ["E", "F", "B", "D", "I", "N", "W", "UP", "C90", "ARG", "PL", "RUF", "DTZ"]
 ignore = ["D105", "D107"]  # Игнорировать отсутствие докстрингов в __init__
-
-# Настройки докстрингов (для google-стиля)
-[docs]
-docstring-convention = "google"
+[lint.pydocstyle]
+convention = "google"
