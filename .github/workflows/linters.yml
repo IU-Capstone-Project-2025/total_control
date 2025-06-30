@@ -1,0 +1,45 @@
+name: Code Style Check
+
+on:
+  push:
+    paths:
+      - 'inno_control/**'
+      - 'firmware**'
+  pull_request:
+    paths:
+      - 'inno_control/**'
+      - 'firmware/**'
+  workflow_dispatch:  # Разрешает ручной запуск
+
+jobs:
+  python-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          
+      - name: Install Black
+        run: pip install black
+
+      - name: Check Python formatting
+        run: black --check inno_control/ --config pyproject.toml
+
+  cpp-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format-14
+      
+      - name: Check C++ formatting
+        run: |
+          cd firmware
+          find main -type f \( -name '*.c' -o -name '*.h' \) \
+          -exec clang-format-14 --style=file --dry-run --Werror {} \;
