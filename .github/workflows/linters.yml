@@ -1,49 +1,64 @@
-name: Code Quality Check
+name: Code Linting
 
 on:
   push:
     paths:
       - 'inno_control/**'
-      - 'firmware/**'
+      - 'firmware/main/**'
   pull_request:
     paths:
       - 'inno_control/**'
-      - 'firmware/**'
-  workflow_dispatch:
+      - 'firmware/main/**'
+  workflow_dispatch:  # Ручной запуск
 
 jobs:
-  python-check:
+  python-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
+      - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-          cache: 'pip'
+
+      - name: Install Python linters
+        run: |
+          pip install ruff==0.1.3 black==23.12.0 pydocstyle==6.3.0
           
-      - name: Install tools
-        run: pip install black pydocstyle
-
-      - name: Run Black formatting check
-        run: black --check inno_control/ --config pyproject.toml
+      - name: Run ruff (code analysis)
+        run: ruff check inno_control/ --output-format=github
         
-      - name: Run docstring check
-        run: pydocstyle inno_control/ --config .pydocstyle
+      - name: Run pydocstyle (docstrings)
+        run: pydocstyle inno_control/ --match='(?!test_).*\.py'  # Игнорируем тесты
+        
+      - name: Run black (formatting)
+        run: black --check --diff inno_control/
 
-  cpp-check:
+  cpp-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Install clang-format
-        run: sudo apt-get update && sudo apt-get install -y clang-format-14
+      - uses: actions/checkout@v4
       
-      - name: Check C++ formatting
+      - name: Install clang-tidy and cppcheck
         run: |
-          cd firmware
-          find main -type f \( -name '*.c' -o -name '*.h' \) \
-          -exec clang-format-14 --style=file --dry-run --Werror {} \;
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy cppcheck
+
+      - name: Run clang-tidy
+        run: |
+          find firmware/main/ -regex '.*\.\(c\|h\|cpp\|hpp\)' \
+          -exec clang-tidy {} \
+          -extra-arg=-std=c++17 \
+          -- \
+          -I firmware/main/ \
+          -DIDF_TARGET_ESP32 \;  # Флаги ESP-IDF
+
+      - name: Run cppcheck
+        run: |
+          cppcheck firmware/main/ \
+          --enable=all \
+          --suppress=missingIncludeSystem \
+          --suppress=unusedFunction \
+          --std=c++17 \
+          -i firmware/main/test_*  # Игнорировать тесты

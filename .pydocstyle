@@ -1,4 +1,0 @@
-[pydocstyle]
-convention = google
-add-ignore = D212, D213
-match = .*\.py

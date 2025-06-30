@@ -1,0 +1,23 @@
+Checks: >
+  -*,
+  abseil-*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  google-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  hicpp-explicit-conversions,
+  hicpp-signed-bitwise,
+  readability-identifier-length,
+  readability-inconsistent-declaration-parameter-name
+WarningsAsErrors: true
+CheckOptions:
+  - key: readability-identifier-length.minVariableNameLength
+    value: '3'
+  - key: readability-magic-numbers.IgnoredFloatingPointValues
+    value: '1.0;2.0;3.0;4.0;5.0;10.0'
