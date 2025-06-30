@@ -1,5 +1,4 @@
 [tool.black]
-docstring-convention = "google"
 line-length = 120
 target-version = ['py310']
 include = '\.pyi?$'
