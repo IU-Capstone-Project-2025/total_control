@@ -1,5 +1,4 @@
-pyserial==3.5          # Библиотека для работы с serial-портом
-sphinx==7.2.6          # Генератор документации
-sphinx-rtd-theme==2.0  # Тема для Sphinx
-myst-parser==4.0.1     # Markdown
-linkify-it-py==2.0.3   
+pyserial            # Библиотека для работы с serial-портом
+sphinx              # Генератор документации
+sphinx-rtd-theme    # Тема для Sphinx
+myst-parser         # Markdown
