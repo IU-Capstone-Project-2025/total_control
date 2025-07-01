@@ -1,6 +1,7 @@
 import os
 import sys
 import inno_control # Install before usage !!! pip install pip install -e ~/total_control/inno_control/
+# test
 # -- Path Setup --------------------------------------------------------------
 
 # Corrected path to point to your PACKAGE directory (not just parent)
