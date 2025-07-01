@@ -1,4 +1,8 @@
 import serial
+import threading
+import queue
+import time
+from collections import deque 
 from typing import Optional
 from ..exceptions import DeviceConnectionError, DeviceCommandError
 
@@ -18,6 +22,9 @@ class LabDevice:
         self._baudrate = baudrate
         self._timeout = timeout
         self._connection = None
+
+        #File to save data fron esp
+        self.encoder_log = "encoder_data.log"
         
     def connect(self) -> None:
         """Establish connection with the lab device"""
@@ -68,24 +75,22 @@ class LabDevice:
             return None
         except serial.SerialException as e:
             raise DeviceCommandError(f"Command execution failed: {str(e)}")
+        
+    def log_to_file(self, filename, messege):
+        """Save messenge to log file"""
+        with open(filename, "a") as f:
+            f.write(f"{messege}\n")  
+
     
     def _read(self, encoding: str = 'utf-8') -> str:
-        """
-        Read response from device
-        
-        Args:
-            encoding: Text encoding to use (default: 'ascii')
-            
-        Returns:
-            Decoded response string
-            
-        Raises:
-            DeviceCommandError: If read operation fails
-        """
-        try:
-            return self._connection.readline().decode(encoding).strip()
-        except serial.SerialException as e:
-            raise DeviceCommandError(f"Failed to read response: {str(e)}")
+        ser = self._connection
+        while self.running:
+            data = ser.readline().decode()
+            if data:
+                self.buffer.extend(data)
+                self.log_to_file(self.encoder_log, data)
+
+                
     
     def __enter__(self):
         """Context manager entry point"""
@@ -95,3 +100,25 @@ class LabDevice:
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Context manager exit point"""
         self.disconnect()
+
+
+    "Я НИЧЕГо НЕ ДОДЕЛАЛА не трогайте "
+
+    def start(self):
+
+        threading.Thread(target=self._read, daemon=True).start()
+        threading.Thread(target=self._send_command, daemon=True).start()
+
+        ""
+        
+        try:
+            while True:
+                user_input = input("Введите команду (или 'exit' для выхода): ")
+                if user_input.lower() == 'exit':
+                    break
+                self.command_queue.put(user_input)
+        except KeyboardInterrupt:
+            print("Программа завершена")
+        finally:
+            if self.serial_connection:
+                self.serial_connection.close()

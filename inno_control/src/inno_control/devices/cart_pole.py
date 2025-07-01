@@ -1,6 +1,8 @@
 from inno_control.devices import LabDevice
 from inno_control.exceptions import DeviceConfigurationError, DeviceCommandError
 import time
+import threading
+
 class CartPole(LabDevice):
     """
     Class for entire Cart-Pole work
@@ -15,12 +17,10 @@ class CartPole(LabDevice):
         """Initialization of CartPole"""
         try:
             self._send_command("MOTOR_INIT")
+
+            self.start()
             
-            print('Waiting for initialization of CartPole')
-            print(self._read())
-            print(self._read())
-            print(self._read())
-            print(self._read())
+
             self._state = "READY"
             
         except (ValueError, DeviceCommandError) as e:
