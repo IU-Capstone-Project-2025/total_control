@@ -1,4 +1,0 @@
-pyserial            # Библиотека для работы с serial-портом
-sphinx              # Генератор документации
-sphinx-rtd-theme    # Тема для Sphinx
-myst-parser         # Markdown
