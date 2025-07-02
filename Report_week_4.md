@@ -6,10 +6,12 @@ title: "Week #4"
 
 ## Testing and QA
 
+
+
 We have started implementing tests for both the control system and the ML component. The strategy is to:
 - Use unit tests for physics-based system classes (e.g. CartPole, EnvInterface)
 - Test the RL agent’s interfaces (fit(), predict(), evaluate())
-- Prepare for integration tests on simulated and physical setups (e.g., verifying response of hardware to predicted action)
+- Integration test o physycal setup: cart poke ask person to do smth (e.g. move carriage by hand) and waiting for response of sensors.
 
 All tests are written using pytest, and can be run via:
 ```
