@@ -25,7 +25,7 @@ docker compose up -build tests
 
 ### Evidence of test execution
 
-<!-- Screenshots will go here later -->
+https://github.com/user-attachments/assets/b06a4906-5335-4083-8c14-2901c59c6f0c
 
 ## CI/CD
 
