@@ -77,7 +77,7 @@ General summary: All team members are very excited about the direction we are ta
 
 ## Individual contribution of each participant
 
-- [Evgenii]() - Make PCB, box and tests for py
+- [Evgenii](https://github.com/IU-Capstone-Project-2025/total_control/commit/09453c56725dae58333d71a8e4f8af152e0c2075) - Make PCB, box and tests for py
 - [Artyom](https://github.com/IU-Capstone-Project-2025/total_control/commit/2d77f71c44007a1d604920881940c22b2d4c4f78) - Make CI/CD pipeline and docs
 - [Anastasia](https://github.com/IU-Capstone-Project-2025/total_control/commit/ea22df737e36c3a01feb74946cd486dca1b6a630) - Read and write pipeline and data processing
 - [Marat](https://github.com/IU-Capstone-Project-2025/total_control/commit/0273ab1e8bcf13460ab3e0583366fcf6cb4deb4d) - Firmware optimization and tests
