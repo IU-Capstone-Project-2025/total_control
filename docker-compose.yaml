@@ -1,5 +1,5 @@
 x-common: &common-setup
-  image: fabook/control:0.0.3
+  image: fabook/control:0.0.4
   network_mode: host
   privileged: true
   volumes: 
