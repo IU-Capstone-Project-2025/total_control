@@ -27,6 +27,9 @@ docker compose up -build tests
 
 https://github.com/user-attachments/assets/b06a4906-5335-4083-8c14-2901c59c6f0c
 
+![image](https://github.com/user-attachments/assets/bdd850c6-071d-4b8d-b5c0-03e75a78bd02)
+
+
 ## CI/CD
 
 We configured GitHub Actions as our CI tool. It:
