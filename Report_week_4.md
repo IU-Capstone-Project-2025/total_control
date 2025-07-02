@@ -83,6 +83,7 @@ General summary: All team members are very excited about the direction we are ta
 - [Marat](https://github.com/IU-Capstone-Project-2025/total_control/commit/0273ab1e8bcf13460ab3e0583366fcf6cb4deb4d) - Firmware optimization and tests
 - [Petr](https://github.com/IU-Capstone-Project-2025/total_control/commit/d87c531e82ee2dca2ba88e14a7f89c04cf4fd45b) - RL and Report
 
+![PCB](https://github.com/user-attachments/assets/53fc9832-1e44-4d3c-b743-326003e41727)
 
 ## Plan for Next Week
 
