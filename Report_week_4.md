@@ -14,7 +14,7 @@ We have started implementing tests for both the control system and Hardware. The
 
 All tests for python lib are written using pytest, and can be run via in `inno_controll/` folder:
 ```
-pytest tests/
+pytest
 ```
 
 or by docker:
