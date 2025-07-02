@@ -50,3 +50,15 @@ services:
         pip3 install -e inno_control/
         python3 inno_control/examples/cartpole_connection.py
       "
+
+  tests:
+    <<: *common-setup
+    # TODO
+    working_dir: /home/ws/src
+    stdin_open: true  # docker run -i
+    tty: true        # docker run -t
+    entrypoint: >
+      bash -c "
+        echo 'Starting' &&
+        pytest inno_control/tests/
+      "
