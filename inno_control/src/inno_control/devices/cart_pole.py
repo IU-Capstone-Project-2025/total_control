@@ -28,12 +28,15 @@ class CartPole(LabDevice):
 
     def start_experimnet(self) -> None:
         """Starting experement"""
-        response = self._send_command("MODE=EXP", read_response=True)
+        response = self._send_command("START_OPER", read_response=True)
         
         if response != "STARTED":
             raise DeviceCommandError(response)
         
         self._state = "STARTED"
+    
+    def get_state(self):
+        return self._state
     
     def get_joint_state(self) -> None:
         if self._state == "STARTED":
