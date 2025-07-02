@@ -6,6 +6,7 @@ title: "Week #4"
 
 ## Testing and QA
 
+
 We have started implementing tests for both the control system and Hardware. The strategy is to:
 - Use unit tests for physics-based system classes (e.g. CartPole, EnvInterface)
 - Use hardware test to ckeck hardware system status.
@@ -56,6 +57,7 @@ For ease of use, there are two options for deploying software:
 - A Docker image that is uploaded to the Docker Hub and automatically downloaded from the cloud to a local computer, where it is deployed using Docker Compose (this solution is primarily suitable for development, taking into account the use of additional tools for preparation, configuration, and management)
 
 - A self-contained Python library that can automatically download additional dependencies and is currently being prepared for upload to the cloud for quick installation via Pip (currently only works locally)
+
 
 ### Production
 
