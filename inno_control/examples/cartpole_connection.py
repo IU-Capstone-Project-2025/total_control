@@ -11,6 +11,7 @@ input()
 while True:
     try:
         res = a.get_joint_state().split()
+        
         print(res)
         coef = centre - int(res[0])
         force = (coef / abs(coef)) * 40 + 0.01 * coef

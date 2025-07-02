@@ -14,13 +14,26 @@ class CartPole(LabDevice):
         
 
     def _initialize_device(self) -> None:
-        """Initialization of CartPole"""
+        """Initializes the CartPole device.
+
+        Performs the following steps:
+        1. Sends MOTOR_INIT command to initialize motors
+        2. Starts parallel process 
+        3. Sets device state to READY if successful
+
+        Raises:
+            DeviceConfigurationError: If initialization fails due to:
+                - ValueError: Invalid parameter or value encountered
+                - DeviceCommandError: Command to device failed
+
+        Note:
+            This is an internal method and should not be called directly by users.
+        """
         try:
             self._send_command("MOTOR_INIT")
 
-            self.start()
+            self.start_read_write()
             
-
             self._state = "READY"
             
         except (ValueError, DeviceCommandError) as e:
@@ -37,7 +50,7 @@ class CartPole(LabDevice):
     
     def get_joint_state(self) -> None:
         if self._state == "STARTED":
-            return self._read()
+            return self.read_from_buff()
         raise DeviceCommandError("Wrong state of the system, need to switch to 'STARTED'")
     
     def stop_experiment(self) -> None:
@@ -53,4 +66,5 @@ class CartPole(LabDevice):
             
     def set_joint_efforts(self, effort: str) -> None:
         
-        self._send_command(effort)
+        self.add_command(effort)
+        #here was "self.add_command(effort)""
