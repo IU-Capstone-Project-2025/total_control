@@ -10,15 +10,19 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "esp_pm.h"
 
 #include "driver/twai.h"
 #include "driver/uart.h"
 #include "driver/timer.h"
 
-/* --------------------- Definitions and static variables ------------------ */
+
+/* --------------------- Definitions ------------------ */
+
 #define CTRL_TSK_PRIO           10
 #define SERIAL_TSK_PRIO         15
 #define SAVER_TSK_PRIO          20
+#define TEST_TASK_PRIO          1
 
 #define ESP_INTR_FLAG_DEFAULT   0
 
@@ -61,6 +65,7 @@
 // #define DEBUG 0
 
 
+/* --------------------- Static variables ------------------ */
 
 static const twai_timing_config_t t_config = TWAI_TIMING_CONFIG_1MBITS();
 static const twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
@@ -74,6 +79,7 @@ static SemaphoreHandle_t btn_sem;
 static SemaphoreHandle_t move_sem;
 static SemaphoreHandle_t smert_sem;
 static SemaphoreHandle_t info_please_sem;
+static SemaphoreHandle_t test_sem;
 
 static uint32_t motor_id = 0x141;
 static int64_t recieved_packet;
@@ -91,6 +97,10 @@ void uart_get_delay(char* data);
 void uart_get_mode(char* data);
 void uart_oper_state(char* data);
 
+void uart_test_btn_state (char* data);
+void uart_test_encoder_state (char* data);
+void uart_test_angle_state (char* data);
+
 static void (*uart_state)(char*) = uart_ready_state; 
 
 static uint16_t sensor_info_sender_delay = SERIAL_MS_DELAY;
@@ -101,6 +111,10 @@ static TaskHandle_t mct_handle;
 static TaskHandle_t uet_handle;
 static TaskHandle_t msst_handle;
 static TaskHandle_t sist_handle;
+static TaskHandle_t stt_handle;
+
+static bool tested = true;
+
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
 
@@ -121,6 +135,7 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
         return false;
 }
 
+
 static bool twai_request_wo_id_check(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
@@ -132,6 +147,7 @@ static bool twai_request_wo_id_check(const twai_message_t *_tx_message, twai_mes
     else
         return false;
 }
+
 
 static void twai_output(char* tag, twai_message_t *message)
 {
@@ -166,9 +182,6 @@ static void find_my_id()
 }
 
 
-
-
-
 /* --------------------------- Motor Control Functions -------------------------- */
 
 static bool motor_request(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
@@ -201,6 +214,7 @@ static bool motor_request(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_
     return true;
 }
 
+
 static void motor_request_wo_reply(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
     twai_message_t rx_message;
@@ -224,11 +238,13 @@ static void motor_request_stop()
     motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);   
 }
 
+
 static void motor_request_system_reset()
 {
     motor_request_wo_reply(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
     vTaskDelay(pdMS_TO_TICKS(1000));
 }
+
 
 static void motor_request_info()
 {
@@ -241,10 +257,12 @@ static void motor_request_shutdown()
     motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);    
 }
 
+
 static void motor_request_torque(int16_t tau)
 {
     motor_request(0xA1, 0x00, 0x00, 0x00, (uint8_t) (-tau), (uint8_t) (-tau >> 8), 0x00, 0x00);   
 }
+
 
 static void motor_request_speed(int32_t vel)
 {
@@ -252,10 +270,10 @@ static void motor_request_speed(int32_t vel)
     motor_request(0xA2, 0x00, 0x00, 0x00, (uint8_t) (vel), (uint8_t) (vel >> 8),  (uint8_t) (vel >> 16),  (uint8_t) (vel >> 24));  
 }
 
+
 static bool motor_request_is_connected(){
     return motor_request(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 }
-
 
 
 /* --------------------------- Motor Control Task -------------------------- */
@@ -272,6 +290,7 @@ static void motor_control_task(void *arg)
     }
     
 }
+
 
 static void motor_init_function()
 {
@@ -317,6 +336,7 @@ static void motor_init_function()
     init_in_progress = false;
     ESP_LOGI(MAIN_TAG, "Initialize ended");
 }
+
 
 static void motor_self_saver_task(void *arg)
 {
@@ -377,11 +397,10 @@ void uart_event_task(void *pvParameters)
 }
 
 
-
-
 /* --------------------------- UART states -------------------------- */
 
-void rtoo(){   // READY to OPERATIONAL
+void rtoo()   // READY to OPERATIONAL
+{   
     uart_state = uart_oper_state;
     sensor_info_sender_timer_handle = xTimerCreate("sensor_info_sender_timer", pdMS_TO_TICKS(sensor_info_sender_delay), pdTRUE, 0, sensor_info_sender_timer);
 
@@ -390,14 +409,15 @@ void rtoo(){   // READY to OPERATIONAL
     }
 }
 
-void otor(){   // OPERATIONAL to READY
+
+void otor()   // OPERATIONAL to READY
+{   
     uart_state = uart_ready_state;
     if(sensor_info_sender_timer_handle != NULL) {
         xTimerStop(sensor_info_sender_timer_handle, 0);
         xTimerDelete(sensor_info_sender_timer_handle, 0);
     }
 }
-
 
 
 void uart_ready_state(char* data)
@@ -409,8 +429,11 @@ void uart_ready_state(char* data)
     } else if (strstr((const char *)data, "RESTART")) {
         xSemaphoreGive(all_done_sem);
     } else if (strstr((const char *)data, "HELP")) {
-        ESP_LOGI(WRITE_TAG, "Possible commands\nSTART_OPER, RESTART\nMOTOR_FIND, MOTOR_INFO, MOTOR_RESET, MOTOR_INIT, MOTOR_MODE\nDATA_SEND_MODE\nENCODER_POSITION, ENCODER_ANGLE");
-    } 
+        ESP_LOGI(WRITE_TAG, "Possible commands\nSTART_OPER - starting operational (experiment) state \nRESTART - software restart the controller (also sofware reboots motor)\nSTART_TESTS - hardware sensor tests\nMOTOR_FIND - try to find motor id and start communicating\nMOTOR_INFO - requests info from motor (voltage, temperature, errors)\nMOTOR_RESET - software resetting the motor\nMOTOR_INIT - centering the carriage, initializing true encoder position and activating dead zones\nMOTOR_MODE - switch contolling modes\nDATA_SEND_MODE - cofigure sending joint info sending\nENCODER_POSITION - request single position\nENCODER_ANGLE - request single angle");
+    } else if (strstr((const char *)data, "START_TESTS")) {
+        uart_state = uart_test_btn_state;
+        xSemaphoreGive(test_sem);
+    }
 
     // motoro control mode
     else if (strstr((const char *)data, "MOTOR_MODE")) {
@@ -438,10 +461,18 @@ void uart_ready_state(char* data)
         ESP_LOGI(WRITE_TAG, "Position is %d", encoder_position);
     } else if (strstr((const char *)data, "ENCODER_ANGLE")) {
         ESP_LOGI(WRITE_TAG, "Angle is %f", encoder_angle);
-    } else {
+    } 
+    
+    
+    
+    else {
         ESP_LOGI(ERROR_TAG, "Undefined behaviour");
     }
+
 }
+
+
+
 
 
 void uart_get_mode(char* data){ // TODO
@@ -516,26 +547,25 @@ void sensor_info_sender_timer(){
 }
 
 
-
 /*-------------------------- Sensors --------------------------*/
-
-
-
 
 static void IRAM_ATTR enc_linear_isr_handler(void* arg)
 {
     encoder_position += (gpio_get_level(ENC_LINEAR_GPIO_1) != gpio_get_level(ENC_LINEAR_GPIO_2)) ? 1 : -1;
 }
 
+
 static void IRAM_ATTR enc_angular_change_isr_handler(void* arg)
 {
     encoder_angle -= ANGLE_STEP_SIZE * (1 - gpio_get_level(ENC_ANGULAR_GPIO_A) * 2);
 }
 
+
 static void IRAM_ATTR enc_angular_zero_isr_handler(void* arg)
 {
     encoder_angle = 0;
 }
+
 
 static void IRAM_ATTR btn_isr_handler(void* arg)
 {
@@ -546,7 +576,8 @@ static void IRAM_ATTR btn_isr_handler(void* arg)
 }
 
 
-static void gpio_init_setup(){
+static void gpio_init_setup()
+{
 
     // linear
     gpio_config_t io_conf_1;
@@ -602,9 +633,11 @@ static void gpio_init_setup(){
     
 }
 
+
 /* ---------------------------- CPU ------------------------- */
 
-void cpu_setup(){
+void cpu_setup()
+{
     esp_pm_config_t pm_config = {
         .max_freq_mhz = 240,
         .min_freq_mhz = 240,
@@ -612,6 +645,93 @@ void cpu_setup(){
     };
     esp_pm_configure(&pm_config);
 }
+
+
+/* ---------------------------- Tests ------------------------- */
+
+
+void sensor_tests()
+{
+    while (1) {
+        tested = true;
+        xSemaphoreTake(test_sem, portMAX_DELAY);
+        ESP_LOGI(WRITE_TAG, "Press the button");
+        init_in_progress = true;
+        xSemaphoreTake(btn_sem, 0);
+        xSemaphoreTake(btn_sem, portMAX_DELAY);
+        init_in_progress = false;
+        ESP_LOGI(WRITE_TAG, "Did YOU press the button? y/n");
+
+        xSemaphoreTake(test_sem, portMAX_DELAY);
+        int16_t start_encoder_position = encoder_position;
+        ESP_LOGI(WRITE_TAG, "Now move a carriage");
+        while (start_encoder_position - encoder_position < 1000 && start_encoder_position - encoder_position > -1000){vTaskDelay(pdMS_TO_TICKS(100));}
+        ESP_LOGI(WRITE_TAG, "Did YOU move the carriage? y/n");
+
+        xSemaphoreTake(test_sem, portMAX_DELAY);
+        double start_encoder_angle = encoder_angle;
+        ESP_LOGI(WRITE_TAG, "Swing a pendulum");
+        while (start_encoder_angle - encoder_angle < 30 && start_encoder_angle - encoder_angle > -30){vTaskDelay(pdMS_TO_TICKS(100));}
+        ESP_LOGI(WRITE_TAG, "Did YOU swing the pendulum? y/n");
+        xSemaphoreTake(test_sem, portMAX_DELAY);
+
+        if (tested){
+            ESP_LOGI(WRITE_TAG, "Tests are finished");
+        } else {
+            ESP_LOGI(ERROR_TAG, "Malfunctions found, robot needs a service!");
+        }
+        
+    }
+}
+
+
+void uart_test_btn_state(char* data)
+{
+    if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")) {
+        ESP_LOGI(WRITE_TAG, "Button works properly");
+    } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
+        ESP_LOGI(ERROR_TAG, "Button doesnt work");
+        tested = false;
+    } else {
+        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        return;
+    }
+    uart_state = uart_test_encoder_state;
+    xSemaphoreGive(test_sem);
+}
+
+
+void uart_test_encoder_state(char* data)
+{
+    if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
+        ESP_LOGI(WRITE_TAG, "Encoder works properly");
+    } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
+        ESP_LOGI(ERROR_TAG, "Encoder doesnt work");
+        tested = false;
+    } else {
+        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        return;
+    }
+    uart_state = uart_test_angle_state;
+    xSemaphoreGive(test_sem);
+}
+
+
+void uart_test_angle_state(char* data)
+{
+    if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
+        ESP_LOGI(WRITE_TAG, "Angle sensor works properly");
+    } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
+        ESP_LOGI(ERROR_TAG, "Angle sensor doesnt work");
+        tested = false;
+    } else {
+        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        return;
+    }
+    uart_state = uart_ready_state;
+    xSemaphoreGive(test_sem);
+}
+
 
 /* --------------------------- Main -------------------------- */
 
@@ -627,6 +747,7 @@ void app_main(void)
     init_start_sem = xSemaphoreCreateBinary();
     init_done_sem = xSemaphoreCreateBinary();
     info_please_sem = xSemaphoreCreateBinary();
+    test_sem = xSemaphoreCreateBinary();
 
     gpio_init_setup();
     uart_init_setup();
@@ -634,10 +755,11 @@ void app_main(void)
     ESP_ERROR_CHECK(twai_driver_install(&g_config, &t_config, &f_config));
     ESP_ERROR_CHECK(twai_start());
 
-    xTaskCreate(motor_control_task,     "motor_control",            4096,   NULL,   CTRL_TSK_PRIO,      &mct_handle);
-    xTaskCreate(uart_event_task,        "serial_handler",           4096,   NULL,   SERIAL_TSK_PRIO,    &uet_handle);
-    xTaskCreate(motor_self_saver_task,  "motor_self_saver",         4096,   NULL,   SAVER_TSK_PRIO,     &msst_handle);
-    xTaskCreate(sensor_info_sender_task,"jonit_info",               4096,   NULL,   SERIAL_TSK_PRIO,    &sist_handle);
+    xTaskCreate(motor_control_task,         "motor_control",            4096,   NULL,   CTRL_TSK_PRIO,      &mct_handle);
+    xTaskCreate(uart_event_task,            "serial_handler",           4096,   NULL,   SERIAL_TSK_PRIO,    &uet_handle);
+    xTaskCreate(motor_self_saver_task,      "motor_self_saver",         4096,   NULL,   SAVER_TSK_PRIO,     &msst_handle);
+    xTaskCreate(sensor_info_sender_task,    "jonit_info",               4096,   NULL,   SERIAL_TSK_PRIO,    &sist_handle);
+    xTaskCreate(sensor_tests,               "tests",                    4096,   NULL,   TEST_TASK_PRIO,     &stt_handle);
 
     ESP_LOGI(WRITE_TAG, "Ready to use");
 
@@ -647,6 +769,7 @@ void app_main(void)
     vTaskDelete(uet_handle);
     vTaskDelete(msst_handle);
     vTaskDelete(sist_handle);
+    vTaskDelete(stt_handle);
 
     ESP_ERROR_CHECK(twai_stop());
     ESP_ERROR_CHECK(twai_driver_uninstall());
@@ -657,6 +780,7 @@ void app_main(void)
     vSemaphoreDelete(btn_sem);
     vSemaphoreDelete(init_start_sem);
     vSemaphoreDelete(init_done_sem);
+    vSemaphoreDelete(test_sem);
 
     ESP_LOGI(MAIN_TAG, "Restarting...");
     esp_restart();
