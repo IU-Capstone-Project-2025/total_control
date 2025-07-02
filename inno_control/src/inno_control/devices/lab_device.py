@@ -9,7 +9,7 @@ from ..exceptions import DeviceConnectionError, DeviceCommandError
 class LabDevice:
     """Base class for laboratory equipment communication via serial interface"""
     
-    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0):
+    def __init__(self, port: str, baudrate: int = 921600, timeout: float = 1.0):
         """
         Initialize the lab device connection
         
@@ -31,10 +31,11 @@ class LabDevice:
         self._baudrate = baudrate
         self._timeout = timeout
         self._connection = None
-        self.buffer = deque()  
+        self.buffer_input = deque() 
+        self.buffer_output = deque()   
         self.lock = threading.Lock()  
         #File to save data fron esp
-        self.encoder_log = "encoder_data.log"
+
         
     def connect(self) -> None:
         """Establish connection with the lab device"""
@@ -71,8 +72,7 @@ class LabDevice:
             command: The command string to be added to the queue. Should be a valid
             device command according to the protocol specifications.
         """
-        with self.lock:
-            self.buffer.append(command)
+        self.buffer_output.append(command)
     
     def _send_command(self, encoding: str = 'utf-8') -> Optional[str]:
         """
@@ -85,42 +85,34 @@ class LabDevice:
         Raises:
             DeviceCommandError: If command fails to execute
         """
-        if not self._connection or not self._connection.is_open:
-            raise DeviceConnectionError("No active device connection")
+        while True:
+            if not self._connection or not self._connection.is_open:
+                raise DeviceConnectionError("No active device connection")
         
-        with self.lock:
-            if not self.buffer:
-                raise IndexError("No commands in buffer to send")
-
-        try:
-            self._connection.write(f"{self.buffer}".encode(encoding))
-            self.buffer = ""
-            return None
-        except serial.SerialException as e:
-            raise DeviceCommandError(f"Command execution failed: {str(e)}")
+            #with self.lock:
+                #if not self.buffer:
+                    #raise IndexError("No commands in buffer to send")
+            if self.buffer_output:
+                try:
+                    self._connection.write(f"{self.buffer_output.pop()}".encode(encoding))
+                except serial.SerialException as e:
+                    raise DeviceCommandError(f"Command execution failed: {str(e)}")
         
-
-        
-    def log_to_file(self, filename, messege):
-        """Save messenge to log file"""
-        with open(filename, "a") as f:
-            f.write(f"{messege}\n")  
 
     
     def _read(self, encoding: str = 'utf-8') -> str:
-        ser = self._connection
-        while self.running:
-            data = ser.readline().decode()
-            if data:
-                self.buffer.extend(data)
-                self.log_to_file(self.encoder_log, data)
+        while True:
+            if self._connection.in_waiting:
+                data = self._connection.readline().decode(encoding)
+                self.buffer_input.append(data)
 
-    def read_from_buff(self, number):
-        elements = self.buffer[:number]    
-        self.buffer = self.buffer[number:] # ??? Do we need this row?
-        return elements        
 
-                
+    def read_from_buff(self):
+        if not self.buffer_input:
+            return False
+        elements = self.buffer_input.pop().split()  
+        return elements[0], elements[2]       
+     
     
     def __enter__(self):
         """Context manager entry point"""
@@ -132,21 +124,20 @@ class LabDevice:
         self.disconnect()
 
 
-    
 
-    def start_read_write(self, buff_to_send):
+    def start_read_write(self):
 
         threading.Thread(target=self._read, daemon=True).start()
         threading.Thread(target=self._send_command, daemon=True).start()
         
-        try:
-            while True:
-                user_input = input("print (exit) to finish program")
-                if user_input.lower() == 'exit':
-                    break
-                self.command_queue.put(user_input)
-        except KeyboardInterrupt:
-            print("program finished ")
-        finally:
-            if self.serial_connection:
-                self.serial_connection.close()
+        # try:
+        #     while True:
+        #         user_input = input("print (exit) to finish program or force ")
+        #         if user_input.lower() == 'exit':
+        #             break
+        #         self.buffer_output.append(user_input)
+        # except KeyboardInterrupt:
+        #     print("program finished ")
+        # finally:
+        #     if self._connection:
+        #         self._connection.close()

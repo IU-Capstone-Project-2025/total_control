@@ -30,7 +30,9 @@ class CartPole(LabDevice):
             This is an internal method and should not be called directly by users.
         """
         try:
-            self._send_command("MOTOR_INIT")
+            self.add_command("RESET")
+            self.add_command("1000003")
+            self.add_command("MOTOR_INIT")
 
             self.start_read_write()
             
@@ -41,30 +43,28 @@ class CartPole(LabDevice):
 
     def start_experimnet(self) -> None:
         """Starting experement"""
-        response = self._send_command("MODE=EXP", read_response=True)
-        
-        if response != "STARTED":
-            raise DeviceCommandError(response)
+        self.add_command("START_OPER")
+        print("xyz")
         
         self._state = "STARTED"
     
     def get_joint_state(self) -> None:
         if self._state == "STARTED":
-            return self.read_from_buff()
+            resp = self.read_from_buff()
+            if not resp:
+                return
+            return resp
         raise DeviceCommandError("Wrong state of the system, need to switch to 'STARTED'")
     
     def stop_experiment(self) -> None:
         if self._state == "STARTED":
             
-            self._send_command("MODE=READY", read_response=True)
+            self.add_command("MODE=READY")
             
             print('Stoping...')
             time.sleep(2.0)
-            response = self._send_command("STATE", read_response_in=True)
-            if response != "READY":
-                raise DeviceCommandError(f"Device not responding properly.\nState: {response}")
+            self.add_command("STATE")
             
     def set_joint_efforts(self, effort: str) -> None:
         
         self.add_command(effort)
-        #here was "self.add_command(effort)""
