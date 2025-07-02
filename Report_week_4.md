@@ -43,11 +43,19 @@ A staging environment is being prepared on a local VDS. Current status:
 - Currently tested with a simulation environment only
 
 Commands used:
-
+```
 docker-compose up
+```
 Environment Variables:
+
+```
 - ENV=staging
 - PORT=8000
+```
+
+https://iu-capstone-project-2025.github.io/total_control/
+
+the documentation of the project, API automatically commits files into GitHub Pages.
 
 ### Production
 
