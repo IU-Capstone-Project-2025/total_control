@@ -125,7 +125,7 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
     esp_err_t res = twai_receive(_rx_message, pdMS_TO_TICKS(100));
 
     if (_rx_message->identifier != motor_id) {
-        ESP_LOGI(ERROR_TAG, "No reply from motor");
+        ESP_LOGE(ERROR_TAG, "No reply from motor");
         return false;
     }
 
@@ -178,7 +178,7 @@ static void find_my_id()
             return;
         }
     }
-    ESP_LOGI(ERROR_TAG, "Motor not found");
+    ESP_LOGE(ERROR_TAG, "Motor not found");
 }
 
 
@@ -323,7 +323,7 @@ static void motor_init_function()
         if (time + 3000 < esp_timer_get_time()/1000){
             motor_request_stop();
             init_in_progress = false;
-            ESP_LOGI(ERROR_TAG, "Motor initialization failed!");
+            ESP_LOGE(ERROR_TAG, "Motor initialization failed!");
             return;
         }
     }
@@ -346,7 +346,7 @@ static void motor_self_saver_task(void *arg)
         if (!init_in_progress){
             if(encoder_position < SAFE_REGION || encoder_position > MAX_ECNODER_DATA - SAFE_REGION){
                 in_safe_state = false;
-                ESP_LOGI(ERROR_TAG, "Danger situation, stopping motor");
+                ESP_LOGE(ERROR_TAG, "Danger situation, stopping motor");
                 motor_init_function();
                 in_safe_state = true;
             }
@@ -433,6 +433,8 @@ void uart_ready_state(char* data)
     } else if (strstr((const char *)data, "START_TESTS")) {
         uart_state = uart_test_btn_state;
         xSemaphoreGive(test_sem);
+    } else if (strstr((const char *)data, "HELLO")) {
+        ESP_LOGI(WRITE_TAG, "hi there");
     }
 
     // motoro control mode
@@ -466,7 +468,7 @@ void uart_ready_state(char* data)
     
     
     else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
     }
 
 }
@@ -483,7 +485,7 @@ void uart_get_mode(char* data){ // TODO
     } else if (strstr((const char *)data, "POSITION")){
         ESP_LOGI(WRITE_TAG, "Motor is configured to position control mode");
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
     }
     uart_state = uart_ready_state;
 }
@@ -498,6 +500,11 @@ void uart_get_delay(char* data){
 
 void uart_oper_state(char* data)
 {
+    #ifdef DEBUG
+    printf("i recieved");
+    printf(data);
+    printf("in oper state\n");
+    #endif
     recieved_packet = atoi(data);
 
     if (!in_safe_state) {
@@ -678,7 +685,7 @@ void sensor_tests()
         if (tested){
             ESP_LOGI(WRITE_TAG, "Tests are finished");
         } else {
-            ESP_LOGI(ERROR_TAG, "Malfunctions found, robot needs a service!");
+            ESP_LOGE(ERROR_TAG, "Malfunctions found, robot needs a service!");
         }
         
     }
@@ -690,10 +697,10 @@ void uart_test_btn_state(char* data)
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")) {
         ESP_LOGI(WRITE_TAG, "Button works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Button doesnt work");
+        ESP_LOGE(ERROR_TAG, "Button doesnt work");
         tested = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_test_encoder_state;
@@ -706,10 +713,10 @@ void uart_test_encoder_state(char* data)
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
         ESP_LOGI(WRITE_TAG, "Encoder works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Encoder doesnt work");
+        ESP_LOGE(ERROR_TAG, "Encoder doesnt work");
         tested = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_test_angle_state;
@@ -722,10 +729,10 @@ void uart_test_angle_state(char* data)
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
         ESP_LOGI(WRITE_TAG, "Angle sensor works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Angle sensor doesnt work");
+        ESP_LOGE(ERROR_TAG, "Angle sensor doesnt work");
         tested = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_ready_state;
