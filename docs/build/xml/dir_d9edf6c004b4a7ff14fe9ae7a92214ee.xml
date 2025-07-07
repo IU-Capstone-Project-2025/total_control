@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_d9edf6c004b4a7ff14fe9ae7a92214ee" kind="dir">
+    <compoundname>/home/ws/src/firmware</compoundname>
+    <innerdir refid="dir_43532460448d97320a2d8d3edbe18c15">/home/ws/src/firmware/main</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/ws/src/firmware/"/>
+  </compounddef>
+</doxygen>
