@@ -64,7 +64,6 @@
 
 // #define DEBUG 0
 
-
 /* --------------------- Static variables ------------------ */
 
 static const twai_timing_config_t t_config = TWAI_TIMING_CONFIG_1MBITS();
@@ -94,7 +93,7 @@ static bool in_safe_state = true;
 
 void uart_ready_state(char* data);
 void uart_get_delay(char* data);
-void uart_get_mode(char* data);
+void uart_set_mode(char* data);
 void uart_oper_state(char* data);
 
 void uart_test_btn_state (char* data);
@@ -440,7 +439,7 @@ void uart_ready_state(char* data)
     // motoro control mode
     else if (strstr((const char *)data, "MOTOR_MODE")) {
         ESP_LOGI(WRITE_TAG, "Possible variants\nTORQUE, SPEED, POSITION");
-        uart_state = uart_get_mode;
+        uart_state = uart_set_mode;
     } else if (strstr((const char *)data, "MOTOR_FIND")) {
         find_my_id();
     } else if (strstr((const char *)data, "MOTOR_RESET")) {
@@ -477,7 +476,7 @@ void uart_ready_state(char* data)
 
 
 
-void uart_get_mode(char* data){ // TODO
+void uart_set_mode(char* data){ // TODO
     if (strstr((const char *)data, "TORQUE")){
         ESP_LOGI(WRITE_TAG, "Motor is configured to torque control mode");
     } else if (strstr((const char *)data, "SPEED")){
@@ -543,7 +542,7 @@ void sensor_info_sender_task(){
         encoder_position_prev = encoder_position;
 
         if (in_safe_state){
-            printf("%d %ld %f %f\n", encoder_position, linear_velocity, encoder_angle, angular_velocity);
+            printf("%f %f %d %ld\n", encoder_angle, angular_velocity, encoder_position, linear_velocity);
         }
     }
 }
