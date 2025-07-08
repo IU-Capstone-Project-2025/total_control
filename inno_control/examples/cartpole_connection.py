@@ -3,7 +3,7 @@ from inno_control.devices.port_scan import find_your_device
 
 
 # a = CartPole(find_your_device())
-a = CartPole('COM6')
+a = CartPole('/dev/cu.usbserial-0001')
 
 
 print('connecting..')
