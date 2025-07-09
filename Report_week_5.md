@@ -6,11 +6,12 @@
 
 We conducted three feedback sessions with external users:
 
-1. **1st year student** – Found the platform promising as an educational tool. Suggested adding better visualization for reinforcement learning progress.
+| External user | Review | Main problem | Overall score |
+|----------|----------|--------------|--------------|
+| Dmitriy Mistrikov, Master student | This solution is very convenient for testing RL, but I was shown a very short emergency stop wire, which needs to be made longer | Emeregency Buttom wire| 4.5/5 |
+| Dmitriy Vizitei, Bachelor Studnet | It's an interesting thing, but the only inconvenient thing is that the position is not in meters, but in some kind of ticks, and the force on the motor is also measured in parrots, not in N/m, and you have to add coefficients in the program | Units of measurement | 4.2/5 |
+| Yaroslav Gorbunov, Student of Tomsk Polytechnic University | Given my limited experience in robotics (which I have none of), the most difficult and confusing part for me was determining the connection port, and I still can't replicate it myself | Auto connect | 5/5 |
 
-2. **Graduate Student (Robotics)** – Tested the CartPole control interface. Recommended clearer examples for training agents using the provided API.
-
-3. **Undergraduate (Control Theory)** – Emphasized the need for intuitive logging and understanding of real-time feedback from the system.
 
 ### Analyze
 
@@ -18,19 +19,31 @@ Key insights and actions:
 
 | Feedback | Priority | Action Taken |
 |----------|----------|--------------|
-| Lack of real-time training feedback | High | Created issue to implement live training visualization |
-| Onboarding too complex | Medium | Planned tutorial enhancements |
-| Hardware timing unclear | Low | Will add logging of loop timing in a future iteration |
+| Solve problem with units | Medium | Created issue to this problem |
+| A longer wire is needed | Low | A better wire was ordered |
+| Needs Auto connect | Medium | Implemented automatic connection |
 
 ## Iteration & Refinement
 
 ### Implemented features based on feedback
 
-- Added a working RL training loop based on real-time motor feedback
-- Integrated structured control via `CartPole` abstraction
+- A better wire was ordered
+- Implemented automatic connection
 
 
 ### Performance & Stability
+
+The main measure of our solution's performance is the communication frequency between the controller and the library, which is also considered the sampling frequency for the entire system.
+
+Currently, the frequency: 100 Hz.
+
+There are several main approaches for optimizing the solution (although this is not necessary at the moment):
+
+- Simplifying the transmitted data
+
+- Replacing the controller with a more powerful one
+
+- Simplifying the communication concept (moving the control function directly to the controller)
 
 We use standard Python libraries for development and performance/stability:
 
@@ -67,6 +80,8 @@ The documentation contains:
 
 This API is actively used by the Reinforcement Learning integration and will be further expanded to include reward shaping and safety checks.
 
+This approach to documentation is chosen because it represents the industry standard and provides an extremely convenient interface for automatically generating documentation based on properly written code with documentation.
+
 ### ML Model Refinement
 
 We developed and integrated a Deep Q-Network (DQN) agent into the real CartPole system using the `CartPole` Python API. The RL agent observes position and velocity of the cart and applies motor effort as an action.
@@ -100,10 +115,10 @@ Marat - [Port scan feature](https://github.com/IU-Capstone-Project-2025/total_co
 
 ## Plan for Next Week
 
-- Add visual reward/loss graph to training loop  
-- Validate the RL agent across multiple physical runs  
-- Improve error handling for out-of-bounds behavior  
-- Extend docs with ML training section and video tutorial (if possible)
+- Test RL
+- Test Controll  
+- Fix code style and bags 
+- Implement final features
 
 ## Confirmation of the code's operability
 
