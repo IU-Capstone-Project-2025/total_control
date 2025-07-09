@@ -1,3 +1,8 @@
+/**
+ * \file main.c
+ * \brief Main application entry point
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -118,6 +123,23 @@ static bool tested = true;
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
 
+/**
+ * \brief Sends a TWAI message and waits for a response with ID verification
+ * 
+ * Transmits a specified message and waits for a response. Verifies that
+ * the received message identifier matches the expected motor ID.
+ * 
+ * \param[in] _tx_message Pointer to the transmit message structure
+ * \param[out] _rx_message Pointer to the receive message structure
+ * 
+ * \return true if valid response received with matching motor ID
+ * \return false if no response or ID mismatch
+ * 
+ * \note Blocks indefinitely during transmission
+ * \note Uses 100ms timeout for reception
+ * 
+ * \warning Logs error if no reply from motor
+ */
 static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
@@ -125,7 +147,7 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
     esp_err_t res = twai_receive(_rx_message, pdMS_TO_TICKS(100));
 
     if (_rx_message->identifier != motor_id) {
-        ESP_LOGI(ERROR_TAG, "No reply from motor");
+        ESP_LOGE(ERROR_TAG, "No reply from motor");
         return false;
     }
 
@@ -135,7 +157,20 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
         return false;
 }
 
-
+/**
+ * \brief Sends a TWAI message and waits for any response without ID check
+ * 
+ * Transmits a message and receives the first available response without
+ * verifying the message identifier. Used for general communication.
+ * 
+ * \param[in] _tx_message Pointer to the transmit message structure
+ * \param[out] _rx_message Pointer to the receive message structure
+ * 
+ * \return true if any response received within timeout
+ * \return false if no response received
+ * 
+ * \note Safer version should use ID verification in production
+ */
 static bool twai_request_wo_id_check(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
@@ -148,7 +183,21 @@ static bool twai_request_wo_id_check(const twai_message_t *_tx_message, twai_mes
         return false;
 }
 
-
+/**
+ * \brief Logs TWAI message contents in human-readable format
+ * 
+ * Formats and outputs the complete TWAI message structure including:
+ * - Identifier
+ * - Data length code
+ * - All 8 data bytes (even if unused)
+ * 
+ * \param[in] tag Logging tag for ESP_LOG* system
+ * \param[in] message Pointer to the message structure to log
+ * 
+ * \example 
+ * twai_output("CAN", &msg);
+ * // Output: CAN: 141 [8] 01 02 03 04 05 06 07 08
+ */
 static void twai_output(char* tag, twai_message_t *message)
 {
     ESP_LOGI(tag, "%lx [%u] %02x %02x %02x %02x %02x %02x %02x %02x",
@@ -158,7 +207,22 @@ static void twai_output(char* tag, twai_message_t *message)
         message->data[4], message->data[5], message->data[6], message->data[7]);
 }
 
-
+/**
+ * \brief Discovers motor ID by scanning the address range
+ * 
+ * Iterates through possible motor IDs (0x141 to 0x160) sending discovery
+ * messages. Sets global motor_id when valid response is received.
+ * 
+ * \post On success: Sets global motor_id and logs found ID
+ * \post On failure: Logs error and motor_id remains unchanged
+ * 
+ * \uses twai_request() for communication
+ * 
+ * \note Uses fixed discovery message:
+ *   {.identifier = motor_id, .data = {0x9A, 0x00,...}}
+ * 
+ * \warning Modifies global motor_id variable
+ */
 static void find_my_id()
 {
     for (uint32_t i = 0x141; i <= 0x160; i++) {
@@ -178,7 +242,7 @@ static void find_my_id()
             return;
         }
     }
-    ESP_LOGI(ERROR_TAG, "Motor not found");
+    ESP_LOGE(ERROR_TAG, "Motor not found");
 }
 
 
@@ -323,7 +387,7 @@ static void motor_init_function()
         if (time + 3000 < esp_timer_get_time()/1000){
             motor_request_stop();
             init_in_progress = false;
-            ESP_LOGI(ERROR_TAG, "Motor initialization failed!");
+            ESP_LOGE(ERROR_TAG, "Motor initialization failed!");
             return;
         }
     }
@@ -346,7 +410,7 @@ static void motor_self_saver_task(void *arg)
         if (!init_in_progress){
             if(encoder_position < SAFE_REGION || encoder_position > MAX_ECNODER_DATA - SAFE_REGION){
                 in_safe_state = false;
-                ESP_LOGI(ERROR_TAG, "Danger situation, stopping motor");
+                ESP_LOGE(ERROR_TAG, "Danger situation, stopping motor");
                 motor_init_function();
                 in_safe_state = true;
             }
@@ -433,6 +497,8 @@ void uart_ready_state(char* data)
     } else if (strstr((const char *)data, "START_TESTS")) {
         uart_state = uart_test_btn_state;
         xSemaphoreGive(test_sem);
+    } else if (strstr((const char *)data, "HELLO")) {
+        ESP_LOGI(WRITE_TAG, "hi there");
     }
 
     // motoro control mode
@@ -466,7 +532,7 @@ void uart_ready_state(char* data)
     
     
     else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
     }
 
 }
@@ -483,7 +549,7 @@ void uart_get_mode(char* data){ // TODO
     } else if (strstr((const char *)data, "POSITION")){
         ESP_LOGI(WRITE_TAG, "Motor is configured to position control mode");
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
     }
     uart_state = uart_ready_state;
 }
@@ -498,6 +564,11 @@ void uart_get_delay(char* data){
 
 void uart_oper_state(char* data)
 {
+    #ifdef DEBUG
+    printf("i recieved");
+    printf(data);
+    printf("in oper state\n");
+    #endif
     recieved_packet = atoi(data);
 
     if (!in_safe_state) {
@@ -678,7 +749,7 @@ void sensor_tests()
         if (tested){
             ESP_LOGI(WRITE_TAG, "Tests are finished");
         } else {
-            ESP_LOGI(ERROR_TAG, "Malfunctions found, robot needs a service!");
+            ESP_LOGE(ERROR_TAG, "Malfunctions found, robot needs a service!");
         }
         
     }
@@ -690,10 +761,10 @@ void uart_test_btn_state(char* data)
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")) {
         ESP_LOGI(WRITE_TAG, "Button works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Button doesnt work");
+        ESP_LOGE(ERROR_TAG, "Button doesnt work");
         tested = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_test_encoder_state;
@@ -706,10 +777,10 @@ void uart_test_encoder_state(char* data)
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
         ESP_LOGI(WRITE_TAG, "Encoder works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Encoder doesnt work");
+        ESP_LOGE(ERROR_TAG, "Encoder doesnt work");
         tested = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_test_angle_state;
@@ -722,10 +793,10 @@ void uart_test_angle_state(char* data)
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
         ESP_LOGI(WRITE_TAG, "Angle sensor works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Angle sensor doesnt work");
+        ESP_LOGE(ERROR_TAG, "Angle sensor doesnt work");
         tested = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_ready_state;

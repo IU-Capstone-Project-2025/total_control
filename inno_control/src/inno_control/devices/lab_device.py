@@ -5,7 +5,7 @@ from ..exceptions import DeviceConnectionError, DeviceCommandError
 class LabDevice:
     """Base class for laboratory equipment communication via serial interface"""
     
-    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0):
+    def __init__(self, port: str, baudrate: int = 921600, timeout: float = 1.0):
         """
         Initialize the lab device connection
         
@@ -19,7 +19,7 @@ class LabDevice:
         self._timeout = timeout
         self._connection = None
         
-    def connect(self) -> None:
+    def connect(self, do_init_activity = True) -> None:
         """Establish connection with the lab device"""
         try:
             self._connection = serial.Serial(
@@ -27,8 +27,13 @@ class LabDevice:
                 baudrate=self._baudrate,
                 timeout=self._timeout
             )
+
+            while self._connection.in_waiting:
+                self._flush()
+
             # Device-specific initialization
-            self._initialize_device()
+            if do_init_activity:
+                self._initialize_device()
             
         except serial.SerialException as e:
             raise DeviceConnectionError(f"Connection to {self._port} failed: {str(e)}")
@@ -64,11 +69,14 @@ class LabDevice:
         try:
             self._connection.write(f"{command}\n".encode(encoding))
             if read_response:
-                return self._connection.readline().decode(encoding).strip()
+                while not self._connection.in_waiting:
+                    pass
+                return self._read()
             return None
         except serial.SerialException as e:
             raise DeviceCommandError(f"Command execution failed: {str(e)}")
     
+
     def _read(self, encoding: str = 'utf-8') -> str:
         """
         Read response from device
@@ -87,6 +95,22 @@ class LabDevice:
         except serial.SerialException as e:
             raise DeviceCommandError(f"Failed to read response: {str(e)}")
     
+
+    def _check_response(self, expected_response, response) -> None:
+        if not response:
+            raise DeviceCommandError('No response')
+        
+        if response != expected_response:
+            raise DeviceCommandError(f'Not expected response {response}')
+        
+
+    def _flush(self) -> None:
+        self._connection.reset_input_buffer()
+        self._connection.reset_output_buffer()
+
+    def _restart_device(self) -> None:
+        pass
+
     def __enter__(self):
         """Context manager entry point"""
         self.connect()
