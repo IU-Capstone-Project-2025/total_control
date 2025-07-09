@@ -105,7 +105,7 @@ Planned refinements:
 
 Anastasia - [Library development](https://github.com/IU-Capstone-Project-2025/total_control/commit/8118eac04ecb0ac3c7f6e20531de8e2bdcd1cd64)
 
-Evgenii - [Board design and printing]()
+Evgenii - [Board design and printing](https://github.com/IU-Capstone-Project-2025/total_control/commit/6ae7315a5173997c19df38adedaf9763e8b1ccb2)
 
 Artyom - [Add firmware auto-generated documentation](https://github.com/IU-Capstone-Project-2025/total_control/commit/51691fd3e6aefafd780ab99fbfac08c6e035d255)
 
