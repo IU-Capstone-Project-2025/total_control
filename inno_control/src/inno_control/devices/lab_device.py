@@ -18,7 +18,8 @@ class LabDevice:
         self._baudrate = baudrate
         self._timeout = timeout
         self._connection = None
-        
+
+
     def connect(self, do_init_activity = True) -> None:
         """Establish connection with the lab device"""
         try:
@@ -69,15 +70,13 @@ class LabDevice:
         try:
             self._connection.write(f"{command}\n".encode(encoding))
             if read_response:
-                while not self._connection.in_waiting:
-                    pass
-                return self._read()
+                return self._read(sync=True)
             return None
         except serial.SerialException as e:
             raise DeviceCommandError(f"Command execution failed: {str(e)}")
     
 
-    def _read(self, encoding: str = 'utf-8') -> str:
+    def _read(self, encoding: str = 'utf-8', sync: bool = False) -> str:
         """
         Read response from device
         
@@ -91,6 +90,9 @@ class LabDevice:
             DeviceCommandError: If read operation fails
         """
         try:
+            if sync:
+                while not self._connection.in_waiting:
+                    pass
             return self._connection.readline().decode(encoding).strip()
         except serial.SerialException as e:
             raise DeviceCommandError(f"Failed to read response: {str(e)}")

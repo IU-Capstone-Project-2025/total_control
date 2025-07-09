@@ -22,15 +22,18 @@ class CartPole(LabDevice):
             
             self._restart_device()
             
-            # self._check_response(self._send_command("MOTOR_INIT", read_response=True), 'Initializing motor')
-            # print('Waiting for initialization of CartPole')
-            # self._check_response(self._read(), 'Initialize ended')
+            self._check_response(self._send_command("MOTOR_INIT", read_response=True), 'Initializing motor')
+            print('Waiting for initialization of CartPole')
+            self._check_response(self._read(), 'Initialize ended')
 
             print('CartPole is ready for work')
             self._state = "READY"
             
         except (ValueError, DeviceCommandError) as e:
             raise DeviceConfigurationError(f"Initialization failed: {str(e)}") from e
+        
+
+
 
 
     def _check_response(self, response, expected_response) -> None:
@@ -85,9 +88,37 @@ class CartPole(LabDevice):
             self._send_command("1000001")
             print('Stoping...')
 
+                
+    def restart(self) -> None:     
+        if self._state == "OPER": 
+            self._send_command("1000001")
+            print('Stoping...')
+            self._state = "READY"
+        elif self._state == "READY":
+            self._send_command("RESTART")
+            print(self._read())
+            self._state = "READY"
+
+
 
 
     def set_joint_efforts(self, effort: str) -> None:
         if self._state != "OPER":
             raise DeviceCommandError("Wrong state of the system, need to switch to 'OPER'")
         self._send_command(effort)
+
+
+
+    def stop_motor(self) -> None:
+        if self._state == "OPER": 
+            self._send_command("1000000")
+            print('Stoping motor...')
+            self._state == "READY"
+
+
+    def help_me(self) -> None:
+        if self._state == "READY": 
+            self._send_command("HELP")
+        else: 
+            raise DeviceCommandError("Wrong state of the system, need to switch to 'READY'")
+
