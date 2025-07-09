@@ -21,8 +21,18 @@ extensions = [
     'sphinx.ext.napoleon',   # Google/NumPy docstring support
     'sphinx.ext.viewcode',   # Source code links
     'sphinx.ext.autosummary',# Generate summary tables
-    'myst_parser'            # Markdown support
+    'myst_parser',           # Markdown support
+    'breathe'                # C/C++
 ]
+
+# Настройка Breathe
+breathe_projects = {
+    "firmware": "./build/xml"
+}
+breathe_default_project = "firmware"
+breathe_domain_by_extension = {
+    "c": "c",  # Явно указываем обработку .c файлов
+}
 
 # Napoleon settings for better docstring parsing
 napoleon_google_docstring = True

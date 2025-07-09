@@ -1,3 +1,8 @@
+/**
+ * \file main.c
+ * \brief Main application entry point
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -150,7 +155,6 @@ static bool hardware_tests_passed = false;
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
 
-
 /**
  * @brief Send CAN request and wait for response
  * 
@@ -176,7 +180,6 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
         return false;
 }
 
-
 /**
  * @brief Send CAN request without ID validation
  * 
@@ -196,7 +199,6 @@ static bool twai_transaction_without_id_check(const twai_message_t *_tx_message,
     else
         return false;
 }
-
 
 /**
  * @brief Log CAN message contents

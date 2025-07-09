@@ -1,5 +1,5 @@
 x-common: &common-setup
-  image: fabook/control:0.0.4
+  image: fabook/control:0.0.5
   network_mode: host
   privileged: true
   volumes: 
@@ -35,7 +35,11 @@ services:
     entrypoint: >
       bash -c "
         echo 'Starting' &&
-        ./docs/get_docs.sh
+        pip install -e /home/ws/src/inno_control
+        cd /home/ws/src/docs
+        doxygen Doxyfile
+        sphinx-build -M html . ./build -v -a -E
+        python3 -m http.server --directory ./build/html 8000
       "
 
   test:
