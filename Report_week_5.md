@@ -98,13 +98,6 @@ Petr - [Write report, RL RnD](https://github.com/IU-Capstone-Project-2025/total_
 
 Marat - [Port scan feature](https://github.com/IU-Capstone-Project-2025/total_control/commit/cfa3bad0f9504bd06ee40481e967a6f25a9747a6)
 
-## Confirmation of the code's operability
-
-We confirm that the code in the main branch:
-- [X] In working condition.
-- [X] Run via docker-compose (or another alternative described in the `README.md`).
-  
-
 ## Plan for Next Week
 
 - Add visual reward/loss graph to training loop  
