@@ -1,0 +1,15 @@
+[project]
+name = "total-control"
+version = "0.1.0"
+description = "RL-controlled cartpole project"
+authors = ["Petr"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.2.0"
+gym = "^0.26.2"
+numpy = "^1.26"
+matplotlib = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.0.0"
