@@ -1,5 +1,3 @@
-
-
 # Week #5
 
 ## Feedback
@@ -31,6 +29,7 @@ Key insights and actions:
 - Added a working RL training loop based on real-time motor feedback
 - Integrated structured control via `CartPole` abstraction
 
+
 ### Performance & Stability
 
 We use standard Python libraries for development and performance/stability:
@@ -41,7 +40,6 @@ We use standard Python libraries for development and performance/stability:
 - **serial / pyserial** – For hardware communication with the motor controller
 
 Basic logging and exception handling are implemented. Training is currently stable for hardware episodes up to 300+ iterations.
-
 ### Documentation
 
 All documentation is hosted at:  
@@ -49,8 +47,7 @@ All documentation is hosted at:
 
 The documentation contains:
 
-- **Project Overview** – Architecture, communication flow, and control strategy
-- **Quickstart Guide** – Instructions for running hardware and software components
+- **Firmware Documentation** – Auto-generated documentation for deep understnading how firmware works
 - **API Reference** – Auto-generated documentation for interacting with the system
 
 #### API Reference Structure:
@@ -70,7 +67,6 @@ The documentation contains:
 
 This API is actively used by the Reinforcement Learning integration and will be further expanded to include reward shaping and safety checks.
 
-
 ### ML Model Refinement
 
 We developed and integrated a Deep Q-Network (DQN) agent into the real CartPole system using the `CartPole` Python API. The RL agent observes position and velocity of the cart and applies motor effort as an action.
@@ -87,10 +83,26 @@ Planned refinements:
 - Add reward shaping for smoother convergence
 - Implement checkpoint saving/loading during training
 - Tune hyperparameters: learning rate, epsilon decay, and discount factor
+
 # Weekly commitments
 
 ## Individual contribution of each participant
 
+Anastasia - [Library development](https://github.com/IU-Capstone-Project-2025/total_control/commit/8118eac04ecb0ac3c7f6e20531de8e2bdcd1cd64)
+
+Evgenii - [Board design and printing]()
+
+Artyom - [Add firmware auto-generated documentation](https://github.com/IU-Capstone-Project-2025/total_control/commit/51691fd3e6aefafd780ab99fbfac08c6e035d255)
+
+Petr - [Write report, RL RnD](https://github.com/IU-Capstone-Project-2025/total_control/commit/835eb63842421206d9d4818b6205c2aaf735148b)
+
+Marat - [Port scan feature](https://github.com/IU-Capstone-Project-2025/total_control/commit/cfa3bad0f9504bd06ee40481e967a6f25a9747a6)
+
+## Confirmation of the code's operability
+
+We confirm that the code in the main branch:
+- [X] In working condition.
+- [X] Run via docker-compose (or another alternative described in the `README.md`).
   
 
 ## Plan for Next Week
