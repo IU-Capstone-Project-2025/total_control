@@ -1,8 +1,17 @@
-/**
- * \file main.c
- * \brief Main application entry point
+/* 
+ * @file main.c
+ * @brief Main controller for Furuta pendulum system
+ * 
+ * This module handles:
+ * - CAN communication with motor controller
+ * - Encoder position tracking
+ * - UART command interface
+ * - System state management
+ * - Safety monitoring and self-recovery
+ * 
  */
 
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,21 +31,6 @@
 #include "driver/timer.h"
 
 
-
-/* 
- * @file main.c
- * @brief Main controller for Furuta pendulum system
- * 
- * This module handles:
- * - CAN communication with motor controller
- * - Encoder position tracking
- * - UART command interface
- * - System state management
- * - Safety monitoring and self-recovery
- * 
- */
-
-
 /* --------------------- Definitions ------------------ */
 
 /* Task priorities */
@@ -49,8 +43,8 @@
 #define DEFAULT_INTERRUPT_FLAGS     0                   ///< Default interrupt flag
 
 /* Hardware pin assignments */  
-#define TX_CAN_GPIO                 22                  ///< CAN transmitter GPIO
-#define RX_CAN_GPIO                 21                  ///< CAN receiver GPIO
+#define TX_CAN_GPIO                 21                  ///< CAN transmitter GPIO
+#define RX_CAN_GPIO                 22                  ///< CAN receiver GPIO
 #define LINEAR_ENCODER_GPIO_A       19                  ///< Linear encoder channel A
 #define LINEAR_ENCODER_GPIO_B       18                  ///< Linear encoder channel B
 #define ANGULAR_ENCODER_GPIO_A      5                   ///< Angular encoder channel A
@@ -64,9 +58,9 @@
 /* System parameters */ 
 #define ANGLE_STEP_SIZE             0.08789             ///< Degrees per encoder tick
 #define MAX_LINEAR_ECNODER_VALUE    12213               ///< Max linear encoder value
-#define SAFE_REGION_MARGIN          1000                //< Safety margin from limits
+#define SAFE_REGION_MARGIN          1500                //< Safety margin from limits
 #define INITIALIZATION_TORQUE       75                  ///< Initialization torque value
-#define REINITIALIZATION_TORQUE     75                  ///< Re-initialization torque value
+#define REINITIALIZATION_TORQUE     70                  ///< Re-initialization torque value
 
 /* UART configuration */    
 #define UART_PORT_NUMBER            UART_NUM_0          ///< UART port number
@@ -155,6 +149,7 @@ static bool hardware_tests_passed = false;
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
 
+
 /**
  * @brief Send CAN request and wait for response
  * 
@@ -163,7 +158,7 @@ static bool hardware_tests_passed = false;
  * @return true if valid response received
  * @return false if timeout or wrong ID
  */
-static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_message)
+static bool twai_transaction(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
     _rx_message->identifier = 0;
@@ -179,6 +174,7 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
     else
         return false;
 }
+
 
 /**
  * @brief Send CAN request without ID validation
@@ -199,6 +195,7 @@ static bool twai_transaction_without_id_check(const twai_message_t *_tx_message,
     else
         return false;
 }
+
 
 /**
  * @brief Log CAN message contents
@@ -239,7 +236,7 @@ static void find_motor_id()
                                     .identifier = motor_can_id, 
                                     .data_length_code = 8, 
                                     .data = {0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
-        twai_request(&tx_message, &rx_message);
+        twai_transaction(&tx_message, &rx_message);
         if (rx_message.identifier == i) {
             motor_can_id = i;
             ESP_LOGI(MAIN_LOG_TAG, "Motor found, motor_can_id is %lx", motor_can_id);
@@ -274,7 +271,7 @@ static bool send_motor_command(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, u
 
     #ifdef DEGUB
     log_can_message(CAN_TX_LOG_TAG, &tx_message);
-    if(!twai_request(&tx_message, &rx_message)){
+    if(!twai_transaction(&tx_message, &rx_message)){
         log_can_message(CAN_RX_LOG_TAG, &rx_message);
         return false;
     }
@@ -282,7 +279,7 @@ static bool send_motor_command(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, u
     #endif
 
     #ifndef DEBUG
-    if(!twai_request(&tx_message, &rx_message)){
+    if(!twai_transaction(&tx_message, &rx_message)){
         return false;
     }
     #endif
@@ -294,7 +291,7 @@ static bool send_motor_command(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, u
 /**
  * @brief Send motor command without response check
  * 
- * @param data0-data7 CAN data bytes
+ * @param d0-d7 CAN data bytes
  */
 static void send_motor_command_without_reply(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
@@ -442,6 +439,7 @@ static void motor_init_function()
     
 
     send_motor_command_stop();
+    current_encoder_position = 0;
     if (not_initiazatied_yet){
         xSemaphoreGive(initialization_done_semaphore);
     }
@@ -464,7 +462,7 @@ static void motor_self_saver_task(void *arg)
     not_initiazatied_yet = false;
     while(1){
         if (!initialization_in_progress){
-            if(current_encoder_position < SAFE_REGION_MARGIN || current_encoder_position > MAX_LINEAR_ECNODER_VALUE - SAFE_REGION_MARGIN){
+            if((current_encoder_position < -MAX_LINEAR_ECNODER_VALUE/2 + SAFE_REGION_MARGIN) || (current_encoder_position > MAX_LINEAR_ECNODER_VALUE/2 - SAFE_REGION_MARGIN)){
                 system_in_safe_state = false;
                 ESP_LOGE(ERROR_LOG_TAG, "Danger situation, stopping motor");
                 motor_init_function();
