@@ -24,7 +24,7 @@ class CartPole(LabDevice):
             
             self._check_response(self._send_command("MOTOR_INIT", read_response=True), 'Initializing motor')
             print('Waiting for initialization of CartPole')
-            self._check_response(self._read(), 'Initialize ended')
+            self._check_response(self._read(sync=True), 'Initialize ended')
 
             print('CartPole is ready for work')
             self._state = "READY"
@@ -49,6 +49,7 @@ class CartPole(LabDevice):
         sleep(2)
         if self._connection.in_waiting:
             self._flush()
+        sleep(0.1)
         if self._connection.in_waiting:
             self._restart_device()
 
