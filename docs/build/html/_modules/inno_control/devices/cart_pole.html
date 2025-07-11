@@ -192,12 +192,7 @@
   <h1>Source code for inno_control.devices.cart_pole</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">inno_control.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabDevice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">inno_control.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceConfigurationError</span><span class="p">,</span> <span class="n">DeviceCommandError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
-
-
-
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <div class="viewcode-block" id="CartPole">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CartPole</span><span class="p">(</span><span class="n">LabDevice</span><span class="p">):</span>
@@ -216,91 +211,62 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization of CartPole&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;MOTOR_INIT&quot;</span><span class="p">)</span>
             
-            <span class="bp">self</span><span class="o">.</span><span class="n">_restart_device</span><span class="p">()</span>
-            
-            <span class="c1"># self._check_response(self._send_command(&quot;MOTOR_INIT&quot;, read_response=True), &#39;Initializing motor&#39;)</span>
-            <span class="c1"># print(&#39;Waiting for initialization of CartPole&#39;)</span>
-            <span class="c1"># self._check_response(self._read(), &#39;Initialize ended&#39;)</span>
-
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CartPole is ready for work&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waiting for initialization of CartPole&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="s2">&quot;READY&quot;</span>
             
         <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">DeviceCommandError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DeviceConfigurationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialization failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_check_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">expected_response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="s1">&#39;No response&#39;</span><span class="p">)</span>
-        
-        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">:]</span> <span class="o">!=</span> <span class="n">expected_response</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not expected response </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_restart_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;1000003&quot;</span><span class="p">)</span>
-        <span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">in_waiting</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">in_waiting</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_restart_device</span><span class="p">()</span>
-
-
-
-
-
 <div class="viewcode-block" id="CartPole.start_experimnet">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole.start_experimnet">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_experimnet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Starting experement&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;START_OPER&quot;</span><span class="p">,</span> <span class="n">read_response</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="s1">&#39;Starting operational state&#39;</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="s2">&quot;OPER&quot;</span></div>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;START_OPER&quot;</span><span class="p">,</span> <span class="n">read_response</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">response</span> <span class="o">!=</span> <span class="s2">&quot;STARTED&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="s2">&quot;STARTED&quot;</span></div>
 
     
-
 <div class="viewcode-block" id="CartPole.get_state">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole.get_state">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span></div>
 
     
-
 <div class="viewcode-block" id="CartPole.get_joint_state">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole.get_joint_state">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_joint_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">!=</span> <span class="s2">&quot;OPER&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="s2">&quot;Wrong state of the system, need to switch to &#39;OPER&#39;&quot;</span><span class="p">)</span>
-            
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">in_waiting</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">in_waiting</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;slow on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection</span><span class="o">.</span><span class="n">in_waiting</span><span class="si">}</span><span class="s1"> bytes, flushing i/o buffers&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">()</span>
-                <span class="k">pass</span>
-            <span class="k">return</span> <span class="n">response</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_joint_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="s2">&quot;STARTED&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="s2">&quot;Wrong state of the system, need to switch to &#39;STARTED&#39;&quot;</span><span class="p">)</span></div>
 
-        
     
-
 <div class="viewcode-block" id="CartPole.stop_experiment">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole.stop_experiment">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="s2">&quot;OPER&quot;</span><span class="p">:</span> 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;1000001&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stoping...&#39;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="s2">&quot;STARTED&quot;</span><span class="p">:</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;MODE=READY&quot;</span><span class="p">,</span> <span class="n">read_response</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stoping...&#39;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;STATE&quot;</span><span class="p">,</span> <span class="n">read_response_in</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="o">!=</span> <span class="s2">&quot;READY&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device not responding properly.</span><span class="se">\n</span><span class="s2">State: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-
-
-
+            
 <div class="viewcode-block" id="CartPole.set_joint_efforts">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole.set_joint_efforts">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_joint_efforts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effort</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">!=</span> <span class="s2">&quot;OPER&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="s2">&quot;Wrong state of the system, need to switch to &#39;OPER&#39;&quot;</span><span class="p">)</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="n">effort</span><span class="p">)</span></div>
 </div>
 

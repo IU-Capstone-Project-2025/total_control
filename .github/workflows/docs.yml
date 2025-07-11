@@ -28,7 +28,9 @@ jobs:
         
     - name: Build documentation
       working-directory: ./docs
-      run: sphinx-build -M html . build -v -a -E
+      run: |
+        doxygen Doxyfile
+        sphinx-build -M html . build -v -a -E
         
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3

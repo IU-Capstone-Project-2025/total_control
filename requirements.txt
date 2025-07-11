@@ -3,3 +3,4 @@ sphinx              # Генератор документации
 sphinx-rtd-theme    # Тема для Sphinx
 myst-parser         # Markdown
 pytest # Pytests
+breathe

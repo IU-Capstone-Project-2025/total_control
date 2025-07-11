@@ -11,4 +11,5 @@ Welcome to total-control's documentation!
    :caption: Contents:
 
    api
+   firmware
    

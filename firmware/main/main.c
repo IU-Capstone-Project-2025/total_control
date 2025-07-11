@@ -1,6 +1,6 @@
 /**
- * @file main.c
- * @brief Main application entry point and firmware for CartPole controller.
+ * \file main.c
+ * \brief Main application entry point and firmware for CartPole controller.
  *
  * Initializes CPU power management, GPIOs, UART, and CAN interfaces.
  * Creates FreeRTOS tasks for motor control, safety monitoring,
@@ -17,53 +17,87 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_timer.h"
-#include "esp_pm.h"
+#include "esp_pm.h
 #include "driver/twai.h"
 #include "driver/uart.h"
 #include "driver/timer.h"
 
 
 /* --------------------- Definitions ------------------ */
-
-#define CTRL_TSK_PRIO           10          /**< Motor control task priority */
-#define SERIAL_TSK_PRIO         15          /**< UART and sensor info task priority */
-#define SAVER_TSK_PRIO          20          /**< Safety monitor task priority */
-#define TEST_TASK_PRIO          1           /**< Hardware test task priority */
-#define ESP_INTR_FLAG_DEFAULT   0           /**< Default interrupt flag */
-#define TX_GPIO_CAN             22          /**< CAN TX GPIO */
-#define RX_GPIO_CAN             21          /**< CAN RX GPIO */
-#define ENC_LINEAR_GPIO_1       19          /**< Linear encoder channel A */
-#define ENC_LINEAR_GPIO_2       18          /**< Linear encoder channel B */
-#define ENC_ANGULAR_GPIO_A      5           /**< Angular encoder channel A */
-#define ENC_ANGULAR_GPIO_B      4           /**< Angular encoder channel B */
-#define ENC_ANGULAR_GPIO_C      2           /**< Angular encoder index signal */
-#define BTN_GPIO                23          /**< User button GPIO */
+/**< Motor control task priority */
+#define CTRL_TSK_PRIO           10
+/**< UART and sensor info task priority */          
+#define SERIAL_TSK_PRIO         15          
+/**< Safety monitor task priority */
+#define SAVER_TSK_PRIO          20          
+/**< Hardware test task priority */
+#define TEST_TASK_PRIO          1           
+/**< Default interrupt flag */
+#define ESP_INTR_FLAG_DEFAULT   0           
+/**< CAN TX GPIO */
+#define TX_GPIO_CAN             22          
+/**< CAN RX GPIO */
+#define RX_GPIO_CAN             21          
+/**< Linear encoder channel A */
+#define ENC_LINEAR_GPIO_1       19          
+/**< Linear encoder channel B */
+#define ENC_LINEAR_GPIO_2       18          
+/**< Angular encoder channel A */
+#define ENC_ANGULAR_GPIO_A      5           
+/**< Angular encoder channel B */
+#define ENC_ANGULAR_GPIO_B      4           
+/**< Angular encoder index signal */
+#define ENC_ANGULAR_GPIO_C      2           
+/**< User button GPIO */
+#define BTN_GPIO                23          
 #define GPIO_PIN_MASK(PIN)      (1ULL<<PIN)
-#define ANGLE_STEP_SIZE         0.08789     /**< Angular step [rad] */
-#define MAX_ECNODER_DATA        12213       /**< Linear encoder max count */
-#define SAFE_REGION             1000        /**< Safe region threshold */
-#define INIT_TORQUE             75          /**< Initial torque for motor initialization */
-#define REINIT_TORQUE           75          /**< Reinitialization torque for motor */
+/**< Angular step [rad] */
+#define ANGLE_STEP_SIZE         0.08789     
+/**< Linear encoder max count */
+#define MAX_ECNODER_DATA        12213       
+/**< Safe region threshold */
+#define SAFE_REGION             1000        
+/**< Initial torque for motor initialization */
+#define INIT_TORQUE             75          
+/**< Reinitialization torque for motor */
+#define REINIT_TORQUE           75          
 
-#define TXD_PIN                 1           /**< UART TX pin */
-#define RXD_PIN                 3           /**< UART RX pin */
-#define UART_PORT               UART_NUM_0  /**< UART port */
-#define BUF_SIZE                128         /**< UART buffer size */
-#define BAUD_RATE               921600      /**< UART baud rate */
-#define SERIAL_MS_DELAY         20          /**< UART read delay [ms] */
+/**< UART TX pin */
+#define TXD_PIN                 1           
+/**< UART RX pin */
+#define RXD_PIN                 3           
+/**< UART port */
+#define UART_PORT               UART_NUM_0  
+/**< UART buffer size */
+#define BUF_SIZE                128         
+/**< UART baud rate */
+#define BAUD_RATE               921600      
+/**< UART read delay [ms] */
+#define SERIAL_MS_DELAY         20          
 
-#define ERROR_TAG               "Error"     /**< Error log tag */
-#define MAIN_TAG                "Main"      /**< Main log tag */
-#define DEBUG_TAG               "Debug"     /**< Debug log tag */
-#define SEND_TAG                "Motor/Sending" /**< Motor sending log tag */
-#define RECIEVE_TAG             "Motor/Recieving"   /**< Motor receiving log tag */
-#define READ_TAG                "PC/Recieving"      /**< PC receiving log tag */
-#define WRITE_TAG               "PC/Sending"        /**< PC sending log tag */
+/**< Error log tag */
+#define ERROR_TAG               "Error"     
+/**< Main log tag */
+#define MAIN_TAG                "Main"      
+/**< Debug log tag */
+#define DEBUG_TAG               "Debug"     
+/**< Motor sending log tag */
+#define SEND_TAG                "Motor/Sending" 
+/**< Motor receiving log tag */
+#define RECIEVE_TAG             "Motor/Recieving"   
+/**< PC receiving log tag */
+#define READ_TAG                "PC/Recieving"      
+/**< PC sending log tag */
+#define WRITE_TAG               "PC/Sending"        
 
-#define MOTOR_STOP_COMMAND      1000000 /**< Stop command code */
-#define READY_STATE_COMMAND     1000001 /**< Ready state command code */
-#define MOTOR_INFO_COMMMAND     1000002 /**< Info request command code */
-#define RESET_COMMAND           1000003 /**< Reset command code */
+/**< Stop command code */
+#define MOTOR_STOP_COMMAND      1000000 
+/**< Ready state command code */
+#define READY_STATE_COMMAND     1000001 
+/**< Info request command code */
+#define MOTOR_INFO_COMMMAND     1000002 
+/**< Reset command code */
+#define RESET_COMMAND           1000003 
 
 // #define DEBUG 0
 

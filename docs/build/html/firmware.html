@@ -193,68 +193,81 @@
              
   <section id="firmware-documentation">
 <h1>Firmware Documentation<a class="headerlink" href="#firmware-documentation" title="Link to this heading"></a></h1>
-<p>Main application entry point. </p>
+<p>Main application entry point and firmware for CartPole controller. </p>
+<p>Initializes CPU power management, GPIOs, UART, and CAN interfaces. Creates FreeRTOS tasks for motor control, safety monitoring, UART command handling, sensor data reporting, and hardware tests. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.CTRL_TSK_PRIO">
 <span class="target" id="main_8c_1a7b5e0b4f961899d86c33d9e13ca7633a"></span><span class="sig-name descname"><span class="n"><span class="pre">CTRL_TSK_PRIO</span></span></span><a class="headerlink" href="#c.CTRL_TSK_PRIO" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>&lt; Motor control task priority UART and sensor info task priority </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SERIAL_TSK_PRIO">
 <span class="target" id="main_8c_1ab6ca39f48ecd3c48ffd44ab7acc49a08"></span><span class="sig-name descname"><span class="n"><span class="pre">SERIAL_TSK_PRIO</span></span></span><a class="headerlink" href="#c.SERIAL_TSK_PRIO" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Safety monitor task priority </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SAVER_TSK_PRIO">
 <span class="target" id="main_8c_1ab2e0bab723af75f956a0ad1660d95ae8"></span><span class="sig-name descname"><span class="n"><span class="pre">SAVER_TSK_PRIO</span></span></span><a class="headerlink" href="#c.SAVER_TSK_PRIO" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Hardware test task priority </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.TEST_TASK_PRIO">
 <span class="target" id="main_8c_1a18b821454d423ce574a4e08c3d35d1be"></span><span class="sig-name descname"><span class="n"><span class="pre">TEST_TASK_PRIO</span></span></span><a class="headerlink" href="#c.TEST_TASK_PRIO" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Default interrupt flag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ESP_INTR_FLAG_DEFAULT">
 <span class="target" id="main_8c_1af8baf7d9859733667317e58c0ff707d1"></span><span class="sig-name descname"><span class="n"><span class="pre">ESP_INTR_FLAG_DEFAULT</span></span></span><a class="headerlink" href="#c.ESP_INTR_FLAG_DEFAULT" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>CAN TX GPIO </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.TX_GPIO_CAN">
 <span class="target" id="main_8c_1a98b0a06b2764e462ea87110a5aa91ca5"></span><span class="sig-name descname"><span class="n"><span class="pre">TX_GPIO_CAN</span></span></span><a class="headerlink" href="#c.TX_GPIO_CAN" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>CAN RX GPIO </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RX_GPIO_CAN">
 <span class="target" id="main_8c_1aa95f54fc36b7962a273ae23f57262c29"></span><span class="sig-name descname"><span class="n"><span class="pre">RX_GPIO_CAN</span></span></span><a class="headerlink" href="#c.RX_GPIO_CAN" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Linear encoder channel A </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_LINEAR_GPIO_1">
 <span class="target" id="main_8c_1a915403e642b167c299184f42c797d992"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_LINEAR_GPIO_1</span></span></span><a class="headerlink" href="#c.ENC_LINEAR_GPIO_1" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Linear encoder channel B </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_LINEAR_GPIO_2">
 <span class="target" id="main_8c_1ae2ae2d204f050a9bbba2b10129cece43"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_LINEAR_GPIO_2</span></span></span><a class="headerlink" href="#c.ENC_LINEAR_GPIO_2" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Angular encoder channel A </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_ANGULAR_GPIO_A">
 <span class="target" id="main_8c_1a9e4f2ac9257ce6f3572c176005693d38"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_ANGULAR_GPIO_A</span></span></span><a class="headerlink" href="#c.ENC_ANGULAR_GPIO_A" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Angular encoder channel B </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_ANGULAR_GPIO_B">
 <span class="target" id="main_8c_1ae757297f37dc8a86ef65e94ca81bbd26"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_ANGULAR_GPIO_B</span></span></span><a class="headerlink" href="#c.ENC_ANGULAR_GPIO_B" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Angular encoder index signal </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_ANGULAR_GPIO_C">
 <span class="target" id="main_8c_1ac8ffb6e9d68e4a092a57637b71135f5e"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_ANGULAR_GPIO_C</span></span></span><a class="headerlink" href="#c.ENC_ANGULAR_GPIO_C" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>User button GPIO </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.BTN_GPIO">
@@ -264,112 +277,134 @@
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.GPIO_PIN_MASK">
 <span class="target" id="main_8c_1a284c58b2f63f601826cfcd46eaea929b"></span><span class="sig-name descname"><span class="n"><span class="pre">GPIO_PIN_MASK</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">PIN</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.GPIO_PIN_MASK" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Angular step [rad] </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ANGLE_STEP_SIZE">
 <span class="target" id="main_8c_1aee5d1576823e62ca3a2782773b592c2c"></span><span class="sig-name descname"><span class="n"><span class="pre">ANGLE_STEP_SIZE</span></span></span><a class="headerlink" href="#c.ANGLE_STEP_SIZE" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Linear encoder max count </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MAX_ECNODER_DATA">
 <span class="target" id="main_8c_1a0000f4371ef9bcd0f10f610aa8b33713"></span><span class="sig-name descname"><span class="n"><span class="pre">MAX_ECNODER_DATA</span></span></span><a class="headerlink" href="#c.MAX_ECNODER_DATA" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Safe region threshold </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SAFE_REGION">
 <span class="target" id="main_8c_1aad4992ec0ccc026b5ba5926650548255"></span><span class="sig-name descname"><span class="n"><span class="pre">SAFE_REGION</span></span></span><a class="headerlink" href="#c.SAFE_REGION" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Initial torque for motor initialization </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.INIT_TORQUE">
 <span class="target" id="main_8c_1afb21a93b38c1ccbd2a1635f9086ed645"></span><span class="sig-name descname"><span class="n"><span class="pre">INIT_TORQUE</span></span></span><a class="headerlink" href="#c.INIT_TORQUE" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Reinitialization torque for motor </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.REINIT_TORQUE">
 <span class="target" id="main_8c_1aaa61e74d6a0accc4b34f963b13083c6f"></span><span class="sig-name descname"><span class="n"><span class="pre">REINIT_TORQUE</span></span></span><a class="headerlink" href="#c.REINIT_TORQUE" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART TX pin </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.TXD_PIN">
 <span class="target" id="main_8c_1a271a735bd865e77e0d27b09e5fd958f2"></span><span class="sig-name descname"><span class="n"><span class="pre">TXD_PIN</span></span></span><a class="headerlink" href="#c.TXD_PIN" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART RX pin </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RXD_PIN">
 <span class="target" id="main_8c_1adc7d6fe2220359137dc87ba264524f96"></span><span class="sig-name descname"><span class="n"><span class="pre">RXD_PIN</span></span></span><a class="headerlink" href="#c.RXD_PIN" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART port </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.UART_PORT">
 <span class="target" id="main_8c_1aa7a5950d998e44d87137de0780bd0af3"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_PORT</span></span></span><a class="headerlink" href="#c.UART_PORT" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART buffer size </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.BUF_SIZE">
 <span class="target" id="main_8c_1a6821bafc3c88dfb2e433a095df9940c6"></span><span class="sig-name descname"><span class="n"><span class="pre">BUF_SIZE</span></span></span><a class="headerlink" href="#c.BUF_SIZE" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART baud rate </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.BAUD_RATE">
 <span class="target" id="main_8c_1ad4455691936f92fdd6c37566fc58ba1f"></span><span class="sig-name descname"><span class="n"><span class="pre">BAUD_RATE</span></span></span><a class="headerlink" href="#c.BAUD_RATE" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART read delay [ms] </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SERIAL_MS_DELAY">
 <span class="target" id="main_8c_1a3cbb1e90a146fdb8c3b9da69f159e29d"></span><span class="sig-name descname"><span class="n"><span class="pre">SERIAL_MS_DELAY</span></span></span><a class="headerlink" href="#c.SERIAL_MS_DELAY" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Error log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ERROR_TAG">
 <span class="target" id="main_8c_1aa29007116d11e676da62a3ae1dae4402"></span><span class="sig-name descname"><span class="n"><span class="pre">ERROR_TAG</span></span></span><a class="headerlink" href="#c.ERROR_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Main log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MAIN_TAG">
 <span class="target" id="main_8c_1aafe49c5964527e250000ab014d9e541b"></span><span class="sig-name descname"><span class="n"><span class="pre">MAIN_TAG</span></span></span><a class="headerlink" href="#c.MAIN_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Debug log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.DEBUG_TAG">
 <span class="target" id="main_8c_1ae6f84e8321c3bc4f546cf4a2a4798064"></span><span class="sig-name descname"><span class="n"><span class="pre">DEBUG_TAG</span></span></span><a class="headerlink" href="#c.DEBUG_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Motor sending log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SEND_TAG">
 <span class="target" id="main_8c_1a1e7be5183998bdbe8079e0f3276ada46"></span><span class="sig-name descname"><span class="n"><span class="pre">SEND_TAG</span></span></span><a class="headerlink" href="#c.SEND_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Motor receiving log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RECIEVE_TAG">
 <span class="target" id="main_8c_1a3191b64f52225c44bead05ce0937704b"></span><span class="sig-name descname"><span class="n"><span class="pre">RECIEVE_TAG</span></span></span><a class="headerlink" href="#c.RECIEVE_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>PC receiving log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.READ_TAG">
 <span class="target" id="main_8c_1a0a1ec8eb6dcc1a3e9c83347f9a04974f"></span><span class="sig-name descname"><span class="n"><span class="pre">READ_TAG</span></span></span><a class="headerlink" href="#c.READ_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>PC sending log tag </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.WRITE_TAG">
 <span class="target" id="main_8c_1aa602e63aac535b9c1f7b9fcb18edb895"></span><span class="sig-name descname"><span class="n"><span class="pre">WRITE_TAG</span></span></span><a class="headerlink" href="#c.WRITE_TAG" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Stop command code </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MOTOR_STOP_COMMAND">
 <span class="target" id="main_8c_1a2012f1090db37579663427aece0ec815"></span><span class="sig-name descname"><span class="n"><span class="pre">MOTOR_STOP_COMMAND</span></span></span><a class="headerlink" href="#c.MOTOR_STOP_COMMAND" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Ready state command code </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.READY_STATE_COMMAND">
 <span class="target" id="main_8c_1a439fa6d18fd0b0edb588a9ead0e1c96d"></span><span class="sig-name descname"><span class="n"><span class="pre">READY_STATE_COMMAND</span></span></span><a class="headerlink" href="#c.READY_STATE_COMMAND" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Info request command code </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MOTOR_INFO_COMMMAND">
 <span class="target" id="main_8c_1a3dfba5629cbd9c6fd33e0705f38223ef"></span><span class="sig-name descname"><span class="n"><span class="pre">MOTOR_INFO_COMMMAND</span></span></span><a class="headerlink" href="#c.MOTOR_INFO_COMMMAND" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Reset command code </p>
+</dd></dl>
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RESET_COMMAND">
@@ -382,72 +417,121 @@
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_ready_state">
 <span class="target" id="main_8c_1ab41dd3d732fbd82f82f73b9ab83fd4f4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_ready_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_ready_state" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART handler for READY state commands. </p>
+<p>Parses incoming text commands such as START_OPER, RESTART, HELP, and routes to appropriate actions or state transitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated command string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_get_delay">
 <span class="target" id="main_8c_1af5ca2d9536e8bfd0d54948d9475c2a81"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_get_delay</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_get_delay" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART handler to configure sensor info delay. </p>
+<p>Converts ASCII data to integer and updates delay for sensor info timer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated numeric string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_get_mode">
 <span class="target" id="main_8c_1ae167c28d1ebe9d2b4a4036ab6bc7a1a5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_get_mode</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_get_mode" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART handler to set control mode. </p>
+<p>Parses TORQUE, SPEED, or POSITION strings and logs selected mode. Then returns to ready state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated mode string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_oper_state">
 <span class="target" id="main_8c_1a5a0f0d155cedf05c93c7d3fa48a4c553"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_oper_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_oper_state" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>UART handler for OPERATIONAL state control packets. </p>
+<p>Parses numeric packets for torque commands or special commands (stop, ready, info, reset), with safety checks on encoder limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated ASCII packet string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_test_btn_state">
 <span class="target" id="main_8c_1a96867752fbeb1da02accb4566f93b96e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_btn_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_btn_state" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Handles UART input to verify button test result. </p>
+<p>Parses user input string to determine whether the button works. Logs result, updates test status, and advances test sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_test_encoder_state">
 <span class="target" id="main_8c_1afdcf4f2da0664ad2650b1facbe66b331"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_encoder_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_encoder_state" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Handles UART input to verify linear encoder test result. </p>
+<p>Parses user input string to determine whether the linear encoder works. Logs result, updates test status, and advances test sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_test_angle_state">
 <span class="target" id="main_8c_1a1b4a31580b1b4f18a80998192c2bac70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_angle_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_angle_state" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Handles UART input to verify angular encoder test result. </p>
+<p>Parses user input string to determine whether the angular encoder works. Logs result, updates test status, and finishes test sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.sensor_info_sender_timer">
 <span class="target" id="main_8c_1a212b17df6656d3d5d40f2bd9555ccd6e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_timer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_info_sender_timer" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Timer callback to trigger sensor info task. </p>
+<p>Gives the info_please_sem semaphore to schedule data reporting. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.twai_request">
 <span class="target" id="main_8c_1a0e05a85bd6b4f3dbdb41a50b395bfd03"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twai_request</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_tx_message</span></span>, <span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_rx_message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.twai_request" title="Link to this definition"></a><br /></dt>
-<dd><p>Sends a TWAI message and waits for a response with ID verification. </p>
-<p>Transmits a specified message and waits for a response. Verifies that the received message identifier matches the expected motor ID.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Blocks indefinitely during transmission </p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Uses 100ms timeout for reception</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Logs error if no reply from motor </p>
-</div>
+<dd><p>Sends TWAI message and verifies response ID. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>_tx_message</strong> – <strong>[in]</strong> Pointer to the transmit message structure </p></li>
-<li><p><strong>_rx_message</strong> – <strong>[out]</strong> Pointer to the receive message structure</p></li>
+<li><p><strong>_tx_message</strong> – <strong>[in]</strong> Transmit message pointer. </p></li>
+<li><p><strong>_rx_message</strong> – <strong>[out]</strong> Receive buffer pointer. </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>true if valid response received with matching motor ID </p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>false if no response or ID mismatch</p>
+<dd class="field-even"><p>true if response ID matches, false otherwise. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -455,24 +539,16 @@
 <dl class="c function">
 <dt class="sig sig-object c" id="c.twai_request_wo_id_check">
 <span class="target" id="main_8c_1aa7c38b979cd25bdacde2558ab945a494"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twai_request_wo_id_check</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_tx_message</span></span>, <span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_rx_message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.twai_request_wo_id_check" title="Link to this definition"></a><br /></dt>
-<dd><p>Sends a TWAI message and waits for any response without ID check. </p>
-<p>Transmits a message and receives the first available response without verifying the message identifier. Used for general communication.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Safer version should use ID verification in production </p>
-</div>
+<dd><p>Sends TWAI message without ID check. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>_tx_message</strong> – <strong>[in]</strong> Pointer to the transmit message structure </p></li>
-<li><p><strong>_rx_message</strong> – <strong>[out]</strong> Pointer to the receive message structure</p></li>
+<li><p><strong>_tx_message</strong> – <strong>[in]</strong> Transmit message pointer. </p></li>
+<li><p><strong>_rx_message</strong> – <strong>[out]</strong> Receive buffer pointer. </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>true if any response received within timeout </p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>false if no response received</p>
+<dd class="field-even"><p>true if any response received, false otherwise. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -480,157 +556,279 @@
 <dl class="c function">
 <dt class="sig sig-object c" id="c.twai_output">
 <span class="target" id="main_8c_1ae3afa3e3e8d58277446681e206489ebb"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twai_output</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">tag</span></span>, <span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.twai_output" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
-
-<dl class="c function">
-<dt class="sig sig-object c" id="c.find_my_id">
-<span class="target" id="main_8c_1a791d27b63eaa17c98f506c90e1c5bc96"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_my_id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.find_my_id" title="Link to this definition"></a><br /></dt>
-<dd><p>Discovers motor ID by scanning the address range. </p>
-<p>Iterates through possible motor IDs (0x141 to 0x160) sending discovery messages. Sets global motor_id when valid response is received.</p>
-<p>
-\uses twai_request() for communication</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Uses fixed discovery message: {.identifier = motor_id, .data = {0x9A, 0x00,…}}</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Modifies global motor_id variable </p>
-</div>
+<dd><p>Logs TWAI message content. </p>
 <dl class="field-list simple">
-<dt class="field-odd">Post<span class="colon">:</span></dt>
-<dd class="field-odd"><p>On success: Sets global motor_id and logs found ID </p>
-</dd>
-<dt class="field-even">Post<span class="colon">:</span></dt>
-<dd class="field-even"><p>On failure: Logs error and motor_id remains unchanged</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> – <strong>[in]</strong> Log tag string. </p></li>
+<li><p><strong>message</strong> – <strong>[in]</strong> Message pointer to log. </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="c function">
+<dt class="sig sig-object c" id="c.find_my_id">
+<span class="target" id="main_8c_1a791d27b63eaa17c98f506c90e1c5bc96"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_my_id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.find_my_id" title="Link to this definition"></a><br /></dt>
+<dd><p>Discovers motor CAN ID by scanning range. </p>
+</dd></dl>
+
+<dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request">
 <span class="target" id="main_8c_1aeff2a9c6e23b3b05a7624bd8f133dbd4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d0</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d1</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d2</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d3</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d4</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d5</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d6</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d7</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Sends motor command over CAN and waits for optional reply. </p>
+<p>Constructs a CAN frame with the provided data bytes and transmits it. If DEBUG is disabled, waits for a confirmation response via <a class="reference internal" href="#main_8c_1a0e05a85bd6b4f3dbdb41a50b395bfd03"><span class="std std-ref">twai_request()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dX</strong> – Data bytes to include in the frame. (0-7)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if transmission (and optional reply) succeeded, false otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_wo_reply">
 <span class="target" id="main_8c_1a001f71d8e7e29ae8d19f60e95fae2245"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_wo_reply</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d0</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d1</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d2</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d3</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d4</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d5</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d6</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d7</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_wo_reply" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Sends motor command over CAN without waiting for a reply. </p>
+<p>Constructs and transmits a CAN frame with the provided data bytes, then ignores any response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dX</strong> – Data bytes to include in the frame. (0-7) </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_stop">
 <span class="target" id="main_8c_1aa4705fbdc5ad49b3ba0d37135dd67fca"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_stop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_stop" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Issues immediate stop command to motor. </p>
+<p>Sends two sequential stop frames to ensure motor halts. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_system_reset">
 <span class="target" id="main_8c_1a1914a3422bd63d08fd10135853977cb4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_system_reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_system_reset" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Triggers a system reset command on the motor. </p>
+<p>Sends reset frame and delays for 1 second to allow reboot. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_info">
 <span class="target" id="main_8c_1a257f9d7889c17f33ef15c84536567bc1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_info</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_info" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Requests telemetry information from the motor. </p>
+<p>Sends info request frame to retrieve voltage, temperature, and error codes. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_shutdown">
 <span class="target" id="main_8c_1a6d7831f565c6bc48efb152373c264f4f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_shutdown</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_shutdown" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Commands motor to enter shutdown state. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_torque">
 <span class="target" id="main_8c_1aaacae416b2e9d21a5cc0d3a0279e35c2"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_torque</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="n"><span class="pre">tau</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_torque" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Applies signed torque command to the motor. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tau</strong> – Desired torque value (signed). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_speed">
 <span class="target" id="main_8c_1aa6f9027af67c1b8972544a2d23a82d53"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_speed</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="n"><span class="pre">vel</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_speed" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Sets motor target velocity. </p>
+<p>Multiplies velocity by 100 (unit scaling) and sends command frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vel</strong> – Desired speed in encoder units/sec. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_is_connected">
 <span class="target" id="main_8c_1a717bfdfa7a83aa8a4bd4d508f1af8391"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_is_connected</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_is_connected" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Checks if motor responds to info request. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if motor acknowledges, false otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_control_task">
 <span class="target" id="main_8c_1a1e936f31cf2296f01fa0a053106549e1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_control_task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_control_task" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>FreeRTOS task for motor control operations. </p>
+<p>Performs a system reset and info request on the motor, then enters a loop waiting for torque commands via the move_sem semaphore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – Unused parameter. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_init_function">
 <span class="target" id="main_8c_1ad5e7f46eaaaece91cf40c40b898f5f23"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_init_function</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_init_function" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Initializes motor by centering encoder and establishing zero position. </p>
+<p>Applies torque in opposite directions and waits for user confirmation via btn_sem. Monitors encoder_position to detect center; enforces timeout of 3 seconds. Signals completion through init_done_sem if first initialization. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_self_saver_task">
 <span class="target" id="main_8c_1aac9e41e227414ff8651286d553adae42"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_self_saver_task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_self_saver_task" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>FreeRTOS safety monitor task for motor encoder limits. </p>
+<p>Waits for initial motor setup completion, then continuously checks the encoder_position against SAFE_REGION boundaries. If out-of-bounds, logs danger, reinitializes the motor, and restores safe state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – Unused parameter. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_init_setup">
 <span class="target" id="main_8c_1a1c90310885ebfe159cd31b44df1c5dca"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_init_setup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_init_setup" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Configures UART parameters and installs driver. </p>
+<p>Sets UART baud rate, data bits, parity, stop bits, and flow control, then configures TX/RX pins and installs the UART driver with buffer. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_event_task">
 <span class="target" id="main_8c_1ac31eb8ff9ad443774bf4b0eebd3bc7bd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_event_task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pvParameters</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_event_task" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>FreeRTOS task for UART event processing. </p>
+<p>Continuously reads bytes from UART into a buffer and invokes the current state handler function pointer with the received data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pvParameters</strong> – Unused task parameter. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.rtoo">
 <span class="target" id="main_8c_1ae8467b3be586b5c49f21920cb7ff60c2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rtoo</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.rtoo" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Switches UART handler to operational state. </p>
+<p>Creates and starts a periodic timer to trigger sensor info reporting. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.otor">
 <span class="target" id="main_8c_1affaa7fe52fc78b5f41a2caa46772043d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">otor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.otor" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Switches UART handler to ready state. </p>
+<p>Stops and deletes the sensor info reporting timer if active. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.sensor_info_sender_task">
 <span class="target" id="main_8c_1ac8fe4baeda0e2093aee337024f3fcf89"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_task</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_info_sender_task" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>FreeRTOS task to publish sensor information. </p>
+<p>Waits on info_please_sem, computes linear and angular velocities, and prints position, velocities, and angle if safe. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1aff4587bedecb7764243868874ab89eb8"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">enc_linear_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<dd></dd></dl>
+<dd><p>Interrupt Service Routine for linear encoder channel. </p>
+<p>Called on any edge of the linear encoder’s first channel. Compares states of both encoder channels to determine movement direction and increments or decrements the linear encoder position counter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – Unused argument. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1ab0103c68f3e011afcda90de458194fd1"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">enc_angular_change_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<dd></dd></dl>
+<dd><p>Interrupt Service Routine for angular encoder channel B. </p>
+<p>Called on the rising edge of angular encoder channel B. Updates the angular position by a fixed step size depending on the state of channel A to determine direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – Unused argument. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1aebbc131dd6416542599b41ef0b0bdc7d"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">enc_angular_zero_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<dd></dd></dl>
+<dd><p>Interrupt Service Routine for angular encoder zero marker. </p>
+<p>Called when the zero position marker is detected on channel C. Resets the angular encoder position to zero for calibration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – Unused argument. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1a7bb6608f7fb818c004a48f3f575f4821"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">btn_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<dd></dd></dl>
+<dd><p>Interrupt Service Routine for button press. </p>
+<p>If initialization is active, gives semaphore from ISR context to signal that the button was pressed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – Unused argument. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gpio_init_setup">
 <span class="target" id="main_8c_1a7884487d464c8d15b17d77dfb58fa544"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gpio_init_setup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_init_setup" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Initialize GPIO pins and configure interrupts. </p>
+<p>Configures all required GPIOs for the linear and angular encoders and the user button. Sets pin modes, pull-downs, and interrupt types. Installs ISR service and attaches handlers to GPIO pins. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.cpu_setup">
 <span class="target" id="main_8c_1a5b74c511125700f64d5e221ec037277c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cpu_setup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.cpu_setup" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Configure CPU power management settings. </p>
+<p>Sets the minimum and maximum CPU clock frequencies to maximum value, and disables light sleep to ensure full performance during operation. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.sensor_tests">
 <span class="target" id="main_8c_1a22a979fedddea9d9cfa7ea5b412831fe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_tests</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_tests" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Runs a full sensor and button test sequence. </p>
+<p>Runs in a separate FreeRTOS task. Guides the user through manual tests for the button, linear encoder, and angular encoder. Waits for user confirmation via UART after each step and logs results. Loops endlessly. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.app_main">
 <span class="target" id="main_8c_1a630544a7f0a2cc40d8a7fefab7e2fe70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">app_main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.app_main" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
+<dd><p>Main entry point for the application. </p>
+<p>Initializes CPU, GPIO, UART, CAN bus, tasks, and semaphores. Starts all system tasks and waits for completion. After tasks finish, cleans up all resources and restarts the device. </p>
+</dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
