@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; total-control MVP-0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=69da2fcb"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Firmware Documentation" href="firmware.html" />
+    <link rel="prev" title="Welcome to total-control’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            total-control
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#inno_control.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.__init__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.connect"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.disconnect"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.__enter__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.__exit__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__exit__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#inno_control.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="firmware.html">Firmware Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.CTRL_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">CTRL_TSK_PRIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.SERIAL_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">SERIAL_TSK_PRIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.SAVER_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">SAVER_TSK_PRIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.TEST_TASK_PRIO"><code class="docutils literal notranslate"><span class="pre">TEST_TASK_PRIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ESP_INTR_FLAG_DEFAULT"><code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_DEFAULT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.TX_GPIO_CAN"><code class="docutils literal notranslate"><span class="pre">TX_GPIO_CAN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.RX_GPIO_CAN"><code class="docutils literal notranslate"><span class="pre">RX_GPIO_CAN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ENC_LINEAR_GPIO_1"><code class="docutils literal notranslate"><span class="pre">ENC_LINEAR_GPIO_1</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ENC_LINEAR_GPIO_2"><code class="docutils literal notranslate"><span class="pre">ENC_LINEAR_GPIO_2</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ENC_ANGULAR_GPIO_A"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_A</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ENC_ANGULAR_GPIO_B"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_B</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ENC_ANGULAR_GPIO_C"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_C</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.BTN_GPIO"><code class="docutils literal notranslate"><span class="pre">BTN_GPIO</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.GPIO_PIN_MASK"><code class="docutils literal notranslate"><span class="pre">GPIO_PIN_MASK</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ANGLE_STEP_SIZE"><code class="docutils literal notranslate"><span class="pre">ANGLE_STEP_SIZE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.MAX_ECNODER_DATA"><code class="docutils literal notranslate"><span class="pre">MAX_ECNODER_DATA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.SAFE_REGION"><code class="docutils literal notranslate"><span class="pre">SAFE_REGION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.INIT_TORQUE"><code class="docutils literal notranslate"><span class="pre">INIT_TORQUE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.REINIT_TORQUE"><code class="docutils literal notranslate"><span class="pre">REINIT_TORQUE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.TXD_PIN"><code class="docutils literal notranslate"><span class="pre">TXD_PIN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.RXD_PIN"><code class="docutils literal notranslate"><span class="pre">RXD_PIN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.UART_PORT"><code class="docutils literal notranslate"><span class="pre">UART_PORT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.BUF_SIZE"><code class="docutils literal notranslate"><span class="pre">BUF_SIZE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.BAUD_RATE"><code class="docutils literal notranslate"><span class="pre">BAUD_RATE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.SERIAL_MS_DELAY"><code class="docutils literal notranslate"><span class="pre">SERIAL_MS_DELAY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.ERROR_TAG"><code class="docutils literal notranslate"><span class="pre">ERROR_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.MAIN_TAG"><code class="docutils literal notranslate"><span class="pre">MAIN_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.DEBUG_TAG"><code class="docutils literal notranslate"><span class="pre">DEBUG_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.SEND_TAG"><code class="docutils literal notranslate"><span class="pre">SEND_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.RECIEVE_TAG"><code class="docutils literal notranslate"><span class="pre">RECIEVE_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.READ_TAG"><code class="docutils literal notranslate"><span class="pre">READ_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.WRITE_TAG"><code class="docutils literal notranslate"><span class="pre">WRITE_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.MOTOR_STOP_COMMAND"><code class="docutils literal notranslate"><span class="pre">MOTOR_STOP_COMMAND</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.READY_STATE_COMMAND"><code class="docutils literal notranslate"><span class="pre">READY_STATE_COMMAND</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.MOTOR_INFO_COMMMAND"><code class="docutils literal notranslate"><span class="pre">MOTOR_INFO_COMMMAND</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.RESET_COMMAND"><code class="docutils literal notranslate"><span class="pre">RESET_COMMAND</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_ready_state"><code class="docutils literal notranslate"><span class="pre">uart_ready_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_get_delay"><code class="docutils literal notranslate"><span class="pre">uart_get_delay()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_get_mode"><code class="docutils literal notranslate"><span class="pre">uart_get_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_oper_state"><code class="docutils literal notranslate"><span class="pre">uart_oper_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_test_btn_state"><code class="docutils literal notranslate"><span class="pre">uart_test_btn_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_test_encoder_state"><code class="docutils literal notranslate"><span class="pre">uart_test_encoder_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_test_angle_state"><code class="docutils literal notranslate"><span class="pre">uart_test_angle_state()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.sensor_info_sender_timer"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_timer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.twai_request"><code class="docutils literal notranslate"><span class="pre">twai_request()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.twai_request_wo_id_check"><code class="docutils literal notranslate"><span class="pre">twai_request_wo_id_check()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.twai_output"><code class="docutils literal notranslate"><span class="pre">twai_output()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.find_my_id"><code class="docutils literal notranslate"><span class="pre">find_my_id()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request"><code class="docutils literal notranslate"><span class="pre">motor_request()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_wo_reply"><code class="docutils literal notranslate"><span class="pre">motor_request_wo_reply()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_stop"><code class="docutils literal notranslate"><span class="pre">motor_request_stop()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_system_reset"><code class="docutils literal notranslate"><span class="pre">motor_request_system_reset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_info"><code class="docutils literal notranslate"><span class="pre">motor_request_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_shutdown"><code class="docutils literal notranslate"><span class="pre">motor_request_shutdown()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_torque"><code class="docutils literal notranslate"><span class="pre">motor_request_torque()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_speed"><code class="docutils literal notranslate"><span class="pre">motor_request_speed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_request_is_connected"><code class="docutils literal notranslate"><span class="pre">motor_request_is_connected()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_control_task"><code class="docutils literal notranslate"><span class="pre">motor_control_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_init_function"><code class="docutils literal notranslate"><span class="pre">motor_init_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_self_saver_task"><code class="docutils literal notranslate"><span class="pre">motor_self_saver_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_init_setup"><code class="docutils literal notranslate"><span class="pre">uart_init_setup()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_event_task"><code class="docutils literal notranslate"><span class="pre">uart_event_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.rtoo"><code class="docutils literal notranslate"><span class="pre">rtoo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.otor"><code class="docutils literal notranslate"><span class="pre">otor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.sensor_info_sender_task"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.gpio_init_setup"><code class="docutils literal notranslate"><span class="pre">gpio_init_setup()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.cpu_setup"><code class="docutils literal notranslate"><span class="pre">cpu_setup()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.sensor_tests"><code class="docutils literal notranslate"><span class="pre">sensor_tests()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.app_main"><code class="docutils literal notranslate"><span class="pre">app_main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.t_config"><code class="docutils literal notranslate"><span class="pre">t_config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.f_config"><code class="docutils literal notranslate"><span class="pre">f_config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.g_config"><code class="docutils literal notranslate"><span class="pre">g_config</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_control_task_start_sem"><code class="docutils literal notranslate"><span class="pre">motor_control_task_start_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.all_done_sem"><code class="docutils literal notranslate"><span class="pre">all_done_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.init_start_sem"><code class="docutils literal notranslate"><span class="pre">init_start_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.init_done_sem"><code class="docutils literal notranslate"><span class="pre">init_done_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.btn_sem"><code class="docutils literal notranslate"><span class="pre">btn_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.move_sem"><code class="docutils literal notranslate"><span class="pre">move_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.smert_sem"><code class="docutils literal notranslate"><span class="pre">smert_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.info_please_sem"><code class="docutils literal notranslate"><span class="pre">info_please_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.test_sem"><code class="docutils literal notranslate"><span class="pre">test_sem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.motor_id"><code class="docutils literal notranslate"><span class="pre">motor_id</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.recieved_packet"><code class="docutils literal notranslate"><span class="pre">recieved_packet</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.encoder_position"><code class="docutils literal notranslate"><span class="pre">encoder_position</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.encoder_position_prev"><code class="docutils literal notranslate"><span class="pre">encoder_position_prev</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.encoder_angle"><code class="docutils literal notranslate"><span class="pre">encoder_angle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.encoder_angle_prev"><code class="docutils literal notranslate"><span class="pre">encoder_angle_prev</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.init_in_progress"><code class="docutils literal notranslate"><span class="pre">init_in_progress</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.not_inited_yet"><code class="docutils literal notranslate"><span class="pre">not_inited_yet</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.in_safe_state"><code class="docutils literal notranslate"><span class="pre">in_safe_state</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uart_state"><code class="docutils literal notranslate"><span class="pre">uart_state</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.sensor_info_sender_delay"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_delay</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.sensor_info_sender_timer_handle"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_timer_handle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.mct_handle"><code class="docutils literal notranslate"><span class="pre">mct_handle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.uet_handle"><code class="docutils literal notranslate"><span class="pre">uet_handle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.msst_handle"><code class="docutils literal notranslate"><span class="pre">msst_handle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.sist_handle"><code class="docutils literal notranslate"><span class="pre">sist_handle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.stt_handle"><code class="docutils literal notranslate"><span class="pre">stt_handle</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="firmware.html#c.tested"><code class="docutils literal notranslate"><span class="pre">tested</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">total-control</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-inno_control">
+<span id="api-reference"></span><h1>API Reference<a class="headerlink" href="#module-inno_control" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="inno_control.LabDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inno_control.</span></span><span class="sig-name descname"><span class="pre">LabDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for laboratory equipment communication via serial interface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>port</strong> (<em>str</em>)</p></li>
+<li><p><strong>baudrate</strong> (<em>int</em>)</p></li>
+<li><p><strong>timeout</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.LabDevice.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the lab device connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>port</strong> (<em>str</em>) – Serial port name (e.g., ‘COM3’ on Windows or ‘/dev/ttyUSB0’ on Linux)</p></li>
+<li><p><strong>baudrate</strong> (<em>int</em>) – Communication speed in bits per second (default: 9600)</p></li>
+<li><p><strong>timeout</strong> (<em>float</em>) – Read timeout in seconds (default: 1.0)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.LabDevice.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">do_init_activity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.connect" title="Link to this definition"></a></dt>
+<dd><p>Establish connection with the lab device</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.LabDevice.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.disconnect" title="Link to this definition"></a></dt>
+<dd><p>Safely close the device connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.LabDevice.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.__enter__" title="Link to this definition"></a></dt>
+<dd><p>Context manager entry point</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.LabDevice.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.__exit__" title="Link to this definition"></a></dt>
+<dd><p>Context manager exit point</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="inno_control.CartPole">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inno_control.</span></span><span class="sig-name descname"><span class="pre">CartPole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#inno_control.LabDevice" title="inno_control.devices.lab_device.LabDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabDevice</span></code></a></p>
+<p>Class for entire Cart-Pole work</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>port</strong> (<em>str</em>)</p></li>
+<li><p><strong>baudrate</strong> (<em>int</em>)</p></li>
+<li><p><strong>timeout</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.CartPole.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the lab device connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>port</strong> (<em>str</em>) – Serial port name (e.g., ‘COM3’ on Windows or ‘/dev/ttyUSB0’ on Linux)</p></li>
+<li><p><strong>baudrate</strong> (<em>int</em>) – Communication speed in bits per second (default: 9600)</p></li>
+<li><p><strong>timeout</strong> (<em>float</em>) – Read timeout in seconds (default: 1.0)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.CartPole.start_experimnet">
+<span class="sig-name descname"><span class="pre">start_experimnet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.start_experimnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.start_experimnet" title="Link to this definition"></a></dt>
+<dd><p>Starting experement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.CartPole.get_state">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.get_state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.CartPole.get_joint_state">
+<span class="sig-name descname"><span class="pre">get_joint_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.get_joint_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.get_joint_state" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.CartPole.stop_experiment">
+<span class="sig-name descname"><span class="pre">stop_experiment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.stop_experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.stop_experiment" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.CartPole.set_joint_efforts">
+<span class="sig-name descname"><span class="pre">set_joint_efforts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">effort</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.set_joint_efforts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.set_joint_efforts" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>effort</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to total-control’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="firmware.html" class="btn btn-neutral float-right" title="Firmware Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dungeon team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
