@@ -24,6 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
+        apt-get install -y doxygen graphviz
         pip install -e ./inno_control
         
     - name: Build documentation
