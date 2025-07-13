@@ -16,6 +16,7 @@
       <script src="_static/documentation_options.js?v=69da2fcb"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -45,21 +46,32 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#inno_control.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.__init__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.connect"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.disconnect"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.__enter__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__enter__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.LabDevice.__exit__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__exit__()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#labdevice">LabDevice</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.devices.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice._port"><code class="docutils literal notranslate"><span class="pre">LabDevice._port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice._baudrate"><code class="docutils literal notranslate"><span class="pre">LabDevice._baudrate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice._timeout"><code class="docutils literal notranslate"><span class="pre">LabDevice._timeout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice._connection"><code class="docutils literal notranslate"><span class="pre">LabDevice._connection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice.__init__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice.connect"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice.disconnect"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice.__enter__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__enter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.LabDevice.__exit__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__exit__()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#inno_control.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#inno_control.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cart-pole-system">Cart-Pole System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inno_control.devices.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole._state"><code class="docutils literal notranslate"><span class="pre">CartPole._state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inno_control.devices.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -192,13 +204,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-inno_control">
-<span id="api-reference"></span><h1>API Reference<a class="headerlink" href="#module-inno_control" title="Link to this heading"></a></h1>
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This API reference provides detailed information about the classes and methods available
+in the <cite>inno_control</cite> library.</p>
+<p>The library is designed for communicating with laboratory control systems and physical devices
+such as the classic Cart-Pole benchmark system. It provides:</p>
+<ul class="simple">
+<li><p><strong>LabDevice</strong> — a base class for serial device communication.</p></li>
+<li><p><strong>CartPole</strong> — a specific implementation for an inverted pendulum on a cart.</p></li>
+</ul>
+<p>Below are the available classes with their methods and detailed docstrings.</p>
+<section id="labdevice">
+<h2>LabDevice<a class="headerlink" href="#labdevice" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="inno_control.LabDevice">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inno_control.</span></span><span class="sig-name descname"><span class="pre">LabDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inno_control.devices.</span></span><span class="sig-name descname"><span class="pre">LabDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.LabDevice" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Base class for laboratory equipment communication via serial interface</p>
+<p>Base class for laboratory equipment communication via a serial interface.</p>
+<p>This class defines a generic interface to connect to any lab device (e.g., a motor controller, sensor board, or actuator)
+that communicates using a serial port. It provides core methods for connecting, disconnecting, sending commands,
+and reading responses. Specific devices should extend this base class and implement any custom initialization logic
+in <cite>_initialize_device</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -208,25 +235,75 @@
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="inno_control.LabDevice.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initialize the lab device connection</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice._port">
+<span class="sig-name descname"><span class="pre">_port</span></span><a class="headerlink" href="#inno_control.devices.LabDevice._port" title="Link to this definition"></a></dt>
+<dd><p>Serial port used to connect to the device.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port</strong> (<em>str</em>) – Serial port name (e.g., ‘COM3’ on Windows or ‘/dev/ttyUSB0’ on Linux)</p></li>
-<li><p><strong>baudrate</strong> (<em>int</em>) – Communication speed in bits per second (default: 9600)</p></li>
-<li><p><strong>timeout</strong> (<em>float</em>) – Read timeout in seconds (default: 1.0)</p></li>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice._baudrate">
+<span class="sig-name descname"><span class="pre">_baudrate</span></span><a class="headerlink" href="#inno_control.devices.LabDevice._baudrate" title="Link to this definition"></a></dt>
+<dd><p>Communication speed in baud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice._timeout">
+<span class="sig-name descname"><span class="pre">_timeout</span></span><a class="headerlink" href="#inno_control.devices.LabDevice._timeout" title="Link to this definition"></a></dt>
+<dd><p>Timeout for serial operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice._connection">
+<span class="sig-name descname"><span class="pre">_connection</span></span><a class="headerlink" href="#inno_control.devices.LabDevice._connection" title="Link to this definition"></a></dt>
+<dd><p>Active serial connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>serial.Serial</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">115200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.LabDevice.__init__" title="Link to this definition"></a></dt>
+<dd><p>Establish the serial connection with the lab device.</p>
+<p>Opens the serial port with the specified configuration and calls
+<cite>_initialize_device</cite> to perform any device-specific setup after connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DeviceConnectionError</strong> – If the serial port cannot be opened.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>port</strong> (<em>str</em>)</p></li>
+<li><p><strong>baudrate</strong> (<em>int</em>)</p></li>
+<li><p><strong>timeout</strong> (<em>float</em>)</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="inno_control.LabDevice.connect">
-<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.connect" title="Link to this definition"></a></dt>
-<dd><p>Establish connection with the lab device</p>
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.LabDevice.connect" title="Link to this definition"></a></dt>
+<dd><p>Close the serial connection safely.</p>
+<p>Closes the serial port if it is open and clears the connection attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -235,9 +312,10 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="inno_control.LabDevice.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.disconnect" title="Link to this definition"></a></dt>
-<dd><p>Safely close the device connection</p>
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.LabDevice.disconnect" title="Link to this definition"></a></dt>
+<dd><p>Close the serial connection safely.</p>
+<p>Closes the serial port if it is open and clears the connection attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -246,24 +324,62 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="inno_control.LabDevice.__enter__">
-<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.__enter__" title="Link to this definition"></a></dt>
-<dd><p>Context manager entry point</p>
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.LabDevice.__enter__" title="Link to this definition"></a></dt>
+<dd><p>Enter the context manager, automatically connecting the device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The connected device instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#inno_control.devices.LabDevice" title="inno_control.devices.LabDevice">LabDevice</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="inno_control.LabDevice.__exit__">
-<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.LabDevice.__exit__" title="Link to this definition"></a></dt>
-<dd><p>Context manager exit point</p>
+<dt class="sig sig-object py" id="inno_control.devices.LabDevice.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/lab_device.html#LabDevice.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.LabDevice.__exit__" title="Link to this definition"></a></dt>
+<dd><p>Exit the context manager, automatically disconnecting the device.</p>
+<p>Ensures the serial connection is safely closed even if an exception occurs.</p>
 </dd></dl>
 
 </dd></dl>
 
+</section>
+<section id="cart-pole-system">
+<h2>Cart-Pole System<a class="headerlink" href="#cart-pole-system" title="Link to this heading"></a></h2>
+<p>The <strong>Cart-Pole</strong> is a classic non-linear control benchmark. It models an inverted pendulum mounted
+on a motorized cart that can move horizontally. The control objective is to apply forces to the cart
+so that the pendulum remains upright.</p>
+<p>The equations of motion are derived from Newton’s second law and the Lagrangian method:</p>
+<div class="math notranslate nohighlight">
+\[(M + m) \ddot{x} + m l \ddot{\theta} \cos \theta - m l \dot{\theta}^2 \sin \theta = F\]</div>
+<div class="math notranslate nohighlight">
+\[I \ddot{\theta} + m l \ddot{x} \cos \theta + m g l \sin \theta = 0\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span> is the horizontal position of the cart,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span> is the angle of the pendulum from vertical,</p></li>
+<li><p><span class="math notranslate nohighlight">\(M\)</span> is the mass of the cart,</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span> is the mass of the pendulum,</p></li>
+<li><p><span class="math notranslate nohighlight">\(l\)</span> is the distance to the pendulum center of mass,</p></li>
+<li><p><span class="math notranslate nohighlight">\(I\)</span> is the moment of inertia of the pendulum about its center of mass,</p></li>
+<li><p><span class="math notranslate nohighlight">\(F\)</span> is the horizontal force applied to the cart,</p></li>
+<li><p><span class="math notranslate nohighlight">\(g\)</span> is the acceleration due to gravity.</p></li>
+</ul>
+<p>The Cart-Pole system is inherently unstable and is a popular testbed for advanced control algorithms
+such as LQR, swing-up control, and reinforcement learning.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="inno_control.CartPole">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inno_control.</span></span><span class="sig-name descname"><span class="pre">CartPole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#inno_control.LabDevice" title="inno_control.devices.lab_device.LabDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabDevice</span></code></a></p>
-<p>Class for entire Cart-Pole work</p>
+<dt class="sig sig-object py" id="inno_control.devices.CartPole">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">inno_control.devices.</span></span><span class="sig-name descname"><span class="pre">CartPole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#inno_control.devices.LabDevice" title="inno_control.devices.lab_device.LabDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabDevice</span></code></a></p>
+<p>Interface for controlling and reading from a physical Cart-Pole system via an ESP32 device.</p>
+<p>This class allows you to initialize, start, stop, and control a real inverted pendulum on a cart.
+It communicates via serial port, sending commands to the onboard controller which drives the cart motor
+to balance the pendulum upright by applying horizontal forces.</p>
+<p>The Cart-Pole is a classic non-linear control benchmark: the goal is to keep the pendulum in unstable equilibrium
+by continuously adjusting the cart position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -273,63 +389,42 @@
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="inno_control.devices.CartPole._state">
+<span class="sig-name descname"><span class="pre">_state</span></span><a class="headerlink" href="#inno_control.devices.CartPole._state" title="Link to this definition"></a></dt>
+<dd><p>Current state of the system, can be ‘UNKNOWN’, ‘READY’, or ‘STARTED’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="inno_control.CartPole.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initialize the lab device connection</p>
+<dt class="sig sig-object py" id="inno_control.devices.CartPole.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">921600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole.__init__" title="Link to this definition"></a></dt>
+<dd><p>Create a new CartPole device interface.</p>
+<p>Opens a serial connection to the ESP32 device that controls the cart motor and reads sensor data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>port</strong> (<em>str</em>) – Serial port name (e.g., ‘COM3’ on Windows or ‘/dev/ttyUSB0’ on Linux)</p></li>
-<li><p><strong>baudrate</strong> (<em>int</em>) – Communication speed in bits per second (default: 9600)</p></li>
-<li><p><strong>timeout</strong> (<em>float</em>) – Read timeout in seconds (default: 1.0)</p></li>
+<li><p><strong>port</strong> (<em>str</em>) – Serial port (e.g., ‘/dev/ttyUSB0’, ‘COM3’).</p></li>
+<li><p><strong>baudrate</strong> (<em>int</em><em>, </em><em>optional</em>) – Serial communication speed in baud. Defaults to 921600.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Timeout for serial reads/writes in seconds. Defaults to 1.0.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="inno_control.CartPole.start_experimnet">
-<span class="sig-name descname"><span class="pre">start_experimnet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.start_experimnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.start_experimnet" title="Link to this definition"></a></dt>
-<dd><p>Starting experement</p>
+<dt class="sig sig-object py" id="inno_control.devices.CartPole.start_experimnet">
+<span class="sig-name descname"><span class="pre">start_experimnet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.start_experimnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole.start_experimnet" title="Link to this definition"></a></dt>
+<dd><p>Begin the balancing experiment.</p>
+<p>This method puts the system into active balancing mode, where the motor controller
+will apply control efforts to keep the pendulum upright.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="inno_control.CartPole.get_state">
-<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.get_state" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="inno_control.CartPole.get_joint_state">
-<span class="sig-name descname"><span class="pre">get_joint_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.get_joint_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.get_joint_state" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="inno_control.CartPole.stop_experiment">
-<span class="sig-name descname"><span class="pre">stop_experiment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.stop_experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.stop_experiment" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="inno_control.CartPole.set_joint_efforts">
-<span class="sig-name descname"><span class="pre">set_joint_efforts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">effort</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.set_joint_efforts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.CartPole.set_joint_efforts" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>effort</strong> (<em>str</em>)</p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DeviceCommandError</strong> – If the system does not confirm that balancing has started.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -337,8 +432,78 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.devices.CartPole.get_state">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole.get_state" title="Link to this definition"></a></dt>
+<dd><p>Get the current state of the Cart-Pole device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Current system state: ‘UNKNOWN’, ‘READY’, or ‘STARTED’.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.devices.CartPole.get_joint_state">
+<span class="sig-name descname"><span class="pre">get_joint_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.get_joint_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole.get_joint_state" title="Link to this definition"></a></dt>
+<dd><p>Read the current physical state of the cart and pole.</p>
+<p>When the experiment is running, this reads data such as the cart position,
+velocity, pendulum angle, and angular velocity from the onboard sensors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Raw sensor data as received from the ESP32.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DeviceCommandError</strong> – If called when the system is not running.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.devices.CartPole.stop_experiment">
+<span class="sig-name descname"><span class="pre">stop_experiment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.stop_experiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole.stop_experiment" title="Link to this definition"></a></dt>
+<dd><p>Stop the balancing experiment and switch the system back to idle.</p>
+<p>This sends a command to stop applying control forces and returns the system
+to a safe idle state. It verifies that the system acknowledges the mode change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>DeviceCommandError</strong> – If the system fails to return to ‘READY’ mode.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inno_control.devices.CartPole.set_joint_efforts">
+<span class="sig-name descname"><span class="pre">set_joint_efforts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">effort</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/inno_control/devices/cart_pole.html#CartPole.set_joint_efforts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inno_control.devices.CartPole.set_joint_efforts" title="Link to this definition"></a></dt>
+<dd><p>Send a control effort command to the cart motor.</p>
+<p>This lets you directly set the motor control effort or apply a specific force,
+for example, to test responses or run custom controllers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>effort</strong> (<em>str</em>) – Effort command string (e.g., ‘EFFORT=0.2’). The format must match
+what the device firmware expects.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>DeviceCommandError</strong> – If the effort command cannot be sent.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 

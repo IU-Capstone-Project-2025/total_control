@@ -20,10 +20,6 @@
     <link rel="search" title="Search" href="search.html" />
  
 
-    <script>
-      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
-    </script>
-
 
 </head>
 
@@ -50,6 +46,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#inno_control.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice._port"><code class="docutils literal notranslate"><span class="pre">LabDevice._port</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice._baudrate"><code class="docutils literal notranslate"><span class="pre">LabDevice._baudrate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice._timeout"><code class="docutils literal notranslate"><span class="pre">LabDevice._timeout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice._connection"><code class="docutils literal notranslate"><span class="pre">LabDevice._connection</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.__init__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.connect"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.disconnect"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
@@ -58,12 +58,57 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#inno_control.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole._state"><code class="docutils literal notranslate"><span class="pre">CartPole._state</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#inno_control.devices.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice._port"><code class="docutils literal notranslate"><span class="pre">LabDevice._port</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice._baudrate"><code class="docutils literal notranslate"><span class="pre">LabDevice._baudrate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice._timeout"><code class="docutils literal notranslate"><span class="pre">LabDevice._timeout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice._connection"><code class="docutils literal notranslate"><span class="pre">LabDevice._connection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice.__init__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice.connect"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice.disconnect"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice.__enter__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice.__exit__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__exit__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#inno_control.devices.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole._state"><code class="docutils literal notranslate"><span class="pre">CartPole._state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id0"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id1"><code class="docutils literal notranslate"><span class="pre">LabDevice._port</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id2"><code class="docutils literal notranslate"><span class="pre">LabDevice._baudrate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id3"><code class="docutils literal notranslate"><span class="pre">LabDevice._timeout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id4"><code class="docutils literal notranslate"><span class="pre">LabDevice._connection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id5"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id6"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id7"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id8"><code class="docutils literal notranslate"><span class="pre">LabDevice.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id9"><code class="docutils literal notranslate"><span class="pre">LabDevice.__exit__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id10"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id11"><code class="docutils literal notranslate"><span class="pre">CartPole._state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id12"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id13"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id14"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id15"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id16"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id17"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -207,9 +252,15 @@
      <tr class="cap" id="cap-i"><td></td><td>
        <strong>i</strong></td><td></td></tr>
      <tr>
-       <td></td>
+       <td><img src="_static/minus.png" class="toggler"
+              id="toggle-1" style="display: none" alt="-" /></td>
        <td>
        <a href="api.html#module-inno_control"><code class="xref">inno_control</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="api.html#module-inno_control.devices"><code class="xref">inno_control.devices</code></a></td><td>
        <em></em></td></tr>
    </table>
 
