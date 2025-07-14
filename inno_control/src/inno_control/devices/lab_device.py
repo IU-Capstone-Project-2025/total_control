@@ -29,9 +29,6 @@ class LabDevice:
                 timeout=self._timeout
             )
 
-            while self._connection.in_waiting:
-                self._flush()
-
             # Device-specific initialization
             if do_init_activity:
                 self._initialize_device()

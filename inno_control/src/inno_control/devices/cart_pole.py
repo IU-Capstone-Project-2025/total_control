@@ -21,6 +21,9 @@ class CartPole(LabDevice):
         try:
             
             self._restart_device()
+
+            while self._connection.in_waiting:
+                self._flush()
             
             self._check_response(self._send_command("MOTOR_INIT", read_response=True), 'Initializing motor')
             print('Waiting for initialization of CartPole')

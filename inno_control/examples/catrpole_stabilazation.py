@@ -13,13 +13,8 @@ else:
 
 device.connect(do_init_activity = True)
 
-max_force = 100
+max_force = 110
 
-lenght_ticks = 6251 * 2
-lenght_meters = 0.472
-lenght_coeff = lenght_meters / lenght_ticks
-
-angle_offset = 173
 
 # ----------------------------------  theoretical control  ----------------------------------
 
@@ -63,13 +58,15 @@ def LQR():
 
 LQR()
 
+# K = np.array([[-15, 0, 0.25, 0]])
+
 def control_with_out_observer(x):
-    u = -K @ x
-    f = np.sign(u) 
-    return min(max(50 * f + u, -max_force), max_force) 
+    u = (-K @ x)[0] / 3
+    # f = np.sign(u) 
+    return min(max(u, -max_force), max_force) 
 
 
-# print(K)
+print(K)
 
 # ----------------------------------  experiment  ----------------------------------
 
@@ -82,20 +79,16 @@ while True:
         res = device.get_joint_state()
         if res:
             res = res.split()
-            
-            theta = float(res[0]) / 360 * 2 * np.pi - 1.7
-            if theta > np.pi:
-                theta = np.pi * 2 - theta
-            elif theta < -np.pi:
-                theta = np.pi * 2 + theta
 
-            # print(theta)
-            theta_dot = float(res[1]) / 360 * 2 * np.pi
-            p = int(res[2]) * lenght_coeff
-            p_dot = int(res[3]) * lenght_coeff
+            theta = float(res[0])       / 180 * np.pi  
+            theta_dot = float(res[1])   / 180 * np.pi
+            p = float(res[2])            
+            p_dot = float(res[3])       
 
-            # print(control_with_out_observer(np.array([theta, theta_dot, p, p_dot])))
-            device.set_joint_efforts(control_with_out_observer(np.array([theta, theta_dot, p, p_dot])))
+            u = control_with_out_observer(np.array([theta, theta_dot, p, p_dot]))
+
+            print(u)
+            device.set_joint_efforts(u)
             
 
     except (Exception) as e:

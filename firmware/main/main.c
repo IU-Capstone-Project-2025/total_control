@@ -56,6 +56,7 @@
 #define GPIO_PIN_MASK(PIN)          (1ULL<<PIN)         ///< Bitmask helper
 
 /* System parameters */ 
+#define DEGREE_TO_RADIAN_COEF       0.01745             ///< Angle_degree * DEGREE_TO_RADIAN_COEF = Angle_radian
 #define ANGLE_STEP_SIZE             0.08789             ///< Degrees per angle encoder tick
 #define POSITION_STEP_SIZE          0.03945             ///< Milimeters per positional encoder tick
 #define MAX_LINEAR_ECNODER_VALUE    480                 ///< Max linear encoder value
@@ -83,6 +84,7 @@
 #define READY_STATE_COMMAND         1000001             ///< Transition to ready state
 #define MOTOR_INFO_COMMMAND         1000002             ///< Request motor info
 #define RESET_COMMAND               1000003             ///< System reset command
+
 
 // #define DEBUG                    0                   ///< Debug mode flag (uncomment for debug)
 
@@ -120,8 +122,8 @@ static void (*motor_operate) (uint32_t) = motor_operate_by_torque;
 
 /* Sensor state */
 static volatile double current_encoder_position;
+static volatile double current_encoder_angle = 179.93;
 static double previous_encoder_position;
-static volatile double current_encoder_angle = -83;
 static double previous_encoder_angle;
 
 /* System state flags */
@@ -736,9 +738,20 @@ void sensor_info_sender_task(){
     while (1){
         xSemaphoreTake(sensor_data_request_semaphore, portMAX_DELAY);
         double linear_velocity = (current_encoder_position - previous_encoder_position) * 1000 / sensor_timer_delay;
-        double angular_velocity = (current_encoder_angle - previous_encoder_angle) * 1000 / sensor_timer_delay;
-        previous_encoder_angle = current_encoder_angle;
         previous_encoder_position = current_encoder_position;
+        
+        double angular_velocity = ((int) (current_encoder_angle - previous_encoder_angle) % 360) * 1000 / sensor_timer_delay;
+        if (current_encoder_angle > 180){
+            current_encoder_angle = -360 + current_encoder_angle;
+        } else if (current_encoder_angle < -180){
+            current_encoder_angle = 360 + current_encoder_angle;
+        } 
+        
+        previous_encoder_angle = current_encoder_angle;
+        
+        
+
+        
 
         if (system_in_safe_state){
             printf("%.3f %.3f %.3f %.3f\n", current_encoder_angle, angular_velocity, current_encoder_position, linear_velocity);
@@ -782,7 +795,7 @@ static void IRAM_ATTR linear_encoder_isr(void* arg)
  */
 static void IRAM_ATTR angular_encoder_isr(void* arg)
 {
-    current_encoder_angle -= ANGLE_STEP_SIZE * (1 - gpio_get_level(ANGULAR_ENCODER_GPIO_A) * 2);
+    current_encoder_angle += ANGLE_STEP_SIZE * (1 - gpio_get_level(ANGULAR_ENCODER_GPIO_A) * 2);
 }
 
 
@@ -795,7 +808,7 @@ static void IRAM_ATTR angular_encoder_isr(void* arg)
  */
 static void IRAM_ATTR angular_zero_isr(void* arg)
 {
-    current_encoder_angle = 0;
+    current_encoder_angle = 95.626;
 }
 
 
