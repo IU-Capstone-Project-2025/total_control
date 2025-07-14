@@ -56,11 +56,12 @@
 #define GPIO_PIN_MASK(PIN)          (1ULL<<PIN)         ///< Bitmask helper
 
 /* System parameters */ 
-#define ANGLE_STEP_SIZE             0.08789             ///< Degrees per encoder tick
-#define MAX_LINEAR_ECNODER_VALUE    12213               ///< Max linear encoder value
-#define SAFE_REGION_MARGIN          1500                //< Safety margin from limits
-#define INITIALIZATION_TORQUE       75                  ///< Initialization torque value
-#define REINITIALIZATION_TORQUE     70                  ///< Re-initialization torque value
+#define ANGLE_STEP_SIZE             0.08789             ///< Degrees per angle encoder tick
+#define POSITION_STEP_SIZE          0.03945             ///< Milimeters per positional encoder tick
+#define MAX_LINEAR_ECNODER_VALUE    480                 ///< Max linear encoder value
+#define SAFE_REGION_MARGIN          50                  ///< Safety margin from limits
+#define INITIALIZATION_SPPED        600                 ///< Initialization torque value
+#define POSITIONAL_MOTOR_SPEED      2500                ///< Software limit for motor speed
 
 /* UART configuration */    
 #define UART_PORT_NUMBER            UART_NUM_0          ///< UART port number
@@ -86,6 +87,7 @@
 // #define DEBUG                    0                   ///< Debug mode flag (uncomment for debug)
 
 
+
 /* --------------------- Static variables ------------------ */
 
 /* CAN driver configurations */
@@ -108,33 +110,40 @@ static uint32_t motor_can_id = 0x141;
 /* Communication buffers */
 static int64_t uart_recieved_packet;
 
+/* Motor comunication function */
+static void motor_operate_by_torque(uint32_t torque);
+static void motor_operate_by_speed(uint32_t speed);
+static void motor_operate_by_position(uint32_t position);
+
+static void (*motor_operate) (uint32_t) = motor_operate_by_torque;
+
 
 /* Sensor state */
-volatile int16_t current_encoder_position;
-volatile int16_t previous_encoder_position;
-volatile double current_encoder_angle = -83;
-volatile double previous_encoder_angle;
+static volatile double current_encoder_position;
+static double previous_encoder_position;
+static volatile double current_encoder_angle = -83;
+static double previous_encoder_angle;
 
 /* System state flags */
-volatile bool initialization_in_progress = false;
+static bool initialization_in_progress = false;
 static bool not_initiazatied_yet = true;
 static bool system_in_safe_state = true;
 
 /* UART state machine function pointers */
-void uart_ready_state(char* data);
-void uart_operational_state(char* data);
-void uart_set_sender_delay(char* data);
-void uart_set_motor_drive_mode(char* data);
-void uart_test_button (char* data);
-void uart_test_encoder (char* data);
-void uart_test_angle (char* data);
+static void uart_ready_state(char* data);
+static void uart_operational_state(char* data);
+static void uart_set_sender_delay(char* data);
+static void uart_set_motor_drive_mode(char* data);
+static void uart_test_button (char* data);
+static void uart_test_encoder (char* data);
+static void uart_test_angle (char* data);
 
 static void (*uart_state)(char*) = uart_ready_state; 
 
 /* Sensor reporting */
 static uint16_t sensor_timer_delay = UART_DEFAULT_SEND_DELAY;
-TimerHandle_t sensor_timer_handle;
-void sensor_timer_callback();
+static TimerHandle_t sensor_timer_handle;
+static void sensor_timer_callback();
 
 /* Task handles */
 static TaskHandle_t motor_control_task_handle;
@@ -247,6 +256,8 @@ static void find_motor_id()
 }
 
 
+
+
 /* --------------------------- Motor Control Functions -------------------------- */
 
 
@@ -308,6 +319,25 @@ static void send_motor_command_without_reply(uint8_t d0, uint8_t d1, uint8_t d2,
     twai_transaction_without_id_check(&tx_message, &rx_message);
 }
 
+/**
+ * @brief Perform motor controller reset
+ */
+static void send_motor_command_system_reset()
+{
+    send_motor_command_without_reply(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+    vTaskDelay(pdMS_TO_TICKS(1000));
+}
+
+
+/**
+ * @brief Sets absolute motor position as zero
+ */
+static void send_motor_command_zero()
+{
+    send_motor_command_without_reply(0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
+    send_motor_command_system_reset();
+}
+
 
 /**
  * @brief Stop motor immediately and shutdown
@@ -316,16 +346,6 @@ static void send_motor_command_stop()
 {
     send_motor_command(0x81, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
     send_motor_command(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);   
-}
-
-
-/**
- * @brief Perform motor controller reset
- */
-static void send_motor_command_system_reset()
-{
-    send_motor_command_without_reply(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-    vTaskDelay(pdMS_TO_TICKS(1000));
 }
 
 
@@ -339,29 +359,6 @@ static void send_motor_command_status()
 
 
 /**
- * @brief Set motor torque
- * 
- * @param torque_value Torque value (-1000 to 1000)
- */
-static void send_motor_command_torque(int16_t tau)
-{
-    send_motor_command(0xA1, 0x00, 0x00, 0x00, (uint8_t) (-tau), (uint8_t) (-tau >> 8), 0x00, 0x00);   
-}
-
-
-/**
- * @brief Set motor speed
- * 
- * @param speed_value Speed value in RPM
- */
-static void send_motor_command_speed(int32_t vel)
-{
-    vel *= 100;
-    send_motor_command(0xA2, 0x00, 0x00, 0x00, (uint8_t) (vel), (uint8_t) (vel >> 8),  (uint8_t) (vel >> 16),  (uint8_t) (vel >> 24));  
-}
-
-
-/**
  * @brief Check motor communication
  * 
  * @return true if motor responds
@@ -369,6 +366,22 @@ static void send_motor_command_speed(int32_t vel)
  */
 static bool send_motor_command_is_connected(){
     return send_motor_command(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+}
+
+
+
+static void motor_operate_by_torque(uint32_t torque){
+    send_motor_command(0xA1, 0x00, 0x00, 0x00, (uint8_t) (-torque), (uint8_t) (-torque >> 8), 0x00, 0x00);
+}
+
+static void motor_operate_by_speed(uint32_t speed){
+    speed = speed * -100;
+    send_motor_command(0xA2, 0x00, 0x00, 0x00, (uint8_t) (speed), (uint8_t) (speed >> 8),  (uint8_t) (speed >> 16),  (uint8_t) (speed >> 24));  
+}
+
+static void motor_operate_by_position(uint32_t position){
+    position /= 100;
+    send_motor_command(0xA4, 0x00, (uint8_t) (POSITIONAL_MOTOR_SPEED * 25), (uint8_t)  ((POSITIONAL_MOTOR_SPEED * 25) >> 8), (uint8_t) (-position), (uint8_t) (-position >> 8),  (uint8_t) (-position >> 16),  (uint8_t) (-position >> 24));  
 }
 
 
@@ -389,7 +402,7 @@ static void motor_control_task(void *arg)
     
     while(1){
         xSemaphoreTake(motor_command_semaphore, portMAX_DELAY);
-        send_motor_command_torque(uart_recieved_packet);
+        motor_operate(uart_recieved_packet);
     }
     
 }
@@ -407,15 +420,11 @@ static void motor_control_task(void *arg)
 static void motor_init_function()
 {
 
-    int16_t initialization_torque = INITIALIZATION_TORQUE;
-    if (!not_initiazatied_yet){
-        initialization_torque = REINITIALIZATION_TORQUE;
-    }
     send_motor_command_stop();
     initialization_in_progress = true;
     ESP_LOGI(MAIN_LOG_TAG, "Initializing motor");
     xSemaphoreTake(button_press_semaphore, 0);
-    send_motor_command_torque(-initialization_torque);
+    motor_operate_by_speed(-INITIALIZATION_SPPED);
     
     xSemaphoreTake(button_press_semaphore, pdMS_TO_TICKS(5000));
 
@@ -425,7 +434,7 @@ static void motor_init_function()
     
     send_motor_command_stop();
     current_encoder_position = 0;
-    send_motor_command_torque(initialization_torque);
+    motor_operate_by_speed(INITIALIZATION_SPPED);
 
     int64_t time = esp_timer_get_time()/1000;
     while (current_encoder_position < MAX_LINEAR_ECNODER_VALUE / 2){
@@ -444,6 +453,7 @@ static void motor_init_function()
         xSemaphoreGive(initialization_done_semaphore);
     }
     initialization_in_progress = false;
+    send_motor_command_zero();
     ESP_LOGI(MAIN_LOG_TAG, "Initialize ended");
 }
 
@@ -616,7 +626,7 @@ void uart_ready_state(char* data)
     } 
 
     else if (strstr((const char *)data, "ENCODER_POSITION")) {
-        ESP_LOGI(TO_PC_LOG_TAG, "Position is %d", current_encoder_position);
+        ESP_LOGI(TO_PC_LOG_TAG, "Position is %f", current_encoder_position);
     } else if (strstr((const char *)data, "ENCODER_ANGLE")) {
         ESP_LOGI(TO_PC_LOG_TAG, "Angle is %f", current_encoder_angle);
     } 
@@ -642,10 +652,17 @@ void uart_ready_state(char* data)
  */
 void uart_set_motor_drive_mode(char* data){ // TODO
     if (strstr((const char *)data, "TORQUE")){
+        motor_operate = motor_operate_by_torque;
         ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to torque control mode");
     } else if (strstr((const char *)data, "SPEED")){
+        motor_operate = motor_operate_by_speed;
         ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to speed control mode");
     } else if (strstr((const char *)data, "POSITION")){
+        if (not_initiazatied_yet) {
+            ESP_LOGE(ERROR_LOG_TAG, "Motor should be initialized for this behaviour");
+            return;
+        }
+        motor_operate = motor_operate_by_position;
         ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to position control mode");
     } else {
         ESP_LOGE(ERROR_LOG_TAG, "Undefined behaviour");
@@ -718,13 +735,13 @@ void uart_operational_state(char* data)
 void sensor_info_sender_task(){
     while (1){
         xSemaphoreTake(sensor_data_request_semaphore, portMAX_DELAY);
-        int32_t linear_velocity = (current_encoder_position - previous_encoder_position) * 1000 / sensor_timer_delay;
+        double linear_velocity = (current_encoder_position - previous_encoder_position) * 1000 / sensor_timer_delay;
         double angular_velocity = (current_encoder_angle - previous_encoder_angle) * 1000 / sensor_timer_delay;
         previous_encoder_angle = current_encoder_angle;
         previous_encoder_position = current_encoder_position;
 
         if (system_in_safe_state){
-            printf("%f %f %d %ld\n", current_encoder_angle, angular_velocity, current_encoder_position, linear_velocity);
+            printf("%.3f %.3f %.3f %.3f\n", current_encoder_angle, angular_velocity, current_encoder_position, linear_velocity);
         }
     }
 }
@@ -752,7 +769,7 @@ void sensor_timer_callback(){
  */
 static void IRAM_ATTR linear_encoder_isr(void* arg)
 {
-    current_encoder_position += (gpio_get_level(LINEAR_ENCODER_GPIO_A) != gpio_get_level(LINEAR_ENCODER_GPIO_B)) ? 1 : -1;
+    current_encoder_position += POSITION_STEP_SIZE * ((gpio_get_level(LINEAR_ENCODER_GPIO_A) != gpio_get_level(LINEAR_ENCODER_GPIO_B)) ? 1 : -1);
 }
 
 
