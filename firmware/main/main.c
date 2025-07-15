@@ -614,7 +614,7 @@ void uart_ready_state(char* data)
         uart_state = uart_set_motor_drive_mode;
     } else if (strstr((const char *)data, "MOTOR_FIND")) {
         find_motor_id();
-    } else if (strstr((const char *)data, "MOTOR_RESET")) {
+    } else if (strstr((const char *)data, "MOTOR_RESET") || strstr((const char *)data, "1000003")) {
         send_motor_command_system_reset();
     } else if (strstr((const char *)data, "MOTOR_INFO")) {
         send_motor_command_status();

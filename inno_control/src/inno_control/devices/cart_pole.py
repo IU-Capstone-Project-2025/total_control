@@ -37,7 +37,9 @@ class CartPole(LabDevice):
         
 
 
-
+    def re_init(self):
+        self._initialize_device()
+        self.start_experimnet()
 
     def _check_response(self, response, expected_response) -> None:
         if not response:
@@ -93,7 +95,7 @@ class CartPole(LabDevice):
             print('Stoping...')
 
                 
-    def restart(self) -> None:     
+    def _restart(self) -> None:     
         if self._state == "OPER": 
             self._send_command("1000001")
             print('Stoping...')

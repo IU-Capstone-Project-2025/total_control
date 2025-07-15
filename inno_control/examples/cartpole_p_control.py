@@ -5,13 +5,13 @@ port = input('Type your device port (enter for scan)\n')
 
 
 if port:
-    a = CartPole(port)
+    device = CartPole(port)
 else:
-    a = CartPole(find_your_device())
+    device = CartPole(find_your_device())
 
 
-a.connect(do_init_activity = True)
-a.start_experimnet()
+device.connect(do_init_activity = True)
+device.start_experimnet()
 print('Press enter to start control')
 
 max_force = 90
@@ -21,7 +21,7 @@ input()
 
 while True:
     try:
-        res = a.get_joint_state()
+        res = device.get_joint_state()
         if res:
             print(res)
             res.split()
@@ -30,7 +30,7 @@ while True:
             if(abs(force) > max_force):
                 force = max_force
             # print(force)
-            a.set_joint_efforts(force)
+            device.set_joint_efforts(force)
     except (Exception) as e:
         print(e)
         continue
