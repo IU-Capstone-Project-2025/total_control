@@ -101,9 +101,9 @@ https://docs.google.com/presentation/d/1-JeMrnjwtoxeAh8rwuWfYGbkSolINBjYeGRhfkOG
 
 Artyom - [dosc API and refactor](https://github.com/IU-Capstone-Project-2025/total_control/commit/f1173bf771a13f7292a1bfdfb6d0a62f9f53584d)
 
-Evgenii - [Board design and printing](https://github.com/IU-Capstone-Project-2025/total_control/commit/42b95bf8c38bc83b16bbf3c7bed942a0b1f4ec3d)
+Evgenii - [Hardware design and refactoring](https://github.com/IU-Capstone-Project-2025/total_control/commit/42b95bf8c38bc83b16bbf3c7bed942a0b1f4ec3d)
 
-Anastasia - [Preentation and RL research](https://docs.google.com/presentation/d/1-JeMrnjwtoxeAh8rwuWfYGbkSolINBjYeGRhfkOGHkk/edit?usp=sharing)
+Anastasia - [Presentation and RL research](https://docs.google.com/presentation/d/1-JeMrnjwtoxeAh8rwuWfYGbkSolINBjYeGRhfkOGHkk/edit?usp=sharing)
 
 Petr - [Write report and RL](https://github.com/IU-Capstone-Project-2025/total_control/commit/fbd5fbb5e1ed42d4319cdc7e44424f2c96b14beb)
 
