@@ -1,7 +1,3 @@
----
-title: "Week #6"
----
-
 # **Week #6**
 
 ## Links
@@ -17,9 +13,9 @@ title: "Week #6"
 
 Our project is a **Python-based control library** for interacting with and simulating a physical cart-pole mechanism. The library abstracts the complexity of serial communication and device management into a simple, user-friendly API.
 
-The library supports both real hardware control and simulation environments, making it suitable for algorithm development and testing.
+The library supports both real hardware control, making it suitable for algorithm development and testing.
 
-This solution targets engineers and researchers working with physical lab devices, helping them simplify the process of cart-pole control and experimentation.
+This solution targets robotics students, engineers and researchers working with physical lab devices, helping them simplify the process of cart-pole control and experimentation.
 
 ### Features
 
@@ -34,35 +30,41 @@ This solution targets engineers and researchers working with physical lab device
 - Experiment control:
     - `start_experimnet()`
     - `stop_experiment()`
-- Simulation capabilities:
-    - Using same API interface for simulated cart-pole experiments (for algorithm testing without hardware).
 - Public API documentation (via GitHub Pages).
 
 ### Tech stack
 
 - **Python 3.10+**
 - **Serial communication** via `pyserial`
-- **NumPy** (optional, internal processing)
 - **Sphinx** (for API documentation)
 - **Docker** (optional, for packaging)
 - **Markdown / GitHub Pages** (documentation hosting)
 
 ### Setup instructions
 
-1. Clone repository:
+1. By clonning repository:
+Clone repository:
 
 ```bash
 git clone https://github.com/iu-capstone-project-2025/total_control.git
 cd total_control
 ```
-2. Install dependencies:
+
+Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Connect cartpole via USB
+Or by pip:
+
+```bash
+pip install inno_control
+```
+
+2. Connect cartpole via USB
    
-4. Example usage:
+3. Example usage:
   
 ```python
 
@@ -80,7 +82,7 @@ cart.disconnect()
 
 ```
 
-5. Access API documentation:
+4. Access API documentation:
    
 https://iu-capstone-project-2025.github.io/total_control/
 
