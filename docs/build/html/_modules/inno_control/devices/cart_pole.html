@@ -51,6 +51,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api.html#inno_control.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
+<<<<<<< HEAD
+=======
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#inno_control.CartPole._state"><code class="docutils literal notranslate"><span class="pre">CartPole._state</span></code></a></li>
+>>>>>>> main
 <li class="toctree-l3"><a class="reference internal" href="../../../api.html#inno_control.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api.html#inno_control.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api.html#inno_control.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
@@ -192,26 +196,58 @@
   <h1>Source code for inno_control.devices.cart_pole</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">inno_control.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabDevice</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">inno_control.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceConfigurationError</span><span class="p">,</span> <span class="n">DeviceCommandError</span>
+<<<<<<< HEAD
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
 
 
 
 
+=======
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+>>>>>>> main
 <div class="viewcode-block" id="CartPole">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CartPole</span><span class="p">(</span><span class="n">LabDevice</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<<<<<<< HEAD
 <span class="sd">    Class for entire Cart-Pole work</span>
+=======
+<span class="sd">    Interface for controlling and reading from a physical Cart-Pole system via an ESP32 device.</span>
+
+<span class="sd">    This class allows you to initialize, start, stop, and control a real inverted pendulum on a cart.</span>
+<span class="sd">    It communicates via serial port, sending commands to the onboard controller which drives the cart motor</span>
+<span class="sd">    to balance the pendulum upright by applying horizontal forces.</span>
+
+<span class="sd">    The Cart-Pole is a classic non-linear control benchmark: the goal is to keep the pendulum in unstable equilibrium</span>
+<span class="sd">    by continuously adjusting the cart position.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _state (str): Current state of the system, can be &#39;UNKNOWN&#39;, &#39;READY&#39;, or &#39;STARTED&#39;.</span>
+>>>>>>> main
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CartPole.__init__">
 <a class="viewcode-back" href="../../../api.html#inno_control.CartPole.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">baudrate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">921600</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+<<<<<<< HEAD
+=======
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new CartPole device interface.</span>
+
+<span class="sd">        Opens a serial connection to the ESP32 device that controls the cart motor and reads sensor data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            port (str): Serial port (e.g., &#39;/dev/ttyUSB0&#39;, &#39;COM3&#39;).</span>
+<span class="sd">            baudrate (int, optional): Serial communication speed in baud. Defaults to 921600.</span>
+<span class="sd">            timeout (float, optional): Timeout for serial reads/writes in seconds. Defaults to 1.0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+>>>>>>> main
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">baudrate</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span></div>
 
         
+<<<<<<< HEAD
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization of CartPole&quot;&quot;&quot;</span>
@@ -224,11 +260,33 @@
             <span class="c1"># self._check_response(self._read(), &#39;Initialize ended&#39;)</span>
 
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CartPole is ready for work&#39;</span><span class="p">)</span>
+=======
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Cart-Pole hardware by sending motor setup commands.</span>
+
+<span class="sd">        This sends an initialization command to prepare the motor controller and sensors.</span>
+<span class="sd">        During this step, the device may perform self-checks or calibrations.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DeviceConfigurationError: If the device fails to initialize properly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;MOTOR_INIT&quot;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waiting for initialization of CartPole&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">())</span>
+>>>>>>> main
             <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="s2">&quot;READY&quot;</span>
             
         <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">DeviceCommandError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DeviceConfigurationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initialization failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
+<<<<<<< HEAD
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">expected_response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
@@ -301,6 +359,99 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">set_joint_efforts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effort</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">!=</span> <span class="s2">&quot;OPER&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="s2">&quot;Wrong state of the system, need to switch to &#39;OPER&#39;&quot;</span><span class="p">)</span>
+=======
+<div class="viewcode-block" id="CartPole.start_experimnet">
+<a class="viewcode-back" href="../../../api.html#inno_control.CartPole.start_experimnet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start_experimnet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Begin the balancing experiment.</span>
+
+<span class="sd">        This method puts the system into active balancing mode, where the motor controller</span>
+<span class="sd">        will apply control efforts to keep the pendulum upright.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DeviceCommandError: If the system does not confirm that balancing has started.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;START_OPER&quot;</span><span class="p">,</span> <span class="n">read_response</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">response</span> <span class="o">!=</span> <span class="s2">&quot;STARTED&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="s2">&quot;STARTED&quot;</span></div>
+
+    
+<div class="viewcode-block" id="CartPole.get_state">
+<a class="viewcode-back" href="../../../api.html#inno_control.CartPole.get_state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the current state of the Cart-Pole device.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Current system state: &#39;UNKNOWN&#39;, &#39;READY&#39;, or &#39;STARTED&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span></div>
+
+    
+<div class="viewcode-block" id="CartPole.get_joint_state">
+<a class="viewcode-back" href="../../../api.html#inno_control.CartPole.get_joint_state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_joint_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read the current physical state of the cart and pole.</span>
+
+<span class="sd">        When the experiment is running, this reads data such as the cart position,</span>
+<span class="sd">        velocity, pendulum angle, and angular velocity from the onboard sensors.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Raw sensor data as received from the ESP32.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DeviceCommandError: If called when the system is not running.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="s2">&quot;STARTED&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="s2">&quot;Wrong state of the system, need to switch to &#39;STARTED&#39;&quot;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="CartPole.stop_experiment">
+<a class="viewcode-back" href="../../../api.html#inno_control.CartPole.stop_experiment">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop the balancing experiment and switch the system back to idle.</span>
+
+<span class="sd">        This sends a command to stop applying control forces and returns the system</span>
+<span class="sd">        to a safe idle state. It verifies that the system acknowledges the mode change.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DeviceCommandError: If the system fails to return to &#39;READY&#39; mode.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="s2">&quot;STARTED&quot;</span><span class="p">:</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;MODE=READY&quot;</span><span class="p">,</span> <span class="n">read_response</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stoping...&#39;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="s2">&quot;STATE&quot;</span><span class="p">,</span> <span class="n">read_response_in</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="o">!=</span> <span class="s2">&quot;READY&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DeviceCommandError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device not responding properly.</span><span class="se">\n</span><span class="s2">State: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+            
+<div class="viewcode-block" id="CartPole.set_joint_efforts">
+<a class="viewcode-back" href="../../../api.html#inno_control.CartPole.set_joint_efforts">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_joint_efforts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effort</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a control effort command to the cart motor.</span>
+
+<span class="sd">        This lets you directly set the motor control effort or apply a specific force,</span>
+<span class="sd">        for example, to test responses or run custom controllers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            effort (str): Effort command string (e.g., &#39;EFFORT=0.2&#39;). The format must match</span>
+<span class="sd">                what the device firmware expects.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DeviceCommandError: If the effort command cannot be sent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+>>>>>>> main
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="n">effort</span><span class="p">)</span></div>
 </div>
 

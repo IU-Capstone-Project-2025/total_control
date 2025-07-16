@@ -1,11 +1,41 @@
-# Минимальный конфиг для обработки одного main.c
-PROJECT_NAME      = "ESP32 Firmware"
-INPUT             = ../firmware/main/main.c
-RECURSIVE         = NO
-EXTRACT_ALL       = YES
-GENERATE_HTML     = NO
-GENERATE_LATEX    = NO
-GENERATE_XML      = YES
-OUTPUT_DIRECTORY  = ./build
-XML_OUTPUT        = xml
-OPTIMIZE_OUTPUT_FOR_C = YES
+
+# Doxyfile configuration for Sphinx + Breathe integration
+
+PROJECT_NAME           = "ESP_Robot"
+OUTPUT_DIRECTORY       = ./build
+INPUT                  = ../firmware/main/main.c
+RECURSIVE              = NO
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_ANON_NSPACES   = YES
+
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_MAN           = NO
+GENERATE_RTF           = NO
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+
+QUIET                  = NO
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+
+INLINE_SOURCES         = YES
+
+INPUT_ENCODING         = UTF-8
+FILE_VERSION_FILTER    =
+
+SOURCE_BROWSER         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 2
+CLASS_DIAGRAMS         = YES
+DOT_IMAGE_FORMAT       = png
+INTERACTIVE_SVG        = YES

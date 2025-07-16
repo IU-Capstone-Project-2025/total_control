@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxyfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="doxyfile.xsd" version="1.9.4" xml:lang="en-US">
   <option  id='DOXYFILE_ENCODING' default='yes' type='string'><value><![CDATA[UTF-8]]></value></option>
+<<<<<<< HEAD
   <option  id='PROJECT_NAME' default='no' type='string'><value><![CDATA["ESP32 Firmware"]]></value></option>
+=======
+  <option  id='PROJECT_NAME' default='no' type='string'><value><![CDATA[ESP_Robot]]></value></option>
+>>>>>>> main
   <option  id='PROJECT_NUMBER' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='PROJECT_BRIEF' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='PROJECT_LOGO' default='yes' type='string'><value><![CDATA[]]></value></option>
@@ -43,7 +47,11 @@
   <option  id='TAB_SIZE' default='yes' type='int'><value>4</value></option>
   <option  id='ALIASES' default='yes' type='stringlist'>
   </option>
+<<<<<<< HEAD
   <option  id='OPTIMIZE_OUTPUT_FOR_C' default='no' type='bool'><value>YES</value></option>
+=======
+  <option  id='OPTIMIZE_OUTPUT_FOR_C' default='yes' type='bool'><value>NO</value></option>
+>>>>>>> main
   <option  id='OPTIMIZE_OUTPUT_JAVA' default='yes' type='bool'><value>NO</value></option>
   <option  id='OPTIMIZE_FOR_FORTRAN' default='yes' type='bool'><value>NO</value></option>
   <option  id='OPTIMIZE_OUTPUT_VHDL' default='yes' type='bool'><value>NO</value></option>
@@ -66,6 +74,7 @@
   <option  id='LOOKUP_CACHE_SIZE' default='yes' type='int'><value>0</value></option>
   <option  id='NUM_PROC_THREADS' default='yes' type='int'><value>1</value></option>
   <option  id='EXTRACT_ALL' default='no' type='bool'><value>YES</value></option>
+<<<<<<< HEAD
   <option  id='EXTRACT_PRIVATE' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXTRACT_PRIV_VIRTUAL' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXTRACT_PACKAGE' default='yes' type='bool'><value>NO</value></option>
@@ -73,6 +82,15 @@
   <option  id='EXTRACT_LOCAL_CLASSES' default='yes' type='bool'><value>YES</value></option>
   <option  id='EXTRACT_LOCAL_METHODS' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXTRACT_ANON_NSPACES' default='yes' type='bool'><value>NO</value></option>
+=======
+  <option  id='EXTRACT_PRIVATE' default='no' type='bool'><value>YES</value></option>
+  <option  id='EXTRACT_PRIV_VIRTUAL' default='yes' type='bool'><value>NO</value></option>
+  <option  id='EXTRACT_PACKAGE' default='yes' type='bool'><value>NO</value></option>
+  <option  id='EXTRACT_STATIC' default='no' type='bool'><value>YES</value></option>
+  <option  id='EXTRACT_LOCAL_CLASSES' default='yes' type='bool'><value>YES</value></option>
+  <option  id='EXTRACT_LOCAL_METHODS' default='yes' type='bool'><value>NO</value></option>
+  <option  id='EXTRACT_ANON_NSPACES' default='no' type='bool'><value>YES</value></option>
+>>>>>>> main
   <option  id='RESOLVE_UNNAMED_PARAMS' default='yes' type='bool'><value>YES</value></option>
   <option  id='HIDE_UNDOC_MEMBERS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_UNDOC_CLASSES' default='yes' type='bool'><value>NO</value></option>
@@ -192,11 +210,19 @@
   <option  id='FILTER_SOURCE_PATTERNS' default='yes' type='stringlist'>
   </option>
   <option  id='USE_MDFILE_AS_MAINPAGE' default='yes' type='string'><value><![CDATA[]]></value></option>
+<<<<<<< HEAD
   <option  id='SOURCE_BROWSER' default='yes' type='bool'><value>NO</value></option>
   <option  id='INLINE_SOURCES' default='yes' type='bool'><value>NO</value></option>
   <option  id='STRIP_CODE_COMMENTS' default='yes' type='bool'><value>YES</value></option>
   <option  id='REFERENCED_BY_RELATION' default='yes' type='bool'><value>NO</value></option>
   <option  id='REFERENCES_RELATION' default='yes' type='bool'><value>NO</value></option>
+=======
+  <option  id='SOURCE_BROWSER' default='no' type='bool'><value>YES</value></option>
+  <option  id='INLINE_SOURCES' default='no' type='bool'><value>YES</value></option>
+  <option  id='STRIP_CODE_COMMENTS' default='yes' type='bool'><value>YES</value></option>
+  <option  id='REFERENCED_BY_RELATION' default='no' type='bool'><value>YES</value></option>
+  <option  id='REFERENCES_RELATION' default='no' type='bool'><value>YES</value></option>
+>>>>>>> main
   <option  id='REFERENCES_LINK_SOURCE' default='yes' type='bool'><value>YES</value></option>
   <option  id='SOURCE_TOOLTIPS' default='yes' type='bool'><value>YES</value></option>
   <option  id='USE_HTAGS' default='yes' type='bool'><value>NO</value></option>
@@ -341,7 +367,11 @@
   <option  id='DIA_PATH' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='HIDE_UNDOC_RELATIONS' default='yes' type='bool'><value>YES</value></option>
   <option  id='HAVE_DOT' default='yes' type='bool'><value>YES</value></option>
+<<<<<<< HEAD
   <option  id='DOT_NUM_THREADS' default='yes' type='int'><value>0</value></option>
+=======
+  <option  id='DOT_NUM_THREADS' default='no' type='int'><value>2</value></option>
+>>>>>>> main
   <option  id='DOT_FONTNAME' default='yes' type='string'><value><![CDATA[Helvetica]]></value></option>
   <option  id='DOT_FONTSIZE' default='yes' type='int'><value>10</value></option>
   <option  id='DOT_FONTPATH' default='yes' type='string'><value><![CDATA[]]></value></option>
@@ -355,13 +385,22 @@
   <option  id='TEMPLATE_RELATIONS' default='yes' type='bool'><value>NO</value></option>
   <option  id='INCLUDE_GRAPH' default='yes' type='bool'><value>YES</value></option>
   <option  id='INCLUDED_BY_GRAPH' default='yes' type='bool'><value>YES</value></option>
+<<<<<<< HEAD
   <option  id='CALL_GRAPH' default='yes' type='bool'><value>NO</value></option>
   <option  id='CALLER_GRAPH' default='yes' type='bool'><value>NO</value></option>
+=======
+  <option  id='CALL_GRAPH' default='no' type='bool'><value>YES</value></option>
+  <option  id='CALLER_GRAPH' default='no' type='bool'><value>YES</value></option>
+>>>>>>> main
   <option  id='GRAPHICAL_HIERARCHY' default='yes' type='bool'><value>YES</value></option>
   <option  id='DIRECTORY_GRAPH' default='yes' type='bool'><value>YES</value></option>
   <option  id='DIR_GRAPH_MAX_DEPTH' default='yes' type='int'><value>1</value></option>
   <option  id='DOT_IMAGE_FORMAT' default='yes' type='string'><value>png</value></option>
+<<<<<<< HEAD
   <option  id='INTERACTIVE_SVG' default='yes' type='bool'><value>NO</value></option>
+=======
+  <option  id='INTERACTIVE_SVG' default='no' type='bool'><value>YES</value></option>
+>>>>>>> main
   <option  id='DOT_PATH' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='DOTFILE_DIRS' default='yes' type='stringlist'>
   </option>

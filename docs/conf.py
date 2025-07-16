@@ -22,10 +22,9 @@ extensions = [
     'sphinx.ext.viewcode',   # Source code links
     'sphinx.ext.autosummary',# Generate summary tables
     'myst_parser',           # Markdown support
-    'breathe'                # C/C++
+    'breathe'                # Doxygen integration
 ]
 
-# Настройка Breathe
 breathe_projects = {
     "firmware": "./build/xml"
 }

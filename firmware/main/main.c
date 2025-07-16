@@ -1,90 +1,103 @@
-/* 
- * @file main.c
- * @brief Main controller for Furuta pendulum system
- * 
- * This module handles:
- * - CAN communication with motor controller
- * - Encoder position tracking
- * - UART command interface
- * - System state management
- * - Safety monitoring and self-recovery
- * 
+/**
+ * \file main.c
+ * \brief Main application entry point and firmware for CartPole controller.
+ *
+ * Initializes CPU power management, GPIOs, UART, and CAN interfaces.
+ * Creates FreeRTOS tasks for motor control, safety monitoring,
+ * UART command handling, sensor data reporting, and hardware tests.
  */
 
- 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
-
 #include "esp_system.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_timer.h"
-#include "esp_pm.h"
-
+#include "esp_pm.h
 #include "driver/twai.h"
 #include "driver/uart.h"
 #include "driver/timer.h"
 
 
 /* --------------------- Definitions ------------------ */
+/**< Motor control task priority */
+#define CTRL_TSK_PRIO           10
+/**< UART and sensor info task priority */          
+#define SERIAL_TSK_PRIO         15          
+/**< Safety monitor task priority */
+#define SAVER_TSK_PRIO          20          
+/**< Hardware test task priority */
+#define TEST_TASK_PRIO          1           
+/**< Default interrupt flag */
+#define ESP_INTR_FLAG_DEFAULT   0           
+/**< CAN TX GPIO */
+#define TX_GPIO_CAN             22          
+/**< CAN RX GPIO */
+#define RX_GPIO_CAN             21          
+/**< Linear encoder channel A */
+#define ENC_LINEAR_GPIO_1       19          
+/**< Linear encoder channel B */
+#define ENC_LINEAR_GPIO_2       18          
+/**< Angular encoder channel A */
+#define ENC_ANGULAR_GPIO_A      5           
+/**< Angular encoder channel B */
+#define ENC_ANGULAR_GPIO_B      4           
+/**< Angular encoder index signal */
+#define ENC_ANGULAR_GPIO_C      2           
+/**< User button GPIO */
+#define BTN_GPIO                23          
+#define GPIO_PIN_MASK(PIN)      (1ULL<<PIN)
+/**< Angular step [rad] */
+#define ANGLE_STEP_SIZE         0.08789     
+/**< Linear encoder max count */
+#define MAX_ECNODER_DATA        12213       
+/**< Safe region threshold */
+#define SAFE_REGION             1000        
+/**< Initial torque for motor initialization */
+#define INIT_TORQUE             75          
+/**< Reinitialization torque for motor */
+#define REINIT_TORQUE           75          
 
-/* Task priorities */
-#define CTRL_TSK_PRIORITY           10                  ///< Motor control task priority
-#define SERIAL_TSK_PRIORITY         15                  ///< UART handling task priority
-#define SAVER_TSK_PRIORITY          20                  ///< Safety monitor task priority
-#define TEST_TASK_PRIORITY          1                   ///< Test task priority
+/**< UART TX pin */
+#define TXD_PIN                 1           
+/**< UART RX pin */
+#define RXD_PIN                 3           
+/**< UART port */
+#define UART_PORT               UART_NUM_0  
+/**< UART buffer size */
+#define BUF_SIZE                128         
+/**< UART baud rate */
+#define BAUD_RATE               921600      
+/**< UART read delay [ms] */
+#define SERIAL_MS_DELAY         20          
 
-/* Interrupt configuration */   
-#define DEFAULT_INTERRUPT_FLAGS     0                   ///< Default interrupt flag
+/**< Error log tag */
+#define ERROR_TAG               "Error"     
+/**< Main log tag */
+#define MAIN_TAG                "Main"      
+/**< Debug log tag */
+#define DEBUG_TAG               "Debug"     
+/**< Motor sending log tag */
+#define SEND_TAG                "Motor/Sending" 
+/**< Motor receiving log tag */
+#define RECIEVE_TAG             "Motor/Recieving"   
+/**< PC receiving log tag */
+#define READ_TAG                "PC/Recieving"      
+/**< PC sending log tag */
+#define WRITE_TAG               "PC/Sending"        
 
-/* Hardware pin assignments */  
-#define TX_CAN_GPIO                 21                  ///< CAN transmitter GPIO
-#define RX_CAN_GPIO                 22                  ///< CAN receiver GPIO
-#define LINEAR_ENCODER_GPIO_A       19                  ///< Linear encoder channel A
-#define LINEAR_ENCODER_GPIO_B       18                  ///< Linear encoder channel B
-#define ANGULAR_ENCODER_GPIO_A      5                   ///< Angular encoder channel A
-#define ANGULAR_ENCODER_GPIO_B      4                   ///< Angular encoder channel B
-#define ANGULAR_ENCODER_GPIO_C      2                   ///< Angular encoder channel C
-#define END_BUTTON_GPIO             23                  ///< Limit switch/button GPIO
-#define CAN_TX_PIN                  1                   ///< UART transmit pin
-#define CAN_RX_PIN                  3                   ///< UART receive pin   
-#define GPIO_PIN_MASK(PIN)          (1ULL<<PIN)         ///< Bitmask helper
-
-/* System parameters */ 
-#define DEGREE_TO_RADIAN_COEF       0.01745             ///< Angle_degree * DEGREE_TO_RADIAN_COEF = Angle_radian
-#define ANGLE_STEP_SIZE             0.08789             ///< Degrees per angle encoder tick
-#define POSITION_STEP_SIZE          0.03945             ///< Milimeters per positional encoder tick
-#define MAX_LINEAR_ECNODER_VALUE    480                 ///< Max linear encoder value
-#define SAFE_REGION_MARGIN          50                  ///< Safety margin from limits
-#define INITIALIZATION_SPPED        600                 ///< Initialization torque value
-#define POSITIONAL_MOTOR_SPEED      2500                ///< Software limit for motor speed
-
-/* UART configuration */    
-#define UART_PORT_NUMBER            UART_NUM_0          ///< UART port number
-#define UART_BUFFER_SIZE            128                 ///< UART buffer size
-#define UART_BAUD_RATE              921600              ///< UART baud rate
-#define UART_DEFAULT_SEND_DELAY     20                  ///< Default serial delay
-
-/* Logging tags */  
-#define ERROR_LOG_TAG               "Error"             ///< Error logging tag
-#define MAIN_LOG_TAG                "Main"              ///< Main system tag
-#define DEBUG_LOG_TAG               "Debug"             ///< Debug logging tag
-#define CAN_TX_LOG_TAG              "Motor/Sending"     ///< CAN transmit tag
-#define CAN_RX_LOG_TAG              "Motor/Recieving"   ///< CAN receive tag
-#define FROM_PC_LOG_TAG             "PC/Recieving"      ///< "esp recieved this message from PC" tag
-#define TO_PC_LOG_TAG               "PC/Sending"        ///< "PC recieved this message from esp" tag
-
-/* Special operatinal state command values */
-#define MOTOR_STOP_COMMAND          1000000             ///< Emergency stop command
-#define READY_STATE_COMMAND         1000001             ///< Transition to ready state
-#define MOTOR_INFO_COMMMAND         1000002             ///< Request motor info
-#define RESET_COMMAND               1000003             ///< System reset command
-
+/**< Stop command code */
+#define MOTOR_STOP_COMMAND      1000000 
+/**< Ready state command code */
+#define READY_STATE_COMMAND     1000001 
+/**< Info request command code */
+#define MOTOR_INFO_COMMMAND     1000002 
+/**< Reset command code */
+#define RESET_COMMAND           1000003 
 
 // #define DEBUG                    0                   ///< Debug mode flag (uncomment for debug)
 
@@ -160,16 +173,13 @@ static bool hardware_tests_passed = false;
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
 
-
 /**
- * @brief Send CAN request and wait for response
- * 
- * @param tx_message Pointer to transmit message
- * @param rx_message Pointer to receive buffer
- * @return true if valid response received
- * @return false if timeout or wrong ID
+ * @brief Sends TWAI message and verifies response ID.
+ * @param[in] _tx_message Transmit message pointer.
+ * @param[out] _rx_message Receive buffer pointer.
+ * @return true if response ID matches, false otherwise.
  */
-static bool twai_transaction(const twai_message_t *_tx_message, twai_message_t *_rx_message)
+static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
     _rx_message->identifier = 0;
@@ -186,16 +196,13 @@ static bool twai_transaction(const twai_message_t *_tx_message, twai_message_t *
         return false;
 }
 
-
 /**
- * @brief Send CAN request without ID validation
- * 
- * @param tx_message Pointer to transmit message
- * @param rx_message Pointer to receive buffer
- * @return true if response received
- * @return false on timeout
+ * @brief Sends TWAI message without ID check.
+ * @param[in] _tx_message Transmit message pointer.
+ * @param[out] _rx_message Receive buffer pointer.
+ * @return true if any response received, false otherwise.
  */
-static bool twai_transaction_without_id_check(const twai_message_t *_tx_message, twai_message_t *_rx_message)
+static bool twai_request_wo_id_check(const twai_message_t *_tx_message, twai_message_t *_rx_message)
 {
     twai_transmit(_tx_message, portMAX_DELAY);
     _rx_message->identifier = 0;
@@ -207,14 +214,12 @@ static bool twai_transaction_without_id_check(const twai_message_t *_tx_message,
         return false;
 }
 
-
 /**
- * @brief Log CAN message contents
- * 
- * @param log_tag Logging tag prefix
- * @param message CAN message to log
+ * @brief Logs TWAI message content.
+ * @param[in] tag Log tag string.
+ * @param[in] message Message pointer to log.
  */
-static void log_can_message(char* tag, twai_message_t *message)
+static void twai_output(char* tag, twai_message_t *message)
 {
     ESP_LOGI(tag, "%lx [%u] %02x %02x %02x %02x %02x %02x %02x %02x",
         message->identifier,
@@ -229,13 +234,10 @@ static void log_can_message(char* tag, twai_message_t *message)
         message->data[7]);
 }
 
-
 /**
- * @brief Scan for motor CAN ID
- * 
- * Tests IDs from 0x141 to 0x160 to find active motor
+ * @brief Discovers motor CAN ID by scanning range.
  */
-static void find_motor_id()
+static void find_my_id()
 {
     for (uint32_t i = 0x141; i <= 0x160; i++) {
         twai_message_t rx_message;
@@ -261,16 +263,17 @@ static void find_motor_id()
 
 
 /* --------------------------- Motor Control Functions -------------------------- */
-
-
 /**
- * @brief Send motor command and check response
+ * @brief Sends motor command over CAN and waits for optional reply.
+ *
+ * Constructs a CAN frame with the provided data bytes and transmits it.
+ * If DEBUG is disabled, waits for a confirmation response via twai_request().
+ *
+ * @param dX Data bytes to include in the frame. (0-7)
  * 
- * @param data0-data7 CAN data bytes
- * @return true if command acknowledged
- * @return false on communication failure
+ * @return true if transmission (and optional reply) succeeded, false otherwise.
  */
-static bool send_motor_command(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+static bool motor_request(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
     twai_message_t rx_message;
     twai_message_t tx_message = {.extd = 0, 
@@ -300,13 +303,15 @@ static bool send_motor_command(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, u
     return true;
 }
 
-
 /**
- * @brief Send motor command without response check
- * 
- * @param d0-d7 CAN data bytes
+ * @brief Sends motor command over CAN without waiting for a reply.
+ *
+ * Constructs and transmits a CAN frame with the provided data bytes,
+ * then ignores any response.
+ *
+ * @param dX Data bytes to include in the frame. (0-7)
  */
-static void send_motor_command_without_reply(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+static void motor_request_wo_reply(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
     twai_message_t rx_message;
     twai_message_t tx_message = {.extd = 0, 
@@ -318,82 +323,92 @@ static void send_motor_command_without_reply(uint8_t d0, uint8_t d1, uint8_t d2,
                                  .data_length_code = 8, 
                                  .data = {d0, d1, d2, d3, d4, d5, d6, d7}};
 
-    twai_transaction_without_id_check(&tx_message, &rx_message);
+    twai_request_wo_id_check(&tx_message, &rx_message);
+
 }
 
 /**
- * @brief Perform motor controller reset
+ * @brief Issues immediate stop command to motor.
+ *
+ * Sends two sequential stop frames to ensure motor halts.
  */
-static void send_motor_command_system_reset()
+static void motor_request_stop()
 {
-    send_motor_command_without_reply(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+    motor_request(0x81, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
+    motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);   
+}
+
+/**
+ * @brief Triggers a system reset command on the motor.
+ *
+ * Sends reset frame and delays for 1 second to allow reboot.
+ */
+static void motor_request_system_reset()
+{
+    motor_request_wo_reply(0x76, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
     vTaskDelay(pdMS_TO_TICKS(1000));
 }
 
-
 /**
- * @brief Sets absolute motor position as zero
+ * @brief Requests telemetry information from the motor.
+ *
+ * Sends info request frame to retrieve voltage, temperature, and error codes.
  */
-static void send_motor_command_zero()
-{
-    send_motor_command_without_reply(0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
-    send_motor_command_system_reset();
-}
-
-
-/**
- * @brief Stop motor immediately and shutdown
- */
-static void send_motor_command_stop()
-{
-    send_motor_command(0x81, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
-    send_motor_command(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);   
-}
-
-
-/**
- * @brief Request motor status information
- */
-static void send_motor_command_status()
+static void motor_request_info()
 {
     send_motor_command(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 }
 
+/**
+ * @brief Commands motor to enter shutdown state.
+ */
+static void motor_request_shutdown()
+{
+    motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);    
+}
+
 
 /**
- * @brief Check motor communication
- * 
- * @return true if motor responds
- * @return false if no response
+ * @brief Applies signed torque command to the motor.
+ *
+ * @param tau Desired torque value (signed).
  */
-static bool send_motor_command_is_connected(){
-    return send_motor_command(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+static void motor_request_torque(int16_t tau)
+{
+    motor_request(0xA1, 0x00, 0x00, 0x00, (uint8_t) (-tau), (uint8_t) (-tau >> 8), 0x00, 0x00);   
 }
 
-
-
-static void motor_operate_by_torque(uint32_t torque){
-    send_motor_command(0xA1, 0x00, 0x00, 0x00, (uint8_t) (-torque), (uint8_t) (-torque >> 8), 0x00, 0x00);
+/**
+ * @brief Sets motor target velocity.
+ *
+ * Multiplies velocity by 100 (unit scaling) and sends command frame.
+ *
+ * @param vel Desired speed in encoder units/sec.
+ */
+static void motor_request_speed(int32_t vel)
+{
+    vel *= 100;
+    motor_request(0xA2, 0x00, 0x00, 0x00, (uint8_t) (vel), (uint8_t) (vel >> 8),  (uint8_t) (vel >> 16),  (uint8_t) (vel >> 24));  
 }
 
-static void motor_operate_by_speed(uint32_t speed){
-    speed = speed * -100;
-    send_motor_command(0xA2, 0x00, 0x00, 0x00, (uint8_t) (speed), (uint8_t) (speed >> 8),  (uint8_t) (speed >> 16),  (uint8_t) (speed >> 24));  
-}
-
-static void motor_operate_by_position(uint32_t position){
-    position /= 100;
-    send_motor_command(0xA4, 0x00, (uint8_t) (POSITIONAL_MOTOR_SPEED * 25), (uint8_t)  ((POSITIONAL_MOTOR_SPEED * 25) >> 8), (uint8_t) (-position), (uint8_t) (-position >> 8),  (uint8_t) (-position >> 16),  (uint8_t) (-position >> 24));  
+/**
+ * @brief Checks if motor responds to info request.
+ *
+ * @return true if motor acknowledges, false otherwise.
+ */
+static bool motor_request_is_connected(){
+    return motor_request(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 }
 
 
 /* --------------------------- Motor Control Task -------------------------- */
-
-
 /**
- * @brief Main motor control task
- * 
- * @param arg Task parameters (unused)
+ * @brief FreeRTOS task for motor control operations.
+ *
+ * Performs a system reset and info request on the motor, then enters a loop
+ * waiting for torque commands via the move_sem semaphore.
+ *
+ * @param arg Unused parameter.
  */
 static void motor_control_task(void *arg)
 {
@@ -409,15 +424,12 @@ static void motor_control_task(void *arg)
     
 }
 
-
 /**
- * @brief Motor initialization routine
- * 
- * Performs homing sequence:
- * 1. Moves carriage to limit switch
- * 2. Resets position counter
- * 3. Moves to center position
- * 4. Sets safety boundaries
+ * @brief Initializes motor by centering encoder and establishing zero position.
+ *
+ * Applies torque in opposite directions and waits for user confirmation via btn_sem.
+ * Monitors encoder_position to detect center; enforces timeout of 3 seconds.
+ * Signals completion through init_done_sem if first initialization.
  */
 static void motor_init_function()
 {
@@ -459,14 +471,14 @@ static void motor_init_function()
     ESP_LOGI(MAIN_LOG_TAG, "Initialize ended");
 }
 
-
 /**
- * @brief Safety monitoring task
- * 
- * @param arg Task parameters (unused)
- * 
- * Constantly checks if carriage is within safe boundaries.
- * Triggers reinitialization if near limits.
+ * @brief FreeRTOS safety monitor task for motor encoder limits.
+ *
+ * Waits for initial motor setup completion, then continuously checks the
+ * encoder_position against SAFE_REGION boundaries. If out-of-bounds,
+ * logs danger, reinitializes the motor, and restores safe state.
+ *
+ * @param arg Unused parameter.
  */
 static void motor_self_saver_task(void *arg)
 {
@@ -487,12 +499,13 @@ static void motor_self_saver_task(void *arg)
 
 
 /* --------------------------- UART Handler -------------------------- */
-
-
 /**
- * @brief Initialize UART peripherals
+ * @brief Configures UART parameters and installs driver.
+ *
+ * Sets UART baud rate, data bits, parity, stop bits, and flow control,
+ * then configures TX/RX pins and installs the UART driver with buffer.
  */
-void uart_configure() 
+void uart_init_setup() 
 {
     uart_config_t uart_configuration = {
         .baud_rate = UART_BAUD_RATE,
@@ -508,11 +521,13 @@ void uart_configure()
     ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUMBER, UART_BUFFER_SIZE * 2, 0, 0, NULL, 0));
 }
 
-
 /**
- * @brief UART event processing task
- * 
- * @param pvParameters Task parameters (unused)
+ * @brief FreeRTOS task for UART event processing.
+ *
+ * Continuously reads bytes from UART into a buffer and invokes the
+ * current state handler function pointer with the received data.
+ *
+ * @param pvParameters Unused task parameter.
  */
 void uart_event_task(void *pvParameters) 
 {
@@ -533,15 +548,12 @@ void uart_event_task(void *pvParameters)
 
 
 /* --------------------------- UART states -------------------------- */
-
-
 /**
- * @brief Transition to operational state
- * 
- * - Starts sensor data timer
- * - Updates state machine
+ * @brief Switches UART handler to operational state.
+ *
+ * Creates and starts a periodic timer to trigger sensor info reporting.
  */
-void from_ready_to_operational()
+void rtoo()   // READY to OPERATIONAL
 {   
     uart_state = uart_operational_state;
     sensor_timer_handle = xTimerCreate("sensor_timer_callback", pdMS_TO_TICKS(sensor_timer_delay), pdTRUE, 0, sensor_timer_callback);
@@ -551,36 +563,27 @@ void from_ready_to_operational()
     }
 }
 
-
 /**
- * @brief Transition to ready state
- * 
- * - Stops sensor data timer
- * - Updates state machine
+ * @brief Switches UART handler to ready state.
+ *
+ * Stops and deletes the sensor info reporting timer if active.
  */
-void from_operational_to_ready()
+void otor()   // OPERATIONAL to READY
 {   
     uart_state = uart_ready_state;
-    if(sensor_timer_handle != NULL) {
-        xTimerStop(sensor_timer_handle, 0);
-        xTimerDelete(sensor_timer_handle, 0);
+    if(sensor_info_sender_timer_handle != NULL) {
+        xTimerStop(sensor_info_sender_timer_handle, 0);
+        xTimerDelete(sensor_info_sender_timer_handle, 0);
     }
 }
 
-
 /**
- * @brief Ready state command handler
- * 
- * @param data Received UART command
- * 
- * Handles:
- * - START_OPER: Begin operation
- * - RESTART: System reset
- * - HELP: Show commands
- * - START_TESTS: Begin hardware tests
- * - MOTOR_*: Motor related commands
- * - DATA_SEND_MODE: Configure telemetry
- * - ENCODER_*: Sensor queries
+ * @brief UART handler for READY state commands.
+ *
+ * Parses incoming text commands such as START_OPER, RESTART, HELP,
+ * and routes to appropriate actions or state transitions.
+ *
+ * @param data Null-terminated command string.
  */
 void uart_ready_state(char* data)
 {
@@ -639,20 +642,15 @@ void uart_ready_state(char* data)
 
 }
 
-
-
-
 /**
- * @brief Mode selection handler
- * 
- * @param data Received mode string
- * 
- * Valid modes:
- * - "TORQUE"
- * - "SPEED"
- * - "POSITION"
+ * @brief UART handler to set control mode.
+ *
+ * Parses TORQUE, SPEED, or POSITION strings and logs selected mode.
+ * Then returns to ready state.
+ *
+ * @param data Null-terminated mode string.
  */
-void uart_set_motor_drive_mode(char* data){ // TODO
+void uart_get_mode(char* data){ // TODO
     if (strstr((const char *)data, "TORQUE")){
         motor_operate = motor_operate_by_torque;
         ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to torque control mode");
@@ -673,23 +671,27 @@ void uart_set_motor_drive_mode(char* data){ // TODO
 }
 
 /**
- * @brief Telemetry interval handler
- * 
- * @param data Received delay value (ms)
+ * @brief UART handler to configure sensor info delay.
+ *
+ * Converts ASCII data to integer and updates delay for sensor info timer.
+ *
+ * @param data Null-terminated numeric string.
  */
-void uart_set_sender_delay(char* data){
-    sensor_timer_delay = atoi(data);
-    ESP_LOGI(TO_PC_LOG_TAG, "Delay is configured to %d", sensor_timer_delay);
+void uart_get_delay(char* data){
+    sensor_info_sender_delay = atoi(data);
+    ESP_LOGI(WRITE_TAG, "Delay is configured to %d", sensor_info_sender_delay);
     uart_state = uart_ready_state;
 }
 
-
 /**
- * @brief Telemetry interval handler
- * 
- * @param data Received delay value (ms)
+ * @brief UART handler for OPERATIONAL state control packets.
+ *
+ * Parses numeric packets for torque commands or special commands
+ * (stop, ready, info, reset), with safety checks on encoder limits.
+ *
+ * @param data Null-terminated ASCII packet string.
  */
-void uart_operational_state(char* data)
+void uart_oper_state(char* data)
 {
     #ifdef DEBUG
     printf("i recieved");
@@ -724,15 +726,11 @@ void uart_operational_state(char* data)
     xSemaphoreGive(motor_command_semaphore);       
 }
 
-
 /**
- * @brief Sensor data reporting task
- * 
- * Formats and sends:
- * - Current angle
- * - Angular velocity
- * - Linear position
- * - Linear velocity
+ * @brief FreeRTOS task to publish sensor information.
+ *
+ * Waits on info_please_sem, computes linear and angular velocities,
+ * and prints position, velocities, and angle if safe.
  */
 void sensor_info_sender_task(){
     while (1){
@@ -759,67 +757,68 @@ void sensor_info_sender_task(){
     }
 }
 
-
 /**
- * @brief Timer callback for sensor data
- * 
- * Triggers telemetry_task via semaphore
+ * @brief Timer callback to trigger sensor info task.
+ *
+ * Gives the info_please_sem semaphore to schedule data reporting.
  */
-void sensor_timer_callback(){
-   xSemaphoreGive(sensor_data_request_semaphore);
+void sensor_info_sender_timer(){
+   xSemaphoreGive(info_please_sem);
 }
 
 
 /*-------------------------- Sensors --------------------------*/
 
-
 /**
- * @brief Linear encoder ISR handler
- * 
- * @param arg ISR parameter (unused)
- * 
- * Updates position based on quadrature encoding
+ * @brief Interrupt Service Routine for linear encoder channel.
+ *
+ * Called on any edge of the linear encoder's first channel.
+ * Compares states of both encoder channels to determine movement direction
+ * and increments or decrements the linear encoder position counter.
+ *
+ * @param arg Unused argument.
  */
-static void IRAM_ATTR linear_encoder_isr(void* arg)
+static void IRAM_ATTR enc_linear_isr_handler(void* arg)
 {
     current_encoder_position += POSITION_STEP_SIZE * ((gpio_get_level(LINEAR_ENCODER_GPIO_A) != gpio_get_level(LINEAR_ENCODER_GPIO_B)) ? 1 : -1);
 }
 
-
 /**
- * @brief Angular encoder ISR handler
- * 
- * @param arg ISR parameter (unused)
- * 
- * Updates angle on each encoder tick
+ * @brief Interrupt Service Routine for angular encoder channel B.
+ *
+ * Called on the rising edge of angular encoder channel B.
+ * Updates the angular position by a fixed step size depending on
+ * the state of channel A to determine direction.
+ *
+ * @param arg Unused argument.
  */
-static void IRAM_ATTR angular_encoder_isr(void* arg)
+static void IRAM_ATTR enc_angular_change_isr_handler(void* arg)
 {
     current_encoder_angle += ANGLE_STEP_SIZE * (1 - gpio_get_level(ANGULAR_ENCODER_GPIO_A) * 2);
 }
 
-
 /**
- * @brief Angular zero-position ISR handler
- * 
- * @param arg ISR parameter (unused)
- * 
- * Resets angle to zero on index pulse
+ * @brief Interrupt Service Routine for angular encoder zero marker.
+ *
+ * Called when the zero position marker is detected on channel C.
+ * Resets the angular encoder position to zero for calibration.
+ *
+ * @param arg Unused argument.
  */
-static void IRAM_ATTR angular_zero_isr(void* arg)
+static void IRAM_ATTR enc_angular_zero_isr_handler(void* arg)
 {
     current_encoder_angle = 95.626;
 }
 
-
 /**
- * @brief Button press ISR handler
- * 
- * @param arg ISR parameter (unused)
- * 
- * Signals button press during initialization
+ * @brief Interrupt Service Routine for button press.
+ *
+ * If initialization is active, gives semaphore from ISR context
+ * to signal that the button was pressed.
+ *
+ * @param arg Unused argument.
  */
-static void IRAM_ATTR button_press_isr(void* arg)
+static void IRAM_ATTR btn_isr_handler(void* arg)
 {
     if (initialization_in_progress){
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -827,11 +826,14 @@ static void IRAM_ATTR button_press_isr(void* arg)
     }
 }
 
-
 /**
- * @brief Initialize GPIOs and interrupts
+ * @brief Initialize GPIO pins and configure interrupts.
+ *
+ * Configures all required GPIOs for the linear and angular encoders
+ * and the user button. Sets pin modes, pull-downs, and interrupt types.
+ * Installs ISR service and attaches handlers to GPIO pins.
  */
-static void configure_gpio()
+static void gpio_init_setup()
 {
 
     // linear
@@ -890,14 +892,13 @@ static void configure_gpio()
 
 
 /* ---------------------------- CPU ------------------------- */
-
-
 /**
- * @brief Configure CPU power management
- * 
- * Locks CPU at maximum frequency for real-time performance
+ * @brief Configure CPU power management settings.
+ *
+ * Sets the minimum and maximum CPU clock frequencies to maximum value,
+ * and disables light sleep to ensure full performance during operation.
  */
-void configure_cpu()
+void cpu_setup()
 {
     esp_pm_config_t pm_config = {
         .max_freq_mhz = 240,
@@ -910,16 +911,14 @@ void configure_cpu()
 
 /* ---------------------------- Tests ------------------------- */
 
-
 /**
- * @brief Hardware test sequence
- * 
- * Guides user through:
- * 1. Button press test
- * 2. Linear encoder movement test
- * 3. Angular encoder movement test
+ * @brief Runs a full sensor and button test sequence.
+ *
+ * Runs in a separate FreeRTOS task. Guides the user through manual tests
+ * for the button, linear encoder, and angular encoder. Waits for user
+ * confirmation via UART after each step and logs results. Loops endlessly.
  */
-void hardware_test_sequence()
+void sensor_tests()
 {
     while (1) {
         hardware_tests_passed  = true;
@@ -953,15 +952,15 @@ void hardware_test_sequence()
     }
 }
 
-
 /**
- * @brief Button test handler
- * 
- * @param data User response to test
- * 
- * Transitions to next test state
+ * @brief Handles UART input to verify button test result.
+ *
+ * Parses user input string to determine whether the button works.
+ * Logs result, updates test status, and advances test sequence.
+ *
+ * @param data Pointer to user input string (yes/no).
  */
-void uart_test_button(char* data)
+void uart_test_btn_state(char* data)
 {
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")) {
         ESP_LOGI(TO_PC_LOG_TAG, "Button works properly");
@@ -976,15 +975,15 @@ void uart_test_button(char* data)
     xSemaphoreGive(test_sync_semaphore);
 }
 
-
 /**
- * @brief Linear encoder test handler
- * 
- * @param data User response to test
- * 
- * Transitions to angular test state
+ * @brief Handles UART input to verify linear encoder test result.
+ *
+ * Parses user input string to determine whether the linear encoder works.
+ * Logs result, updates test status, and advances test sequence.
+ *
+ * @param data Pointer to user input string (yes/no).
  */
-void uart_test_encoder(char* data)
+void uart_test_encoder_state(char* data)
 {
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
         ESP_LOGI(TO_PC_LOG_TAG, "Encoder works properly");
@@ -999,15 +998,15 @@ void uart_test_encoder(char* data)
     xSemaphoreGive(test_sync_semaphore);
 }
 
-
 /**
- * @brief Angular encoder test handler
- * 
- * @param data User response to test
- * 
- * Returns to ready state
+ * @brief Handles UART input to verify angular encoder test result.
+ *
+ * Parses user input string to determine whether the angular encoder works.
+ * Logs result, updates test status, and finishes test sequence.
+ *
+ * @param data Pointer to user input string (yes/no).
  */
-void uart_test_angle(char* data)
+void uart_test_angle_state(char* data)
 {
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
         ESP_LOGI(TO_PC_LOG_TAG, "Angle sensor works properly");
@@ -1025,22 +1024,12 @@ void uart_test_angle(char* data)
 
 /* --------------------------- Main -------------------------- */
 
-
 /**
- * @brief Application entry point
- * 
- * Initializes:
- * - Power management
- * - Semaphores
- * - GPIOs
- * - UART
- * - CAN driver
- * - System tasks
- * 
- * Main execution loop:
- * 1. Waits for system completion semaphore
- * 2. Cleans up resources on exit
- * 3. Performs system restart
+ * @brief Main entry point for the application.
+ *
+ * Initializes CPU, GPIO, UART, CAN bus, tasks, and semaphores.
+ * Starts all system tasks and waits for completion. After tasks finish,
+ * cleans up all resources and restarts the device.
  */
 void app_main(void)
 {

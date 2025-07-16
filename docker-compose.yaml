@@ -1,5 +1,6 @@
 x-common: &common-setup
-  image: fabook/control:0.0.5
+  image: fabook/control:0.0.6
+
   network_mode: host
   privileged: true
   volumes: 
@@ -34,12 +35,11 @@ services:
     tty: true        # docker run -t
     entrypoint: >
       bash -c "
-        echo 'Starting' &&
         pip install -e /home/ws/src/inno_control
         cd /home/ws/src/docs
         doxygen Doxyfile
         sphinx-build -M html . ./build -v -a -E
-        python3 -m http.server --directory ./build/html 8000
+        python3 -m http.server --directory ./build/html 8080
       "
 
   test:
