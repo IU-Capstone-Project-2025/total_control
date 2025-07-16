@@ -99,58 +99,76 @@
 /**< Reset command code */
 #define RESET_COMMAND           1000003 
 
-// #define DEBUG 0
+// #define DEBUG                    0                   ///< Debug mode flag (uncomment for debug)
+
 
 
 /* --------------------- Static variables ------------------ */
 
-static const twai_timing_config_t t_config = TWAI_TIMING_CONFIG_1MBITS();
-static const twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
-static const twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(TX_GPIO_CAN, RX_GPIO_CAN, TWAI_MODE_NORMAL);
+/* CAN driver configurations */
+static const twai_timing_config_t can_timing_config  = TWAI_TIMING_CONFIG_1MBITS();
+static const twai_filter_config_t can_filter_config  = TWAI_FILTER_CONFIG_ACCEPT_ALL();
+static const twai_general_config_t can_general_config  = TWAI_GENERAL_CONFIG_DEFAULT(TX_CAN_GPIO, RX_CAN_GPIO, TWAI_MODE_NORMAL);
 
-static SemaphoreHandle_t motor_control_task_start_sem;
-static SemaphoreHandle_t all_done_sem;
-static SemaphoreHandle_t init_start_sem;
-static SemaphoreHandle_t init_done_sem;
-static SemaphoreHandle_t btn_sem;
-static SemaphoreHandle_t move_sem;
-static SemaphoreHandle_t smert_sem;
-static SemaphoreHandle_t info_please_sem;
-static SemaphoreHandle_t test_sem;
+/* System synchronization primitives */
+static SemaphoreHandle_t restart_command_semaphore;
+static SemaphoreHandle_t initialization_start_semaphore;
+static SemaphoreHandle_t initialization_done_semaphore;
+static SemaphoreHandle_t button_press_semaphore;
+static SemaphoreHandle_t motor_command_semaphore;
+static SemaphoreHandle_t sensor_data_request_semaphore;
+static SemaphoreHandle_t test_sync_semaphore;
 
-static uint32_t motor_id = 0x141;
-static int64_t recieved_packet;
+/* Device identifiers */
+static uint32_t motor_can_id = 0x141;
 
-volatile int16_t encoder_position;
-volatile int16_t encoder_position_prev;
-volatile double encoder_angle = -83;
-volatile double encoder_angle_prev;
-volatile bool init_in_progress = false;
-static bool not_inited_yet = true;
-static bool in_safe_state = true;
+/* Communication buffers */
+static int64_t uart_recieved_packet;
 
-void uart_ready_state(char* data);
-void uart_get_delay(char* data);
-void uart_get_mode(char* data);
-void uart_oper_state(char* data);
+/* Motor comunication function */
+static void motor_operate_by_torque(uint32_t torque);
+static void motor_operate_by_speed(uint32_t speed);
+static void motor_operate_by_position(uint32_t position);
 
-void uart_test_btn_state (char* data);
-void uart_test_encoder_state (char* data);
-void uart_test_angle_state (char* data);
+static void (*motor_operate) (uint32_t) = motor_operate_by_torque;
+
+
+/* Sensor state */
+static volatile double current_encoder_position;
+static volatile double current_encoder_angle = 179.93;
+static double previous_encoder_position;
+static double previous_encoder_angle;
+
+/* System state flags */
+static bool initialization_in_progress = false;
+static bool not_initiazatied_yet = true;
+static bool system_in_safe_state = true;
+
+/* UART state machine function pointers */
+static void uart_ready_state(char* data);
+static void uart_operational_state(char* data);
+static void uart_set_sender_delay(char* data);
+static void uart_set_motor_drive_mode(char* data);
+static void uart_test_button (char* data);
+static void uart_test_encoder (char* data);
+static void uart_test_angle (char* data);
 
 static void (*uart_state)(char*) = uart_ready_state; 
 
-static uint16_t sensor_info_sender_delay = SERIAL_MS_DELAY;
-TimerHandle_t sensor_info_sender_timer_handle;
-void sensor_info_sender_timer();
+/* Sensor reporting */
+static uint16_t sensor_timer_delay = UART_DEFAULT_SEND_DELAY;
+static TimerHandle_t sensor_timer_handle;
+static void sensor_timer_callback();
 
-static TaskHandle_t mct_handle;
-static TaskHandle_t uet_handle;
-static TaskHandle_t msst_handle;
-static TaskHandle_t sist_handle;
-static TaskHandle_t stt_handle;
+/* Task handles */
+static TaskHandle_t motor_control_task_handle;
+static TaskHandle_t uart_event_task_handle;
+static TaskHandle_t safety_monitor_task_handle;
+static TaskHandle_t sensor_info_sender_task_handle;
+static TaskHandle_t hardware_test_task_handle;
 
-static bool tested = true;
+/* Test status */
+static bool hardware_tests_passed = false;
 
 
 /* --------------------------- Hardware CAN Functions -------------------------- */
@@ -167,8 +185,8 @@ static bool twai_request(const twai_message_t *_tx_message, twai_message_t *_rx_
     _rx_message->identifier = 0;
     esp_err_t res = twai_receive(_rx_message, pdMS_TO_TICKS(100));
 
-    if (_rx_message->identifier != motor_id) {
-        ESP_LOGI(ERROR_TAG, "No reply from motor");
+    if (_rx_message->identifier != motor_can_id) {
+        ESP_LOGE(ERROR_LOG_TAG, "No reply from motor");
         return false;
     }
 
@@ -206,8 +224,14 @@ static void twai_output(char* tag, twai_message_t *message)
     ESP_LOGI(tag, "%lx [%u] %02x %02x %02x %02x %02x %02x %02x %02x",
         message->identifier,
         message->data_length_code,
-        message->data[0], message->data[1], message->data[2], message->data[3], 
-        message->data[4], message->data[5], message->data[6], message->data[7]);
+        message->data[0],
+        message->data[1],
+        message->data[2],
+        message->data[3], 
+        message->data[4],
+        message->data[5],
+        message->data[6],
+        message->data[7]);
 }
 
 /**
@@ -222,18 +246,20 @@ static void find_my_id()
                                     .ss = 1, 
                                     .self = 0, 
                                     .dlc_non_comp = 0, 
-                                    .identifier = motor_id, 
+                                    .identifier = motor_can_id, 
                                     .data_length_code = 8, 
                                     .data = {0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
-        twai_request(&tx_message, &rx_message);
+        twai_transaction(&tx_message, &rx_message);
         if (rx_message.identifier == i) {
-            motor_id = i;
-            ESP_LOGI(MAIN_TAG, "Motor found, motor_id is %lx", motor_id);
+            motor_can_id = i;
+            ESP_LOGI(MAIN_LOG_TAG, "Motor found, motor_can_id is %lx", motor_can_id);
             return;
         }
     }
-    ESP_LOGI(ERROR_TAG, "Motor not found");
+    ESP_LOGE(ERROR_LOG_TAG, "Motor not found");
 }
+
+
 
 
 /* --------------------------- Motor Control Functions -------------------------- */
@@ -255,21 +281,21 @@ static bool motor_request(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_
                                  .ss = 1, 
                                  .self = 0, 
                                  .dlc_non_comp = 0, 
-                                 .identifier = motor_id, 
+                                 .identifier = motor_can_id, 
                                  .data_length_code = 8, 
                                  .data = {d0, d1, d2, d3, d4, d5, d6, d7}};
 
     #ifdef DEGUB
-    twai_output(SEND_TAG, &tx_message);
-    if(!twai_request(&tx_message, &rx_message)){
-        twai_output(RECIEVE_TAG, &rx_message);
+    log_can_message(CAN_TX_LOG_TAG, &tx_message);
+    if(!twai_transaction(&tx_message, &rx_message)){
+        log_can_message(CAN_RX_LOG_TAG, &rx_message);
         return false;
     }
-    twai_output(RECIEVE_TAG, &rx_message);
+    log_can_message(CAN_RX_LOG_TAG, &rx_message);
     #endif
 
     #ifndef DEBUG
-    if(!twai_request(&tx_message, &rx_message)){
+    if(!twai_transaction(&tx_message, &rx_message)){
         return false;
     }
     #endif
@@ -293,7 +319,7 @@ static void motor_request_wo_reply(uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d
                                  .ss = 1, 
                                  .self = 0, 
                                  .dlc_non_comp = 0, 
-                                 .identifier = motor_id, 
+                                 .identifier = motor_can_id, 
                                  .data_length_code = 8, 
                                  .data = {d0, d1, d2, d3, d4, d5, d6, d7}};
 
@@ -330,7 +356,7 @@ static void motor_request_system_reset()
  */
 static void motor_request_info()
 {
-    motor_request(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+    send_motor_command(0x9A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 }
 
 /**
@@ -340,6 +366,7 @@ static void motor_request_shutdown()
 {
     motor_request(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);    
 }
+
 
 /**
  * @brief Applies signed torque command to the motor.
@@ -385,13 +412,14 @@ static bool motor_request_is_connected(){
  */
 static void motor_control_task(void *arg)
 {
-    
-    motor_request_system_reset();
-    motor_request_info();
+    send_motor_command_system_reset();
+    if (!send_motor_command_is_connected()){
+        ESP_LOGE(ERROR_LOG_TAG, "Motor no connected");
+    }
     
     while(1){
-        xSemaphoreTake(move_sem, portMAX_DELAY);
-        motor_request_torque(recieved_packet);
+        xSemaphoreTake(motor_command_semaphore, portMAX_DELAY);
+        motor_operate(uart_recieved_packet);
     }
     
 }
@@ -406,46 +434,41 @@ static void motor_control_task(void *arg)
 static void motor_init_function()
 {
 
-    int16_t torque = INIT_TORQUE;
-    if (!not_inited_yet){
-        torque = REINIT_TORQUE;
-    }
-
-
-
-    motor_request_stop();
-    init_in_progress = true;
-    ESP_LOGI(MAIN_TAG, "Initializing motor");
-    xSemaphoreTake(btn_sem, 0);
-    motor_request_torque(-torque);
+    send_motor_command_stop();
+    initialization_in_progress = true;
+    ESP_LOGI(MAIN_LOG_TAG, "Initializing motor");
+    xSemaphoreTake(button_press_semaphore, 0);
+    motor_operate_by_speed(-INITIALIZATION_SPPED);
     
-    xSemaphoreTake(btn_sem, pdMS_TO_TICKS(5000));
+    xSemaphoreTake(button_press_semaphore, pdMS_TO_TICKS(5000));
 
     #ifdef DEBUG
-    ESP_LOGI(MAIN_TAG, "Button CLICKED");
+    ESP_LOGI(MAIN_LOG_TAG, "Button CLICKED");
     #endif
     
-    motor_request_stop();
-    encoder_position = 0;
-    motor_request_torque(torque);
+    send_motor_command_stop();
+    current_encoder_position = 0;
+    motor_operate_by_speed(INITIALIZATION_SPPED);
 
     int64_t time = esp_timer_get_time()/1000;
-    while (encoder_position < MAX_ECNODER_DATA / 2){
+    while (current_encoder_position < MAX_LINEAR_ECNODER_VALUE / 2){
         if (time + 3000 < esp_timer_get_time()/1000){
-            motor_request_stop();
-            init_in_progress = false;
-            ESP_LOGI(ERROR_TAG, "Motor initialization failed!");
+            send_motor_command_stop();
+            initialization_in_progress = false;
+            ESP_LOGE(ERROR_LOG_TAG, "Motor initialization failed!");
             return;
         }
     }
     
 
-    motor_request_stop();
-    if (not_inited_yet){
-        xSemaphoreGive(init_done_sem);
+    send_motor_command_stop();
+    current_encoder_position = 0;
+    if (not_initiazatied_yet){
+        xSemaphoreGive(initialization_done_semaphore);
     }
-    init_in_progress = false;
-    ESP_LOGI(MAIN_TAG, "Initialize ended");
+    initialization_in_progress = false;
+    send_motor_command_zero();
+    ESP_LOGI(MAIN_LOG_TAG, "Initialize ended");
 }
 
 /**
@@ -459,15 +482,15 @@ static void motor_init_function()
  */
 static void motor_self_saver_task(void *arg)
 {
-    xSemaphoreTake(init_done_sem, portMAX_DELAY);
-    not_inited_yet = false;
+    xSemaphoreTake(initialization_done_semaphore, portMAX_DELAY);
+    not_initiazatied_yet = false;
     while(1){
-        if (!init_in_progress){
-            if(encoder_position < SAFE_REGION || encoder_position > MAX_ECNODER_DATA - SAFE_REGION){
-                in_safe_state = false;
-                ESP_LOGI(ERROR_TAG, "Danger situation, stopping motor");
+        if (!initialization_in_progress){
+            if((current_encoder_position < -MAX_LINEAR_ECNODER_VALUE/2 + SAFE_REGION_MARGIN) || (current_encoder_position > MAX_LINEAR_ECNODER_VALUE/2 - SAFE_REGION_MARGIN)){
+                system_in_safe_state = false;
+                ESP_LOGE(ERROR_LOG_TAG, "Danger situation, stopping motor");
                 motor_init_function();
-                in_safe_state = true;
+                system_in_safe_state = true;
             }
         } 
         vTaskDelay(pdMS_TO_TICKS(20));
@@ -484,8 +507,8 @@ static void motor_self_saver_task(void *arg)
  */
 void uart_init_setup() 
 {
-    uart_config_t uart_config = {
-        .baud_rate = BAUD_RATE,
+    uart_config_t uart_configuration = {
+        .baud_rate = UART_BAUD_RATE,
         .data_bits = UART_DATA_8_BITS,
         .parity = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
@@ -493,9 +516,9 @@ void uart_init_setup()
         .source_clk = UART_SCLK_DEFAULT,
     };
     
-    ESP_ERROR_CHECK(uart_param_config(UART_PORT, &uart_config));
-    ESP_ERROR_CHECK(uart_set_pin(UART_PORT, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
-    ESP_ERROR_CHECK(uart_driver_install(UART_PORT, BUF_SIZE * 2, 0, 0, NULL, 0));
+    ESP_ERROR_CHECK(uart_param_config(UART_PORT_NUMBER, &uart_configuration));
+    ESP_ERROR_CHECK(uart_set_pin(UART_PORT_NUMBER, CAN_TX_PIN, CAN_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
+    ESP_ERROR_CHECK(uart_driver_install(UART_PORT_NUMBER, UART_BUFFER_SIZE * 2, 0, 0, NULL, 0));
 }
 
 /**
@@ -508,23 +531,19 @@ void uart_init_setup()
  */
 void uart_event_task(void *pvParameters) 
 {
-    char* data = (char*) malloc(BUF_SIZE);
-    memset(data, 0, BUF_SIZE);
+    char* data = (char*) malloc(UART_BUFFER_SIZE);
+    memset(data, 0, UART_BUFFER_SIZE);
     if (!data) {
-        ESP_LOGE(ERROR_TAG, "Memory allocation error");
+        ESP_LOGE(ERROR_LOG_TAG, "Memory allocation error");
         vTaskDelete(NULL);
     }
     
-    while (true)
-    {
-        const int rxBytes = uart_read_bytes(UART_PORT, data, BUF_SIZE, pdMS_TO_TICKS(SERIAL_MS_DELAY));
+    while (true) {
+        const int rxBytes = uart_read_bytes(UART_PORT_NUMBER, data, UART_BUFFER_SIZE, pdMS_TO_TICKS(UART_DEFAULT_SEND_DELAY));
         if (rxBytes > 0) {
             uart_state(data);    
         }
     }
-
-    free(data);
-    vTaskDelete(NULL);
 }
 
 
@@ -536,11 +555,11 @@ void uart_event_task(void *pvParameters)
  */
 void rtoo()   // READY to OPERATIONAL
 {   
-    uart_state = uart_oper_state;
-    sensor_info_sender_timer_handle = xTimerCreate("sensor_info_sender_timer", pdMS_TO_TICKS(sensor_info_sender_delay), pdTRUE, 0, sensor_info_sender_timer);
+    uart_state = uart_operational_state;
+    sensor_timer_handle = xTimerCreate("sensor_timer_callback", pdMS_TO_TICKS(sensor_timer_delay), pdTRUE, 0, sensor_timer_callback);
 
-    if(sensor_info_sender_timer_handle != NULL) {
-        xTimerStart(sensor_info_sender_timer_handle, 0);
+    if(sensor_timer_handle != NULL) {
+        xTimerStart(sensor_timer_handle, 0);
     }
 }
 
@@ -568,51 +587,57 @@ void otor()   // OPERATIONAL to READY
  */
 void uart_ready_state(char* data)
 {
-    // start button
     if (strstr((const char *)data, "START_OPER")) {
-        ESP_LOGI(WRITE_TAG, "Starting operational state");
-        rtoo();
+        ESP_LOGI(TO_PC_LOG_TAG, "Starting operational state");
+        from_ready_to_operational();
     } else if (strstr((const char *)data, "RESTART")) {
-        xSemaphoreGive(all_done_sem);
+        xSemaphoreGive(restart_command_semaphore);
     } else if (strstr((const char *)data, "HELP")) {
-        ESP_LOGI(WRITE_TAG, "Possible commands\nSTART_OPER - starting operational (experiment) state \nRESTART - software restart the controller (also sofware reboots motor)\nSTART_TESTS - hardware sensor tests\nMOTOR_FIND - try to find motor id and start communicating\nMOTOR_INFO - requests info from motor (voltage, temperature, errors)\nMOTOR_RESET - software resetting the motor\nMOTOR_INIT - centering the carriage, initializing true encoder position and activating dead zones\nMOTOR_MODE - switch contolling modes\nDATA_SEND_MODE - cofigure sending joint info sending\nENCODER_POSITION - request single position\nENCODER_ANGLE - request single angle");
+        ESP_LOGI(TO_PC_LOG_TAG, "Possible commands\n"
+                                "START_OPER - starting operational (experiment) state\n"
+                                "RESTART - software restart the controller (also sofware reboots motor)\n"
+                                "START_TESTS - hardware sensor tests\n"
+                                "MOTOR_FIND - try to find motor id and start communicating\n"
+                                "MOTOR_INFO - requests info from motor (voltage, temperature, errors)\n"
+                                "MOTOR_RESET - software resetting the motor\n"
+                                "MOTOR_INIT - centering the carriage, initializing true encoder position and activating dead zones\n"
+                                "MOTOR_MODE - switch contolling modes\n"
+                                "DATA_SEND_MODE - cofigure sending joint info sending\n"
+                                "ENCODER_POSITION - request single position\n"
+                                "ENCODER_ANGLE - request single angle");
     } else if (strstr((const char *)data, "START_TESTS")) {
-        uart_state = uart_test_btn_state;
-        xSemaphoreGive(test_sem);
+        uart_state = uart_test_button;
+        xSemaphoreGive(test_sync_semaphore);
+    } else if (strstr((const char *)data, "HELLO")) {
+        ESP_LOGI(TO_PC_LOG_TAG, "hi there");
     }
 
-    // motoro control mode
     else if (strstr((const char *)data, "MOTOR_MODE")) {
-        ESP_LOGI(WRITE_TAG, "Possible variants\nTORQUE, SPEED, POSITION");
-        uart_state = uart_get_mode;
+        ESP_LOGI(TO_PC_LOG_TAG, "Possible variants\nTORQUE, SPEED, POSITION");
+        uart_state = uart_set_motor_drive_mode;
     } else if (strstr((const char *)data, "MOTOR_FIND")) {
-        find_my_id();
-    } else if (strstr((const char *)data, "MOTOR_RESET")) {
-        motor_request_system_reset();
+        find_motor_id();
+    } else if (strstr((const char *)data, "MOTOR_RESET") || strstr((const char *)data, "1000003")) {
+        send_motor_command_system_reset();
     } else if (strstr((const char *)data, "MOTOR_INFO")) {
-        motor_request_info();
+        send_motor_command_status();
     } else if (strstr((const char *)data, "MOTOR_INIT")) {
         motor_init_function();
     }
 
-
-    // set data sending mode
     else if (strstr((const char *)data, "DATA_SEND_MODE")) {
-        ESP_LOGI(WRITE_TAG, "Conifgure data sending protocols, write delay (ms)");
-        uart_state = uart_get_delay;
+        ESP_LOGI(TO_PC_LOG_TAG, "Conifgure data sending protocols, write delay (ms)");
+        uart_state = uart_set_sender_delay;
     } 
 
-    // getters
     else if (strstr((const char *)data, "ENCODER_POSITION")) {
-        ESP_LOGI(WRITE_TAG, "Position is %d", encoder_position);
+        ESP_LOGI(TO_PC_LOG_TAG, "Position is %f", current_encoder_position);
     } else if (strstr((const char *)data, "ENCODER_ANGLE")) {
-        ESP_LOGI(WRITE_TAG, "Angle is %f", encoder_angle);
+        ESP_LOGI(TO_PC_LOG_TAG, "Angle is %f", current_encoder_angle);
     } 
-    
-    
     
     else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_LOG_TAG, "Undefined behaviour");
     }
 
 }
@@ -627,13 +652,20 @@ void uart_ready_state(char* data)
  */
 void uart_get_mode(char* data){ // TODO
     if (strstr((const char *)data, "TORQUE")){
-        ESP_LOGI(WRITE_TAG, "Motor is configured to torque control mode");
+        motor_operate = motor_operate_by_torque;
+        ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to torque control mode");
     } else if (strstr((const char *)data, "SPEED")){
-        ESP_LOGI(WRITE_TAG, "Motor is configured to speed control mode");
+        motor_operate = motor_operate_by_speed;
+        ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to speed control mode");
     } else if (strstr((const char *)data, "POSITION")){
-        ESP_LOGI(WRITE_TAG, "Motor is configured to position control mode");
+        if (not_initiazatied_yet) {
+            ESP_LOGE(ERROR_LOG_TAG, "Motor should be initialized for this behaviour");
+            return;
+        }
+        motor_operate = motor_operate_by_position;
+        ESP_LOGI(TO_PC_LOG_TAG, "Motor is configured to position control mode");
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_LOG_TAG, "Undefined behaviour");
     }
     uart_state = uart_ready_state;
 }
@@ -661,32 +693,37 @@ void uart_get_delay(char* data){
  */
 void uart_oper_state(char* data)
 {
-    recieved_packet = atoi(data);
+    #ifdef DEBUG
+    printf("i recieved");
+    printf(data);
+    printf("in oper state\n");
+    #endif
+    uart_recieved_packet = atoi(data);
 
-    if (!in_safe_state) {
+    if (!system_in_safe_state) {
         return;
     }
 
-    if (recieved_packet < INT16_MIN || recieved_packet > INT16_MAX){
-        if (recieved_packet == MOTOR_STOP_COMMAND){
-            motor_request_stop();
+    if (uart_recieved_packet < INT16_MIN || uart_recieved_packet > INT16_MAX){
+        if (uart_recieved_packet == MOTOR_STOP_COMMAND){
+            send_motor_command_stop();
             return;
-        } else if (recieved_packet == READY_STATE_COMMAND) {
-            motor_request_stop();
-            ESP_LOGI(MAIN_TAG, "Starting ready state");
-            otor();
+        } else if (uart_recieved_packet == READY_STATE_COMMAND) {
+            send_motor_command_stop();
+            ESP_LOGI(MAIN_LOG_TAG, "Starting ready state");
+            from_operational_to_ready();
             return;
-        } else if (recieved_packet == MOTOR_INFO_COMMMAND) {
-            motor_request_info();
+        } else if (uart_recieved_packet == MOTOR_INFO_COMMMAND) {
+            send_motor_command_status();
             return;
-        } else if (recieved_packet == RESET_COMMAND) {
-            otor();
-            xSemaphoreGive(all_done_sem);
+        } else if (uart_recieved_packet == RESET_COMMAND) {
+            from_operational_to_ready();
+            xSemaphoreGive(restart_command_semaphore);
             return;
         }
-        recieved_packet = 0;
+        uart_recieved_packet = 0;
     }
-    xSemaphoreGive(move_sem);       
+    xSemaphoreGive(motor_command_semaphore);       
 }
 
 /**
@@ -697,14 +734,25 @@ void uart_oper_state(char* data)
  */
 void sensor_info_sender_task(){
     while (1){
-        xSemaphoreTake(info_please_sem, portMAX_DELAY);
-        int32_t linear_velocity = (encoder_position - encoder_position_prev) * 1000 / sensor_info_sender_delay;
-        double angular_velocity = (encoder_angle - encoder_angle_prev) * 1000 / sensor_info_sender_delay;
-        encoder_angle_prev = encoder_angle;
-        encoder_position_prev = encoder_position;
+        xSemaphoreTake(sensor_data_request_semaphore, portMAX_DELAY);
+        double linear_velocity = (current_encoder_position - previous_encoder_position) * 1000 / sensor_timer_delay;
+        previous_encoder_position = current_encoder_position;
+        
+        double angular_velocity = ((int) (current_encoder_angle - previous_encoder_angle) % 360) * 1000 / sensor_timer_delay;
+        if (current_encoder_angle > 180){
+            current_encoder_angle = -360 + current_encoder_angle;
+        } else if (current_encoder_angle < -180){
+            current_encoder_angle = 360 + current_encoder_angle;
+        } 
+        
+        previous_encoder_angle = current_encoder_angle;
+        
+        
 
-        if (in_safe_state){
-            printf("%d %ld %f %f\n", encoder_position, linear_velocity, encoder_angle, angular_velocity);
+        
+
+        if (system_in_safe_state){
+            printf("%.3f %.3f %.3f %.3f\n", current_encoder_angle, angular_velocity, current_encoder_position, linear_velocity);
         }
     }
 }
@@ -732,7 +780,7 @@ void sensor_info_sender_timer(){
  */
 static void IRAM_ATTR enc_linear_isr_handler(void* arg)
 {
-    encoder_position += (gpio_get_level(ENC_LINEAR_GPIO_1) != gpio_get_level(ENC_LINEAR_GPIO_2)) ? 1 : -1;
+    current_encoder_position += POSITION_STEP_SIZE * ((gpio_get_level(LINEAR_ENCODER_GPIO_A) != gpio_get_level(LINEAR_ENCODER_GPIO_B)) ? 1 : -1);
 }
 
 /**
@@ -746,7 +794,7 @@ static void IRAM_ATTR enc_linear_isr_handler(void* arg)
  */
 static void IRAM_ATTR enc_angular_change_isr_handler(void* arg)
 {
-    encoder_angle -= ANGLE_STEP_SIZE * (1 - gpio_get_level(ENC_ANGULAR_GPIO_A) * 2);
+    current_encoder_angle += ANGLE_STEP_SIZE * (1 - gpio_get_level(ANGULAR_ENCODER_GPIO_A) * 2);
 }
 
 /**
@@ -759,7 +807,7 @@ static void IRAM_ATTR enc_angular_change_isr_handler(void* arg)
  */
 static void IRAM_ATTR enc_angular_zero_isr_handler(void* arg)
 {
-    encoder_angle = 0;
+    current_encoder_angle = 95.626;
 }
 
 /**
@@ -772,9 +820,9 @@ static void IRAM_ATTR enc_angular_zero_isr_handler(void* arg)
  */
 static void IRAM_ATTR btn_isr_handler(void* arg)
 {
-    if (init_in_progress){
+    if (initialization_in_progress){
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-        xSemaphoreGiveFromISR(btn_sem, &xHigherPriorityTaskWoken);
+        xSemaphoreGiveFromISR(button_press_semaphore, &xHigherPriorityTaskWoken);
     }
 }
 
@@ -793,35 +841,35 @@ static void gpio_init_setup()
     io_conf_1.pull_down_en = 1;
     io_conf_1.mode = GPIO_MODE_INPUT;
     io_conf_1.intr_type = GPIO_INTR_ANYEDGE;
-    io_conf_1.pin_bit_mask = GPIO_PIN_MASK(ENC_LINEAR_GPIO_1);
+    io_conf_1.pin_bit_mask = GPIO_PIN_MASK(LINEAR_ENCODER_GPIO_A);
     gpio_config(&io_conf_1);
 
     gpio_config_t io_conf_2;
     io_conf_2.pull_down_en = 1;
     io_conf_2.mode = GPIO_MODE_INPUT;
     io_conf_2.intr_type = GPIO_INTR_DISABLE;
-    io_conf_2.pin_bit_mask = GPIO_PIN_MASK(ENC_LINEAR_GPIO_2);
+    io_conf_2.pin_bit_mask = GPIO_PIN_MASK(LINEAR_ENCODER_GPIO_B);
     gpio_config(&io_conf_2);
 
     // angular
     gpio_config_t io_conf_3;
     io_conf_3.pull_down_en = 1;
     io_conf_3.mode = GPIO_MODE_INPUT;
-    io_conf_3.pin_bit_mask = GPIO_PIN_MASK(ENC_ANGULAR_GPIO_A);
+    io_conf_3.pin_bit_mask = GPIO_PIN_MASK(ANGULAR_ENCODER_GPIO_A);
     io_conf_3.intr_type = GPIO_INTR_DISABLE;
     gpio_config(&io_conf_3);
 
     gpio_config_t io_conf_4;
     io_conf_4.pull_down_en = 1;
     io_conf_4.mode = GPIO_MODE_INPUT;
-    io_conf_4.pin_bit_mask = GPIO_PIN_MASK(ENC_ANGULAR_GPIO_B);
+    io_conf_4.pin_bit_mask = GPIO_PIN_MASK(ANGULAR_ENCODER_GPIO_B);
     io_conf_4.intr_type = GPIO_INTR_POSEDGE;
     gpio_config(&io_conf_4);
 
     gpio_config_t io_conf_5;
     io_conf_5.pull_down_en = 1;
     io_conf_5.mode = GPIO_MODE_INPUT;
-    io_conf_5.pin_bit_mask = GPIO_PIN_MASK(ENC_ANGULAR_GPIO_C);
+    io_conf_5.pin_bit_mask = GPIO_PIN_MASK(ANGULAR_ENCODER_GPIO_C);
     io_conf_5.intr_type = GPIO_INTR_POSEDGE;
     gpio_config(&io_conf_5);
 
@@ -829,16 +877,16 @@ static void gpio_init_setup()
     gpio_config_t io_conf_6;
     io_conf_6.pull_down_en = 1;
     io_conf_6.mode = GPIO_MODE_INPUT;
-    io_conf_6.pin_bit_mask = GPIO_PIN_MASK(BTN_GPIO);
+    io_conf_6.pin_bit_mask = GPIO_PIN_MASK(END_BUTTON_GPIO);
     io_conf_6.intr_type = GPIO_INTR_POSEDGE;
     gpio_config(&io_conf_6);
 
     // interrupts 
-    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
-    gpio_isr_handler_add(ENC_LINEAR_GPIO_1, enc_linear_isr_handler, 0);
-    gpio_isr_handler_add(ENC_ANGULAR_GPIO_B, enc_angular_change_isr_handler, 0);
-    gpio_isr_handler_add(ENC_ANGULAR_GPIO_C, enc_angular_zero_isr_handler, 0);
-    gpio_isr_handler_add(BTN_GPIO, btn_isr_handler, 0);
+    gpio_install_isr_service(DEFAULT_INTERRUPT_FLAGS);
+    gpio_isr_handler_add(LINEAR_ENCODER_GPIO_A, linear_encoder_isr, 0);
+    gpio_isr_handler_add(ANGULAR_ENCODER_GPIO_B, angular_encoder_isr, 0);
+    gpio_isr_handler_add(ANGULAR_ENCODER_GPIO_C, angular_zero_isr, 0);
+    gpio_isr_handler_add(END_BUTTON_GPIO, button_press_isr, 0);
     
 }
 
@@ -873,32 +921,32 @@ void cpu_setup()
 void sensor_tests()
 {
     while (1) {
-        tested = true;
-        xSemaphoreTake(test_sem, portMAX_DELAY);
-        ESP_LOGI(WRITE_TAG, "Press the button");
-        init_in_progress = true;
-        xSemaphoreTake(btn_sem, 0);
-        xSemaphoreTake(btn_sem, portMAX_DELAY);
-        init_in_progress = false;
-        ESP_LOGI(WRITE_TAG, "Did YOU press the button? y/n");
+        hardware_tests_passed  = true;
+        xSemaphoreTake(test_sync_semaphore, portMAX_DELAY);
+        ESP_LOGI(TO_PC_LOG_TAG, "Press the button");
+        initialization_in_progress = true;
+        xSemaphoreTake(button_press_semaphore, 0);
+        xSemaphoreTake(button_press_semaphore, portMAX_DELAY);
+        initialization_in_progress = false;
+        ESP_LOGI(TO_PC_LOG_TAG, "Did YOU press the button? y/n");
 
-        xSemaphoreTake(test_sem, portMAX_DELAY);
-        int16_t start_encoder_position = encoder_position;
-        ESP_LOGI(WRITE_TAG, "Now move a carriage");
-        while (start_encoder_position - encoder_position < 1000 && start_encoder_position - encoder_position > -1000){vTaskDelay(pdMS_TO_TICKS(100));}
-        ESP_LOGI(WRITE_TAG, "Did YOU move the carriage? y/n");
+        xSemaphoreTake(test_sync_semaphore, portMAX_DELAY);
+        int16_t start_encoder_position = current_encoder_position;
+        ESP_LOGI(TO_PC_LOG_TAG, "Now move a carriage");
+        while (start_encoder_position - current_encoder_position < 1000 && start_encoder_position - current_encoder_position > -1000){vTaskDelay(pdMS_TO_TICKS(100));}
+        ESP_LOGI(TO_PC_LOG_TAG, "Did YOU move the carriage? y/n");
 
-        xSemaphoreTake(test_sem, portMAX_DELAY);
-        double start_encoder_angle = encoder_angle;
-        ESP_LOGI(WRITE_TAG, "Swing a pendulum");
-        while (start_encoder_angle - encoder_angle < 30 && start_encoder_angle - encoder_angle > -30){vTaskDelay(pdMS_TO_TICKS(100));}
-        ESP_LOGI(WRITE_TAG, "Did YOU swing the pendulum? y/n");
-        xSemaphoreTake(test_sem, portMAX_DELAY);
+        xSemaphoreTake(test_sync_semaphore, portMAX_DELAY);
+        double start_encoder_angle = current_encoder_angle;
+        ESP_LOGI(TO_PC_LOG_TAG, "Swing a pendulum");
+        while (start_encoder_angle - current_encoder_angle < 30 && start_encoder_angle - current_encoder_angle > -30){vTaskDelay(pdMS_TO_TICKS(100));}
+        ESP_LOGI(TO_PC_LOG_TAG, "Did YOU swing the pendulum? y/n");
+        xSemaphoreTake(test_sync_semaphore, portMAX_DELAY);
 
-        if (tested){
-            ESP_LOGI(WRITE_TAG, "Tests are finished");
+        if (hardware_tests_passed ){
+            ESP_LOGI(TO_PC_LOG_TAG, "Tests are finished");
         } else {
-            ESP_LOGI(ERROR_TAG, "Malfunctions found, robot needs a service!");
+            ESP_LOGE(ERROR_LOG_TAG, "Malfunctions found, robot needs a service!");
         }
         
     }
@@ -915,16 +963,16 @@ void sensor_tests()
 void uart_test_btn_state(char* data)
 {
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")) {
-        ESP_LOGI(WRITE_TAG, "Button works properly");
+        ESP_LOGI(TO_PC_LOG_TAG, "Button works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Button doesnt work");
-        tested = false;
+        ESP_LOGE(ERROR_LOG_TAG, "Button doesnt work");
+        hardware_tests_passed  = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_LOG_TAG, "Undefined behaviour");
         return;
     }
-    uart_state = uart_test_encoder_state;
-    xSemaphoreGive(test_sem);
+    uart_state = uart_test_encoder;
+    xSemaphoreGive(test_sync_semaphore);
 }
 
 /**
@@ -938,16 +986,16 @@ void uart_test_btn_state(char* data)
 void uart_test_encoder_state(char* data)
 {
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
-        ESP_LOGI(WRITE_TAG, "Encoder works properly");
+        ESP_LOGI(TO_PC_LOG_TAG, "Encoder works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Encoder doesnt work");
-        tested = false;
+        ESP_LOGE(ERROR_LOG_TAG, "Encoder doesnt work");
+        hardware_tests_passed  = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_LOG_TAG, "Undefined behaviour");
         return;
     }
-    uart_state = uart_test_angle_state;
-    xSemaphoreGive(test_sem);
+    uart_state = uart_test_angle;
+    xSemaphoreGive(test_sync_semaphore);
 }
 
 /**
@@ -961,16 +1009,16 @@ void uart_test_encoder_state(char* data)
 void uart_test_angle_state(char* data)
 {
     if (strstr((const char *)data, "YES") || strstr((const char *)data, "yes") || strstr((const char *)data, "y")){
-        ESP_LOGI(WRITE_TAG, "Angle sensor works properly");
+        ESP_LOGI(TO_PC_LOG_TAG, "Angle sensor works properly");
     } else if (strstr((const char *)data, "NO") || strstr((const char *)data, "no") || strstr((const char *)data, "n")) {
-        ESP_LOGI(ERROR_TAG, "Angle sensor doesnt work");
-        tested = false;
+        ESP_LOGE(ERROR_LOG_TAG, "Angle sensor doesnt work");
+        hardware_tests_passed  = false;
     } else {
-        ESP_LOGI(ERROR_TAG, "Undefined behaviour");
+        ESP_LOGE(ERROR_LOG_TAG, "Undefined behaviour");
         return;
     }
     uart_state = uart_ready_state;
-    xSemaphoreGive(test_sem);
+    xSemaphoreGive(test_sync_semaphore);
 }
 
 
@@ -985,51 +1033,49 @@ void uart_test_angle_state(char* data)
  */
 void app_main(void)
 {
-    cpu_setup();
+    configure_cpu();
 
     //Create tasks, queues, and semaphores
-    all_done_sem = xSemaphoreCreateBinary();
-    move_sem = xSemaphoreCreateBinary();
-    smert_sem = xSemaphoreCreateBinary();
-    btn_sem = xSemaphoreCreateBinary();
-    init_start_sem = xSemaphoreCreateBinary();
-    init_done_sem = xSemaphoreCreateBinary();
-    info_please_sem = xSemaphoreCreateBinary();
-    test_sem = xSemaphoreCreateBinary();
+    restart_command_semaphore = xSemaphoreCreateBinary();
+    motor_command_semaphore = xSemaphoreCreateBinary();
+    button_press_semaphore = xSemaphoreCreateBinary();
+    initialization_start_semaphore = xSemaphoreCreateBinary();
+    initialization_done_semaphore = xSemaphoreCreateBinary();
+    sensor_data_request_semaphore = xSemaphoreCreateBinary();
+    test_sync_semaphore = xSemaphoreCreateBinary();
 
-    gpio_init_setup();
-    uart_init_setup();
+    configure_gpio();
+    uart_configure();
 
-    ESP_ERROR_CHECK(twai_driver_install(&g_config, &t_config, &f_config));
+    ESP_ERROR_CHECK(twai_driver_install(&can_general_config , &can_timing_config , &can_filter_config ));
     ESP_ERROR_CHECK(twai_start());
 
-    xTaskCreate(motor_control_task,         "motor_control",            4096,   NULL,   CTRL_TSK_PRIO,      &mct_handle);
-    xTaskCreate(uart_event_task,            "serial_handler",           4096,   NULL,   SERIAL_TSK_PRIO,    &uet_handle);
-    xTaskCreate(motor_self_saver_task,      "motor_self_saver",         4096,   NULL,   SAVER_TSK_PRIO,     &msst_handle);
-    xTaskCreate(sensor_info_sender_task,    "jonit_info",               4096,   NULL,   SERIAL_TSK_PRIO,    &sist_handle);
-    xTaskCreate(sensor_tests,               "tests",                    4096,   NULL,   TEST_TASK_PRIO,     &stt_handle);
+    xTaskCreate(motor_control_task,         "motor_control",            4096,   NULL,   CTRL_TSK_PRIORITY,      &motor_control_task_handle);
+    xTaskCreate(uart_event_task,            "serial_handler",           4096,   NULL,   SERIAL_TSK_PRIORITY,    &uart_event_task_handle);
+    xTaskCreate(motor_self_saver_task,      "motor_self_saver",         4096,   NULL,   SAVER_TSK_PRIORITY,     &safety_monitor_task_handle);
+    xTaskCreate(sensor_info_sender_task,    "jonit_info",               4096,   NULL,   SERIAL_TSK_PRIORITY,    &sensor_info_sender_task_handle);
+    xTaskCreate(hardware_test_sequence,     "tests",                    4096,   NULL,   TEST_TASK_PRIORITY,     &hardware_test_task_handle);
 
-    ESP_LOGI(WRITE_TAG, "Ready to use");
+    ESP_LOGI(TO_PC_LOG_TAG, "Ready to use");
 
-    xSemaphoreTake(all_done_sem, portMAX_DELAY);    
+    xSemaphoreTake(restart_command_semaphore, portMAX_DELAY);    
 
-    vTaskDelete(mct_handle);
-    vTaskDelete(uet_handle);
-    vTaskDelete(msst_handle);
-    vTaskDelete(sist_handle);
-    vTaskDelete(stt_handle);
+    vTaskDelete(motor_control_task_handle);
+    vTaskDelete(uart_event_task_handle);
+    vTaskDelete(safety_monitor_task_handle);
+    vTaskDelete(sensor_info_sender_task_handle);
+    vTaskDelete(hardware_test_task_handle);
 
     ESP_ERROR_CHECK(twai_stop());
     ESP_ERROR_CHECK(twai_driver_uninstall());
 
-    vSemaphoreDelete(all_done_sem);
-    vSemaphoreDelete(move_sem);
-    vSemaphoreDelete(smert_sem);
-    vSemaphoreDelete(btn_sem);
-    vSemaphoreDelete(init_start_sem);
-    vSemaphoreDelete(init_done_sem);
-    vSemaphoreDelete(test_sem);
+    vSemaphoreDelete(restart_command_semaphore);
+    vSemaphoreDelete(motor_command_semaphore);
+    vSemaphoreDelete(button_press_semaphore);
+    vSemaphoreDelete(initialization_start_semaphore);
+    vSemaphoreDelete(initialization_done_semaphore);
+    vSemaphoreDelete(test_sync_semaphore);
 
-    ESP_LOGI(MAIN_TAG, "Restarting...");
+    ESP_LOGI(MAIN_LOG_TAG, "Restarting...");
     esp_restart();
 }

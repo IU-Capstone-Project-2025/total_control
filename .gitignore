@@ -75,5 +75,6 @@ firmware/**/sdkconfig.old
 firmware/**/.gdbinit
 firmware/**/config.env
 
+
 # Исключение для документации
-!docs/build/
+docs/build/

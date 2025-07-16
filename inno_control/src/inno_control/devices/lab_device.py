@@ -44,8 +44,10 @@ class LabDevice:
                 baudrate=self._baudrate,
                 timeout=self._timeout
             )
+
             # Device-specific initialization
-            self._initialize_device()
+            if do_init_activity:
+                self._initialize_device()
             
         except serial.SerialException as e:
             raise DeviceConnectionError(f"Connection to {self._port} failed: {str(e)}")
@@ -92,12 +94,13 @@ class LabDevice:
         try:
             self._connection.write(f"{command}\n".encode(encoding))
             if read_response:
-                return self._connection.readline().decode(encoding).strip()
+                return self._read(sync=True)
             return None
         except serial.SerialException as e:
             raise DeviceCommandError(f"Command execution failed: {str(e)}")
     
-    def _read(self, encoding: str = 'utf-8') -> str:
+
+    def _read(self, encoding: str = 'utf-8', sync: bool = False) -> str:
         """
         Read a single line of response from the device.
 
@@ -111,10 +114,29 @@ class LabDevice:
             DeviceCommandError: If reading the response fails.
         """
         try:
+            if sync:
+                while not self._connection.in_waiting:
+                    pass
             return self._connection.readline().decode(encoding).strip()
         except serial.SerialException as e:
             raise DeviceCommandError(f"Failed to read response: {str(e)}")
     
+
+    def _check_response(self, expected_response, response) -> None:
+        if not response:
+            raise DeviceCommandError('No response')
+        
+        if response != expected_response:
+            raise DeviceCommandError(f'Not expected response {response}')
+        
+
+    def _flush(self) -> None:
+        self._connection.reset_input_buffer()
+        self._connection.reset_output_buffer()
+
+    def _restart_device(self) -> None:
+        pass
+
     def __enter__(self):
         """
         Enter the context manager, automatically connecting the device.

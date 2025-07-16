@@ -1,6 +1,11 @@
 from inno_control.devices import LabDevice
 from inno_control.exceptions import DeviceConfigurationError, DeviceCommandError
-import time
+from typing import Optional
+from time import sleep
+
+
+
+
 class CartPole(LabDevice):
     """
     Interface for controlling and reading from a physical Cart-Pole system via an ESP32 device.
@@ -42,17 +47,48 @@ class CartPole(LabDevice):
         """
 
         try:
-            self._send_command("MOTOR_INIT")
             
+            self._restart_device()
+
+            while self._connection.in_waiting:
+                self._flush()
+            
+            self._check_response(self._send_command("MOTOR_INIT", read_response=True), 'Initializing motor')
             print('Waiting for initialization of CartPole')
-            print(self._read())
-            print(self._read())
-            print(self._read())
-            print(self._read())
+            self._check_response(self._read(sync=True), 'Initialize ended')
+
+            print('CartPole is ready for work')
             self._state = "READY"
             
         except (ValueError, DeviceCommandError) as e:
             raise DeviceConfigurationError(f"Initialization failed: {str(e)}") from e
+        
+
+
+    def re_init(self):
+        self._initialize_device()
+        self.start_experimnet()
+
+    def _check_response(self, response, expected_response) -> None:
+        if not response:
+            raise DeviceCommandError('No response')
+        
+        if response.split()[3:] != expected_response.split():
+            raise DeviceCommandError(f'Not expected response {response}')
+        
+
+    def _restart_device(self) -> None:
+        self._send_command("1000003")
+        sleep(2)
+        if self._connection.in_waiting:
+            self._flush()
+        sleep(0.1)
+        if self._connection.in_waiting:
+            self._restart_device()
+
+
+
+
 
     def start_experimnet(self) -> None:
         """
@@ -112,11 +148,15 @@ class CartPole(LabDevice):
             self._send_command("MODE=READY", read_response=True)
             
             print('Stoping...')
-            time.sleep(2.0)
-            response = self._send_command("STATE", read_response_in=True)
-            if response != "READY":
-                raise DeviceCommandError(f"Device not responding properly.\nState: {response}")
-            
+            self._state = "READY"
+        elif self._state == "READY":
+            self._send_command("RESTART")
+            print(self._read())
+            self._state = "READY"
+
+
+
+
     def set_joint_efforts(self, effort: str) -> None:
         """
         Send a control effort command to the cart motor.
@@ -132,3 +172,19 @@ class CartPole(LabDevice):
             DeviceCommandError: If the effort command cannot be sent.
         """
         self._send_command(effort)
+
+
+
+    def stop_motor(self) -> None:
+        if self._state == "OPER": 
+            self._send_command("1000000")
+            print('Stoping motor...')
+            self._state == "READY"
+
+
+    def help_me(self) -> None:
+        if self._state == "READY": 
+            self._send_command("HELP")
+        else: 
+            raise DeviceCommandError("Wrong state of the system, need to switch to 'READY'")
+
