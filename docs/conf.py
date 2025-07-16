@@ -48,6 +48,9 @@ autodoc_default_options = {
     'undoc-members': True,
     'show-inheritance': True
 }
+
+html_static_path = ['_static']
+
 autodoc_typehints = "description"
 autodoc_mock_imports = []  # Add problematic dependencies here
 
