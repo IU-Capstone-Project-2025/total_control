@@ -3,16 +3,30 @@ from typing import Optional
 from ..exceptions import DeviceConnectionError, DeviceCommandError
 
 class LabDevice:
-    """Base class for laboratory equipment communication via serial interface"""
+    """
+    Base class for laboratory equipment communication via a serial interface.
+
+    This class defines a generic interface to connect to any lab device (e.g., a motor controller, sensor board, or actuator)
+    that communicates using a serial port. It provides core methods for connecting, disconnecting, sending commands,
+    and reading responses. Specific devices should extend this base class and implement any custom initialization logic
+    in `_initialize_device`.
+
+    Attributes:
+        _port (str): Serial port used to connect to the device.
+        _baudrate (int): Communication speed in baud.
+        _timeout (float): Timeout for serial operations.
+        _connection (serial.Serial): Active serial connection.
+    """
     
     def __init__(self, port: str, baudrate: int = 921600, timeout: float = 1.0):
         """
-        Initialize the lab device connection
-        
-        Args:
-            port: Serial port name (e.g., 'COM3' on Windows or '/dev/ttyUSB0' on Linux)
-            baudrate: Communication speed in bits per second (default: 9600)
-            timeout: Read timeout in seconds (default: 1.0)
+        Establish the serial connection with the lab device.
+
+        Opens the serial port with the specified configuration and calls
+        `_initialize_device` to perform any device-specific setup after connection.
+
+        Raises:
+            DeviceConnectionError: If the serial port cannot be opened.
         """
         self._port = port
         self._baudrate = baudrate
@@ -21,7 +35,12 @@ class LabDevice:
 
 
     def connect(self, do_init_activity = True) -> None:
-        """Establish connection with the lab device"""
+        """
+        Connect to devicce.
+
+        Args:
+            do_init_activity (bool): True if you want to initilize device.
+        """
         try:
             self._connection = serial.Serial(
                 port=self._port,
@@ -37,7 +56,9 @@ class LabDevice:
             raise DeviceConnectionError(f"Connection to {self._port} failed: {str(e)}")
     
     def disconnect(self) -> None:
-        """Safely close the device connection"""
+        """        
+        Closes the serial port if it is open and clears the connection attribute.
+        """
         if self._connection and self._connection.is_open:
             self._connection.close()
         self._connection = None
