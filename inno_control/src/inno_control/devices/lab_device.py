@@ -17,7 +17,8 @@ class LabDevice:
         _timeout (float): Timeout for serial operations.
         _connection (serial.Serial): Active serial connection.
     """
-    def __init__(self, port: str, baudrate: int = 115200, timeout: float = 1.0):
+    
+    def __init__(self, port: str, baudrate: int = 921600, timeout: float = 1.0):
         """
         Establish the serial connection with the lab device.
 
@@ -31,12 +32,14 @@ class LabDevice:
         self._baudrate = baudrate
         self._timeout = timeout
         self._connection = None
-        
-    def connect(self) -> None:
-        """
-        Close the serial connection safely.
 
-        Closes the serial port if it is open and clears the connection attribute.
+
+    def connect(self, do_init_activity = True) -> None:
+        """
+        Connect to devicce.
+
+        Args:
+            do_init_activity (bool): True if you want to initilize device.
         """
         try:
             self._connection = serial.Serial(
@@ -53,9 +56,7 @@ class LabDevice:
             raise DeviceConnectionError(f"Connection to {self._port} failed: {str(e)}")
     
     def disconnect(self) -> None:
-        """
-        Close the serial connection safely.
-
+        """        
         Closes the serial port if it is open and clears the connection attribute.
         """
         if self._connection and self._connection.is_open:
@@ -63,31 +64,24 @@ class LabDevice:
         self._connection = None
     
     def _initialize_device(self) -> None:
-        """
-        Perform any additional initialization steps for the device.
-
-        This method should be overridden in a child class if the device requires
-        any commands to be sent immediately after connecting (e.g., motor setup,
-        sensor calibration).
-        """
+        """Device-specific initialization (override in child classes)"""
         pass
     
     def _send_command(self, command: str, read_response: bool = False, 
                     encoding: str = 'utf-8') -> Optional[str]:
         """
-        Send a command string to the device and optionally read a response.
-
+        Send command to device and optionally read response
+        
         Args:
-            command (str): The command to send to the device.
-            read_response (bool, optional): If True, read and return a single line response. Defaults to False.
-            encoding (str, optional): Character encoding for the command and response. Defaults to 'utf-8'.
-
+            command: Command string to send
+            read_response: Whether to wait for response (default: True)
+            encoding: Text encoding to use (default: 'ascii')
+            
         Returns:
-            Optional[str]: Response string if `read_response` is True, otherwise None.
-
+            Device response as string if read_response=True, None otherwise
+            
         Raises:
-            DeviceConnectionError: If the device is not connected.
-            DeviceCommandError: If the command fails to send or read.
+            DeviceCommandError: If command fails to execute
         """
         if not self._connection or not self._connection.is_open:
             raise DeviceConnectionError("No active device connection")
@@ -102,16 +96,16 @@ class LabDevice:
 
     def _read(self, encoding: str = 'utf-8', sync: bool = False) -> str:
         """
-        Read a single line of response from the device.
-
+        Read response from device
+        
         Args:
-            encoding (str, optional): Character encoding to decode the response. Defaults to 'utf-8'.
-
+            encoding: Text encoding to use (default: 'ascii')
+            
         Returns:
-            str: Decoded response line from the device.
-
+            Decoded response string
+            
         Raises:
-            DeviceCommandError: If reading the response fails.
+            DeviceCommandError: If read operation fails
         """
         try:
             if sync:
@@ -138,19 +132,10 @@ class LabDevice:
         pass
 
     def __enter__(self):
-        """
-        Enter the context manager, automatically connecting the device.
-
-        Returns:
-            LabDevice: The connected device instance.
-        """
+        """Context manager entry point"""
         self.connect()
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """
-        Exit the context manager, automatically disconnecting the device.
-
-        Ensures the serial connection is safely closed even if an exception occurs.
-        """
+        """Context manager exit point"""
         self.disconnect()

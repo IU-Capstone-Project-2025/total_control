@@ -1,7 +1,7 @@
 from inno_control.devices import CartPole
 from inno_control.devices.port_scan import find_your_device
 
-port = input('Type your device port (enter for scan)\n')
+port = '/dev/ttyUSB0'  # Замените на ваш порт, если необходимо
 
 
 
@@ -90,7 +90,7 @@ while True:
             p_dot = float(res[3])         / 1000
 
             u = control_with_out_observer(np.array([-theta, -theta_dot, p, p_dot]))
-
+            print(theta, theta_dot, p, p_dot)
             print(u)
             device.set_joint_efforts(u)
             

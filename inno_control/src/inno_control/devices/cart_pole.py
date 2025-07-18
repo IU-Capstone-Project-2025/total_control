@@ -35,6 +35,7 @@ class CartPole(LabDevice):
         super().__init__(port, baudrate, timeout)
         self._state = "UNKNOWN"
         
+
     def _initialize_device(self) -> None:
         """
         Initialize the Cart-Pole hardware by sending motor setup commands.
@@ -45,7 +46,6 @@ class CartPole(LabDevice):
         Raises:
             DeviceConfigurationError: If the device fails to initialize properly.
         """
-
         try:
             
             self._restart_device()
@@ -66,10 +66,12 @@ class CartPole(LabDevice):
 
 
     def re_init(self):
+        """TODO"""
         self._initialize_device()
         self.start_experimnet()
 
     def _check_response(self, response, expected_response) -> None:
+        """TODO"""
         if not response:
             raise DeviceCommandError('No response')
         
@@ -78,6 +80,9 @@ class CartPole(LabDevice):
         
 
     def _restart_device(self) -> None:
+        """
+        TODO
+        """
         self._send_command("1000003")
         sleep(2)
         if self._connection.in_waiting:
@@ -100,13 +105,11 @@ class CartPole(LabDevice):
         Raises:
             DeviceCommandError: If the system does not confirm that balancing has started.
         """
-        response = self._send_command("START_OPER", read_response=True)
-        
-        if response != "STARTED":
-            raise DeviceCommandError(response)
-        
-        self._state = "STARTED"
+        self._check_response(self._send_command("START_OPER", read_response=True), 'Starting operational state')
+
+        self._state = "OPER"
     
+
     def get_state(self):
         """
         Get the current state of the Cart-Pole device.
@@ -116,7 +119,8 @@ class CartPole(LabDevice):
         """
         return self._state
     
-    def get_joint_state(self) -> None:
+
+    def get_joint_state(self) -> Optional[str]:
         """
         Read the current physical state of the cart and pole.
 
@@ -129,10 +133,21 @@ class CartPole(LabDevice):
         Raises:
             DeviceCommandError: If called when the system is not running.
         """
-        if self._state == "STARTED":
-            return self._read()
-        raise DeviceCommandError("Wrong state of the system, need to switch to 'STARTED'")
+        if self._state != "OPER":
+            raise DeviceCommandError("Wrong state of the system, need to switch to 'OPER'")
+            
+        if self._connection.in_waiting:
+            response = self._read()
+            if self._connection.in_waiting > 100:
+                print(f'slow on {self._connection.in_waiting} bytes, flushing i/o buffers')
+                self._flush()
+                pass
+            return response
+        else:
+            return None
+        
     
+
     def stop_experiment(self) -> None:
         """
         Stop the balancing experiment and switch the system back to idle.
@@ -143,10 +158,15 @@ class CartPole(LabDevice):
         Raises:
             DeviceCommandError: If the system fails to return to 'READY' mode.
         """
-        if self._state == "STARTED":
-            
-            self._send_command("MODE=READY", read_response=True)
-            
+        if self._state == "OPER": 
+            self._send_command("1000001")
+            print('Stoping...')
+
+                
+    def _restart(self) -> None:
+        """TODO"""     
+        if self._state == "OPER": 
+            self._send_command("1000001")
             print('Stoping...')
             self._state = "READY"
         elif self._state == "READY":
@@ -171,11 +191,14 @@ class CartPole(LabDevice):
         Raises:
             DeviceCommandError: If the effort command cannot be sent.
         """
+        if self._state != "OPER":
+            raise DeviceCommandError("Wrong state of the system, need to switch to 'OPER'")
         self._send_command(effort)
 
 
 
     def stop_motor(self) -> None:
+        """TODO"""
         if self._state == "OPER": 
             self._send_command("1000000")
             print('Stoping motor...')
@@ -183,6 +206,7 @@ class CartPole(LabDevice):
 
 
     def help_me(self) -> None:
+        """TODO"""
         if self._state == "READY": 
             self._send_command("HELP")
         else: 

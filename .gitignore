@@ -57,6 +57,7 @@ build/
 .vscode/
 *.swp
 *.swo
+.venv/
 
 # Исключение временных файлов
 *.tmp

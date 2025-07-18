@@ -15,7 +15,7 @@ device.start_experimnet()
 print('Press enter to start control')
 
 max_force = 90
-centre = 6251
+centre = 0
 input()
 
 
@@ -29,7 +29,7 @@ while True:
             force = (coef / abs(coef)) * 40 + 0.01 * coef
             if(abs(force) > max_force):
                 force = max_force
-            # print(force)
+            print(force)
             device.set_joint_efforts(force)
     except (Exception) as e:
         print(e)
