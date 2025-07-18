@@ -17,6 +17,7 @@ release = 'MVP-0'
 # -- General Configuration ---------------------------------------------------
 
 extensions = [
+    'sphinx.ext.imgconverter',
     'sphinx.ext.autodoc',    # Core docstring extraction
     'sphinx.ext.napoleon',   # Google/NumPy docstring support
     'sphinx.ext.viewcode',   # Source code links
