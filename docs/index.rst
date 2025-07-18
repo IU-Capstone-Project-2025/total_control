@@ -12,4 +12,4 @@ Welcome to total-control's documentation!
 
    api
    firmware
-   
+   electronics
