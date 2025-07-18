@@ -1,13 +1,6 @@
 API Reference
 =============
 
-<<<<<<< HEAD
-.. automodule:: inno_control
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :special-members: __init__
-=======
 This API reference provides detailed information about the classes and methods available
 in the `inno_control` library.
 
@@ -63,4 +56,3 @@ such as LQR, swing-up control, and reinforcement learning.
    :members:
    :undoc-members:
    :show-inheritance:
->>>>>>> main

@@ -37,44 +37,46 @@
     <member refid="main_8c_1a439fa6d18fd0b0edb588a9ead0e1c96d" kind="define"><name>READY_STATE_COMMAND</name></member>
     <member refid="main_8c_1a3dfba5629cbd9c6fd33e0705f38223ef" kind="define"><name>MOTOR_INFO_COMMMAND</name></member>
     <member refid="main_8c_1ac950ebd1ed784f784eb48dfe838a5eb1" kind="define"><name>RESET_COMMAND</name></member>
-    <member refid="main_8c_1ab158aca60145d27b56b0fd2457c07f72" kind="variable"><name>t_config</name></member>
-    <member refid="main_8c_1a79589468673fbf10181e23d0b4c089e0" kind="variable"><name>f_config</name></member>
-    <member refid="main_8c_1ac25d69ac591839b233a7f62728ab9359" kind="variable"><name>g_config</name></member>
-    <member refid="main_8c_1ada82194adf287ba8cc4494cffbe20cb8" kind="variable"><name>motor_control_task_start_sem</name></member>
-    <member refid="main_8c_1a25b67dd34e5beae40d635006c3b1bf32" kind="variable"><name>all_done_sem</name></member>
-    <member refid="main_8c_1ad0387a839002915fe6baa8559a408cba" kind="variable"><name>init_start_sem</name></member>
-    <member refid="main_8c_1a7d86b2264671841f2bbf7d0c83a30f47" kind="variable"><name>init_done_sem</name></member>
-    <member refid="main_8c_1a17fb07af0dd771bfec73431f890acdd4" kind="variable"><name>btn_sem</name></member>
-    <member refid="main_8c_1a33a51797d196bd2c2f8826a7cefa93ee" kind="variable"><name>move_sem</name></member>
-    <member refid="main_8c_1a5d97b6819b726a82d9ad46649816a206" kind="variable"><name>smert_sem</name></member>
-    <member refid="main_8c_1ab350c9a292eccd57baa8a2f300d5ed4c" kind="variable"><name>info_please_sem</name></member>
-    <member refid="main_8c_1aa65cbc9ecbbc1c199db09d03750f5731" kind="variable"><name>test_sem</name></member>
-    <member refid="main_8c_1adfb44453bd87fd4f93ceb901cbf8749c" kind="variable"><name>motor_id</name></member>
-    <member refid="main_8c_1ac9f7634fea30227a987a9fe5d221bf0d" kind="variable"><name>recieved_packet</name></member>
-    <member refid="main_8c_1a5be258b451963084dd49c7e3ccef3d03" kind="variable"><name>encoder_position</name></member>
-    <member refid="main_8c_1a58c1edc2adf8f6f31bb595a21e782081" kind="variable"><name>encoder_position_prev</name></member>
-    <member refid="main_8c_1a4e42802c1621c60dd5ab0ffed27fa02b" kind="variable"><name>encoder_angle</name></member>
-    <member refid="main_8c_1aa5f009e33ce5a1af4dfdbadb816bed87" kind="variable"><name>encoder_angle_prev</name></member>
-    <member refid="main_8c_1ae3a785c814c6a7227a4d1f012a8e1a7d" kind="variable"><name>init_in_progress</name></member>
-    <member refid="main_8c_1adb0e31fc791c18cfa22fce905e03782e" kind="variable"><name>not_inited_yet</name></member>
-    <member refid="main_8c_1aa9fd3235e6537c9b1abb6ee562b3cd35" kind="variable"><name>in_safe_state</name></member>
+    <member refid="main_8c_1a4e8264cbbc80f9e64171962e057cebd5" kind="variable"><name>can_timing_config</name></member>
+    <member refid="main_8c_1a285f23e585582623ca254246d6d62709" kind="variable"><name>can_filter_config</name></member>
+    <member refid="main_8c_1af8caffe722c84623f00646199e7d794b" kind="variable"><name>can_general_config</name></member>
+    <member refid="main_8c_1a7319d79ce7cba1449ceaeb04c7519290" kind="variable"><name>restart_command_semaphore</name></member>
+    <member refid="main_8c_1a6077f91cd840aa51f8fc2f4d9943aa74" kind="variable"><name>initialization_start_semaphore</name></member>
+    <member refid="main_8c_1a634e59001c5a7edeff2f9cbd61011654" kind="variable"><name>initialization_done_semaphore</name></member>
+    <member refid="main_8c_1a25c9a4a6f413a81b09c576928291518d" kind="variable"><name>button_press_semaphore</name></member>
+    <member refid="main_8c_1aa299a531c1b911305dacb04fa380ccf5" kind="variable"><name>motor_command_semaphore</name></member>
+    <member refid="main_8c_1a454b3de05aa2bc38dd82d43eaeaff100" kind="variable"><name>sensor_data_request_semaphore</name></member>
+    <member refid="main_8c_1a2a9680ac266694d83b57b2c41d9f794f" kind="variable"><name>test_sync_semaphore</name></member>
+    <member refid="main_8c_1afcae15934f6d39f2b8cd26d5decdc8ad" kind="variable"><name>motor_can_id</name></member>
+    <member refid="main_8c_1af422f836b6e67e4007093489381061fa" kind="variable"><name>uart_recieved_packet</name></member>
+    <member refid="main_8c_1a1dc0fdc221105e6115fb04a5255921a0" kind="variable"><name>motor_operate</name></member>
+    <member refid="main_8c_1a2ef9867a18907056af24f527fd08caad" kind="variable"><name>current_encoder_position</name></member>
+    <member refid="main_8c_1abb298ad776154ffb195444302fcd2503" kind="variable"><name>current_encoder_angle</name></member>
+    <member refid="main_8c_1a6ad65fcfa8b93be28658c7b8ba1295b8" kind="variable"><name>previous_encoder_position</name></member>
+    <member refid="main_8c_1aa75af8215fae64238b502653440ed193" kind="variable"><name>previous_encoder_angle</name></member>
+    <member refid="main_8c_1ac6185459295c47d4b5f748ced7dcdaee" kind="variable"><name>initialization_in_progress</name></member>
+    <member refid="main_8c_1af226cfc2f36439e5c9920dfde75651c7" kind="variable"><name>not_initiazatied_yet</name></member>
+    <member refid="main_8c_1a76f99cdc0edd3bc98fad096abf19e295" kind="variable"><name>system_in_safe_state</name></member>
     <member refid="main_8c_1aea6c54a26d8beb91b0fbbb948b6d51fb" kind="variable"><name>uart_state</name></member>
-    <member refid="main_8c_1a5e191d15e5657b1a787e0c05b9553975" kind="variable"><name>sensor_info_sender_delay</name></member>
-    <member refid="main_8c_1aea86bca882c1dff18b6d7bcfe737d526" kind="variable"><name>sensor_info_sender_timer_handle</name></member>
-    <member refid="main_8c_1a3fc1dc2caf0675215399535ee7d119e1" kind="variable"><name>mct_handle</name></member>
-    <member refid="main_8c_1af3af826787b86e0d6455da68b290fbc1" kind="variable"><name>uet_handle</name></member>
-    <member refid="main_8c_1ae4c17a2d5197a424f3b4249ab9f244e1" kind="variable"><name>msst_handle</name></member>
-    <member refid="main_8c_1a5465382970260e68c20be62201134588" kind="variable"><name>sist_handle</name></member>
-    <member refid="main_8c_1a6a9349403642edeeec2bf4f742c299ed" kind="variable"><name>stt_handle</name></member>
-    <member refid="main_8c_1a4497ae342d9058ddf35eb3726f63703e" kind="variable"><name>tested</name></member>
+    <member refid="main_8c_1ac0b4618c1d2327f84554ad0976920882" kind="variable"><name>sensor_timer_delay</name></member>
+    <member refid="main_8c_1abaf2edf7a1292305203623720b26d4e9" kind="variable"><name>sensor_timer_handle</name></member>
+    <member refid="main_8c_1af00bb0095c4222b40b300208ef8ba6ae" kind="variable"><name>motor_control_task_handle</name></member>
+    <member refid="main_8c_1a6e0df4a8b56c774b726fb47ed2d7c9ed" kind="variable"><name>uart_event_task_handle</name></member>
+    <member refid="main_8c_1aa092f31aabdab0b24999368a391435c9" kind="variable"><name>safety_monitor_task_handle</name></member>
+    <member refid="main_8c_1af62a46c39e3233d29f8a8c525f69c9a0" kind="variable"><name>sensor_info_sender_task_handle</name></member>
+    <member refid="main_8c_1a458746892e56721cc1fd4ed839433efe" kind="variable"><name>hardware_test_task_handle</name></member>
+    <member refid="main_8c_1a3d6fc0779dd5c14a0d55ce810df8e792" kind="variable"><name>hardware_tests_passed</name></member>
+    <member refid="main_8c_1ad660a07ca8c737428da215b61e8bd76a" kind="function"><name>motor_operate_by_torque</name></member>
+    <member refid="main_8c_1ab8d21881bae79f36a6dd60ca06035b8c" kind="function"><name>motor_operate_by_speed</name></member>
+    <member refid="main_8c_1ac7660dcbd695ec59c86d4534844cea3d" kind="function"><name>motor_operate_by_position</name></member>
     <member refid="main_8c_1ab41dd3d732fbd82f82f73b9ab83fd4f4" kind="function"><name>uart_ready_state</name></member>
-    <member refid="main_8c_1af5ca2d9536e8bfd0d54948d9475c2a81" kind="function"><name>uart_get_delay</name></member>
-    <member refid="main_8c_1ae167c28d1ebe9d2b4a4036ab6bc7a1a5" kind="function"><name>uart_get_mode</name></member>
-    <member refid="main_8c_1a5a0f0d155cedf05c93c7d3fa48a4c553" kind="function"><name>uart_oper_state</name></member>
-    <member refid="main_8c_1a96867752fbeb1da02accb4566f93b96e" kind="function"><name>uart_test_btn_state</name></member>
-    <member refid="main_8c_1afdcf4f2da0664ad2650b1facbe66b331" kind="function"><name>uart_test_encoder_state</name></member>
-    <member refid="main_8c_1a1b4a31580b1b4f18a80998192c2bac70" kind="function"><name>uart_test_angle_state</name></member>
-    <member refid="main_8c_1a212b17df6656d3d5d40f2bd9555ccd6e" kind="function"><name>sensor_info_sender_timer</name></member>
+    <member refid="main_8c_1a4b16c11fd7c43cf6a5bd738b717bb399" kind="function"><name>uart_operational_state</name></member>
+    <member refid="main_8c_1ab77abeaa59284b40381bd43da99a747a" kind="function"><name>uart_set_sender_delay</name></member>
+    <member refid="main_8c_1ae57e57df2a44ddbc17db25241e4e0866" kind="function"><name>uart_set_motor_drive_mode</name></member>
+    <member refid="main_8c_1ade2308f9034a263f8b37667db5659615" kind="function"><name>uart_test_button</name></member>
+    <member refid="main_8c_1a3ddc9edac2be37fc5ae249d937a3292a" kind="function"><name>uart_test_encoder</name></member>
+    <member refid="main_8c_1a5812d4908078838a53bfdd55e04d758b" kind="function"><name>uart_test_angle</name></member>
+    <member refid="main_8c_1a9a8c516ee8fa0f9af81d773e050095d7" kind="function"><name>sensor_timer_callback</name></member>
     <member refid="main_8c_1a0e05a85bd6b4f3dbdb41a50b395bfd03" kind="function"><name>twai_request</name></member>
     <member refid="main_8c_1aa7c38b979cd25bdacde2558ab945a494" kind="function"><name>twai_request_wo_id_check</name></member>
     <member refid="main_8c_1ae3afa3e3e8d58277446681e206489ebb" kind="function"><name>twai_output</name></member>
@@ -95,7 +97,11 @@
     <member refid="main_8c_1ac31eb8ff9ad443774bf4b0eebd3bc7bd" kind="function"><name>uart_event_task</name></member>
     <member refid="main_8c_1ae8467b3be586b5c49f21920cb7ff60c2" kind="function"><name>rtoo</name></member>
     <member refid="main_8c_1affaa7fe52fc78b5f41a2caa46772043d" kind="function"><name>otor</name></member>
+    <member refid="main_8c_1ae167c28d1ebe9d2b4a4036ab6bc7a1a5" kind="function"><name>uart_get_mode</name></member>
+    <member refid="main_8c_1af5ca2d9536e8bfd0d54948d9475c2a81" kind="function"><name>uart_get_delay</name></member>
+    <member refid="main_8c_1a5a0f0d155cedf05c93c7d3fa48a4c553" kind="function"><name>uart_oper_state</name></member>
     <member refid="main_8c_1ac8fe4baeda0e2093aee337024f3fcf89" kind="function"><name>sensor_info_sender_task</name></member>
+    <member refid="main_8c_1a212b17df6656d3d5d40f2bd9555ccd6e" kind="function"><name>sensor_info_sender_timer</name></member>
     <member refid="main_8c_1aff4587bedecb7764243868874ab89eb8" kind="function"><name>enc_linear_isr_handler</name></member>
     <member refid="main_8c_1ab0103c68f3e011afcda90de458194fd1" kind="function"><name>enc_angular_change_isr_handler</name></member>
     <member refid="main_8c_1aebbc131dd6416542599b41ef0b0bdc7d" kind="function"><name>enc_angular_zero_isr_handler</name></member>
@@ -103,6 +109,9 @@
     <member refid="main_8c_1a7884487d464c8d15b17d77dfb58fa544" kind="function"><name>gpio_init_setup</name></member>
     <member refid="main_8c_1a5b74c511125700f64d5e221ec037277c" kind="function"><name>cpu_setup</name></member>
     <member refid="main_8c_1a22a979fedddea9d9cfa7ea5b412831fe" kind="function"><name>sensor_tests</name></member>
+    <member refid="main_8c_1a96867752fbeb1da02accb4566f93b96e" kind="function"><name>uart_test_btn_state</name></member>
+    <member refid="main_8c_1afdcf4f2da0664ad2650b1facbe66b331" kind="function"><name>uart_test_encoder_state</name></member>
+    <member refid="main_8c_1a1b4a31580b1b4f18a80998192c2bac70" kind="function"><name>uart_test_angle_state</name></member>
     <member refid="main_8c_1a630544a7f0a2cc40d8a7fefab7e2fe70" kind="function"><name>app_main</name></member>
   </compound>
   <compound refid="dir_d9edf6c004b4a7ff14fe9ae7a92214ee" kind="dir"><name>/home/ws/src/firmware</name>

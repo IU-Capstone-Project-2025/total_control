@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Electronics and Schematics" href="electronics.html" />
     <link rel="prev" title="API Reference" href="api.html" /> 
 </head>
 
@@ -43,24 +44,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
-<<<<<<< HEAD
-<li class="toctree-l2"><a class="reference internal" href="api.html#inno_control.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.__init__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.connect"><code class="docutils literal notranslate"><span class="pre">LabDevice.connect()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.disconnect"><code class="docutils literal notranslate"><span class="pre">LabDevice.disconnect()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.__enter__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__enter__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.LabDevice.__exit__"><code class="docutils literal notranslate"><span class="pre">LabDevice.__exit__()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-installation">Standard Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker-installation">Docker Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#hardware-setup">Hardware Setup</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#inno_control.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
-=======
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#labdevice">LabDevice</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.LabDevice"><code class="docutils literal notranslate"><span class="pre">LabDevice</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.LabDevice._port"><code class="docutils literal notranslate"><span class="pre">LabDevice._port</span></code></a></li>
@@ -80,118 +72,139 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#inno_control.devices.CartPole"><code class="docutils literal notranslate"><span class="pre">CartPole</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole._state"><code class="docutils literal notranslate"><span class="pre">CartPole._state</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.__init__"><code class="docutils literal notranslate"><span class="pre">CartPole.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.re_init"><code class="docutils literal notranslate"><span class="pre">CartPole.re_init()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.start_experimnet"><code class="docutils literal notranslate"><span class="pre">CartPole.start_experimnet()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.get_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_state()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.get_joint_state"><code class="docutils literal notranslate"><span class="pre">CartPole.get_joint_state()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.stop_experiment"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_experiment()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.set_joint_efforts"><code class="docutils literal notranslate"><span class="pre">CartPole.set_joint_efforts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.stop_motor"><code class="docutils literal notranslate"><span class="pre">CartPole.stop_motor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#inno_control.devices.CartPole.help_me"><code class="docutils literal notranslate"><span class="pre">CartPole.help_me()</span></code></a></li>
 </ul>
 </li>
->>>>>>> main
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Firmware Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#c.CTRL_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">CTRL_TSK_PRIO</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.SERIAL_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">SERIAL_TSK_PRIO</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.SAVER_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">SAVER_TSK_PRIO</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.TEST_TASK_PRIO"><code class="docutils literal notranslate"><span class="pre">TEST_TASK_PRIO</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ESP_INTR_FLAG_DEFAULT"><code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_DEFAULT</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.TX_GPIO_CAN"><code class="docutils literal notranslate"><span class="pre">TX_GPIO_CAN</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.RX_GPIO_CAN"><code class="docutils literal notranslate"><span class="pre">RX_GPIO_CAN</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ENC_LINEAR_GPIO_1"><code class="docutils literal notranslate"><span class="pre">ENC_LINEAR_GPIO_1</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ENC_LINEAR_GPIO_2"><code class="docutils literal notranslate"><span class="pre">ENC_LINEAR_GPIO_2</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ENC_ANGULAR_GPIO_A"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_A</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ENC_ANGULAR_GPIO_B"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_B</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ENC_ANGULAR_GPIO_C"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_C</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.BTN_GPIO"><code class="docutils literal notranslate"><span class="pre">BTN_GPIO</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.GPIO_PIN_MASK"><code class="docutils literal notranslate"><span class="pre">GPIO_PIN_MASK</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ANGLE_STEP_SIZE"><code class="docutils literal notranslate"><span class="pre">ANGLE_STEP_SIZE</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.MAX_ECNODER_DATA"><code class="docutils literal notranslate"><span class="pre">MAX_ECNODER_DATA</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.SAFE_REGION"><code class="docutils literal notranslate"><span class="pre">SAFE_REGION</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.INIT_TORQUE"><code class="docutils literal notranslate"><span class="pre">INIT_TORQUE</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.REINIT_TORQUE"><code class="docutils literal notranslate"><span class="pre">REINIT_TORQUE</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.TXD_PIN"><code class="docutils literal notranslate"><span class="pre">TXD_PIN</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.RXD_PIN"><code class="docutils literal notranslate"><span class="pre">RXD_PIN</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.UART_PORT"><code class="docutils literal notranslate"><span class="pre">UART_PORT</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.BUF_SIZE"><code class="docutils literal notranslate"><span class="pre">BUF_SIZE</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.BAUD_RATE"><code class="docutils literal notranslate"><span class="pre">BAUD_RATE</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.SERIAL_MS_DELAY"><code class="docutils literal notranslate"><span class="pre">SERIAL_MS_DELAY</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.ERROR_TAG"><code class="docutils literal notranslate"><span class="pre">ERROR_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.MAIN_TAG"><code class="docutils literal notranslate"><span class="pre">MAIN_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.DEBUG_TAG"><code class="docutils literal notranslate"><span class="pre">DEBUG_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.SEND_TAG"><code class="docutils literal notranslate"><span class="pre">SEND_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.RECIEVE_TAG"><code class="docutils literal notranslate"><span class="pre">RECIEVE_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.READ_TAG"><code class="docutils literal notranslate"><span class="pre">READ_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.WRITE_TAG"><code class="docutils literal notranslate"><span class="pre">WRITE_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.MOTOR_STOP_COMMAND"><code class="docutils literal notranslate"><span class="pre">MOTOR_STOP_COMMAND</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.READY_STATE_COMMAND"><code class="docutils literal notranslate"><span class="pre">READY_STATE_COMMAND</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.MOTOR_INFO_COMMMAND"><code class="docutils literal notranslate"><span class="pre">MOTOR_INFO_COMMMAND</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.RESET_COMMAND"><code class="docutils literal notranslate"><span class="pre">RESET_COMMAND</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_ready_state"><code class="docutils literal notranslate"><span class="pre">uart_ready_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_get_delay"><code class="docutils literal notranslate"><span class="pre">uart_get_delay()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_get_mode"><code class="docutils literal notranslate"><span class="pre">uart_get_mode()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_oper_state"><code class="docutils literal notranslate"><span class="pre">uart_oper_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_test_btn_state"><code class="docutils literal notranslate"><span class="pre">uart_test_btn_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_test_encoder_state"><code class="docutils literal notranslate"><span class="pre">uart_test_encoder_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_test_angle_state"><code class="docutils literal notranslate"><span class="pre">uart_test_angle_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.sensor_info_sender_timer"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_timer()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.twai_request"><code class="docutils literal notranslate"><span class="pre">twai_request()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.twai_request_wo_id_check"><code class="docutils literal notranslate"><span class="pre">twai_request_wo_id_check()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.twai_output"><code class="docutils literal notranslate"><span class="pre">twai_output()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.find_my_id"><code class="docutils literal notranslate"><span class="pre">find_my_id()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request"><code class="docutils literal notranslate"><span class="pre">motor_request()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_wo_reply"><code class="docutils literal notranslate"><span class="pre">motor_request_wo_reply()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_stop"><code class="docutils literal notranslate"><span class="pre">motor_request_stop()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_system_reset"><code class="docutils literal notranslate"><span class="pre">motor_request_system_reset()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_info"><code class="docutils literal notranslate"><span class="pre">motor_request_info()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_shutdown"><code class="docutils literal notranslate"><span class="pre">motor_request_shutdown()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_torque"><code class="docutils literal notranslate"><span class="pre">motor_request_torque()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_speed"><code class="docutils literal notranslate"><span class="pre">motor_request_speed()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_request_is_connected"><code class="docutils literal notranslate"><span class="pre">motor_request_is_connected()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_control_task"><code class="docutils literal notranslate"><span class="pre">motor_control_task()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_init_function"><code class="docutils literal notranslate"><span class="pre">motor_init_function()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_self_saver_task"><code class="docutils literal notranslate"><span class="pre">motor_self_saver_task()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_init_setup"><code class="docutils literal notranslate"><span class="pre">uart_init_setup()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_event_task"><code class="docutils literal notranslate"><span class="pre">uart_event_task()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.rtoo"><code class="docutils literal notranslate"><span class="pre">rtoo()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.otor"><code class="docutils literal notranslate"><span class="pre">otor()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.sensor_info_sender_task"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_task()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.gpio_init_setup"><code class="docutils literal notranslate"><span class="pre">gpio_init_setup()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.cpu_setup"><code class="docutils literal notranslate"><span class="pre">cpu_setup()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.sensor_tests"><code class="docutils literal notranslate"><span class="pre">sensor_tests()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.app_main"><code class="docutils literal notranslate"><span class="pre">app_main()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.t_config"><code class="docutils literal notranslate"><span class="pre">t_config</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.f_config"><code class="docutils literal notranslate"><span class="pre">f_config</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.g_config"><code class="docutils literal notranslate"><span class="pre">g_config</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_control_task_start_sem"><code class="docutils literal notranslate"><span class="pre">motor_control_task_start_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.all_done_sem"><code class="docutils literal notranslate"><span class="pre">all_done_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.init_start_sem"><code class="docutils literal notranslate"><span class="pre">init_start_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.init_done_sem"><code class="docutils literal notranslate"><span class="pre">init_done_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.btn_sem"><code class="docutils literal notranslate"><span class="pre">btn_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.move_sem"><code class="docutils literal notranslate"><span class="pre">move_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.smert_sem"><code class="docutils literal notranslate"><span class="pre">smert_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.info_please_sem"><code class="docutils literal notranslate"><span class="pre">info_please_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.test_sem"><code class="docutils literal notranslate"><span class="pre">test_sem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.motor_id"><code class="docutils literal notranslate"><span class="pre">motor_id</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.recieved_packet"><code class="docutils literal notranslate"><span class="pre">recieved_packet</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.encoder_position"><code class="docutils literal notranslate"><span class="pre">encoder_position</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.encoder_position_prev"><code class="docutils literal notranslate"><span class="pre">encoder_position_prev</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.encoder_angle"><code class="docutils literal notranslate"><span class="pre">encoder_angle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.encoder_angle_prev"><code class="docutils literal notranslate"><span class="pre">encoder_angle_prev</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.init_in_progress"><code class="docutils literal notranslate"><span class="pre">init_in_progress</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.not_inited_yet"><code class="docutils literal notranslate"><span class="pre">not_inited_yet</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.in_safe_state"><code class="docutils literal notranslate"><span class="pre">in_safe_state</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uart_state"><code class="docutils literal notranslate"><span class="pre">uart_state</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.sensor_info_sender_delay"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_delay</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.sensor_info_sender_timer_handle"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_timer_handle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.mct_handle"><code class="docutils literal notranslate"><span class="pre">mct_handle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.uet_handle"><code class="docutils literal notranslate"><span class="pre">uet_handle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.msst_handle"><code class="docutils literal notranslate"><span class="pre">msst_handle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.sist_handle"><code class="docutils literal notranslate"><span class="pre">sist_handle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.stt_handle"><code class="docutils literal notranslate"><span class="pre">stt_handle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#c.tested"><code class="docutils literal notranslate"><span class="pre">tested</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cart-pole-v1-0-firmware">Cart-Pole v1.0 Firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#c.CTRL_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">CTRL_TSK_PRIO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.SERIAL_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">SERIAL_TSK_PRIO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.SAVER_TSK_PRIO"><code class="docutils literal notranslate"><span class="pre">SAVER_TSK_PRIO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.TEST_TASK_PRIO"><code class="docutils literal notranslate"><span class="pre">TEST_TASK_PRIO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ESP_INTR_FLAG_DEFAULT"><code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_DEFAULT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.TX_GPIO_CAN"><code class="docutils literal notranslate"><span class="pre">TX_GPIO_CAN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.RX_GPIO_CAN"><code class="docutils literal notranslate"><span class="pre">RX_GPIO_CAN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ENC_LINEAR_GPIO_1"><code class="docutils literal notranslate"><span class="pre">ENC_LINEAR_GPIO_1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ENC_LINEAR_GPIO_2"><code class="docutils literal notranslate"><span class="pre">ENC_LINEAR_GPIO_2</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ENC_ANGULAR_GPIO_A"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_A</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ENC_ANGULAR_GPIO_B"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_B</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ENC_ANGULAR_GPIO_C"><code class="docutils literal notranslate"><span class="pre">ENC_ANGULAR_GPIO_C</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.BTN_GPIO"><code class="docutils literal notranslate"><span class="pre">BTN_GPIO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.GPIO_PIN_MASK"><code class="docutils literal notranslate"><span class="pre">GPIO_PIN_MASK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ANGLE_STEP_SIZE"><code class="docutils literal notranslate"><span class="pre">ANGLE_STEP_SIZE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.MAX_ECNODER_DATA"><code class="docutils literal notranslate"><span class="pre">MAX_ECNODER_DATA</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.SAFE_REGION"><code class="docutils literal notranslate"><span class="pre">SAFE_REGION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.INIT_TORQUE"><code class="docutils literal notranslate"><span class="pre">INIT_TORQUE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.REINIT_TORQUE"><code class="docutils literal notranslate"><span class="pre">REINIT_TORQUE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.TXD_PIN"><code class="docutils literal notranslate"><span class="pre">TXD_PIN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.RXD_PIN"><code class="docutils literal notranslate"><span class="pre">RXD_PIN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.UART_PORT"><code class="docutils literal notranslate"><span class="pre">UART_PORT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.BUF_SIZE"><code class="docutils literal notranslate"><span class="pre">BUF_SIZE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.BAUD_RATE"><code class="docutils literal notranslate"><span class="pre">BAUD_RATE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.SERIAL_MS_DELAY"><code class="docutils literal notranslate"><span class="pre">SERIAL_MS_DELAY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.ERROR_TAG"><code class="docutils literal notranslate"><span class="pre">ERROR_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.MAIN_TAG"><code class="docutils literal notranslate"><span class="pre">MAIN_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.DEBUG_TAG"><code class="docutils literal notranslate"><span class="pre">DEBUG_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.SEND_TAG"><code class="docutils literal notranslate"><span class="pre">SEND_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.RECIEVE_TAG"><code class="docutils literal notranslate"><span class="pre">RECIEVE_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.READ_TAG"><code class="docutils literal notranslate"><span class="pre">READ_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.WRITE_TAG"><code class="docutils literal notranslate"><span class="pre">WRITE_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.MOTOR_STOP_COMMAND"><code class="docutils literal notranslate"><span class="pre">MOTOR_STOP_COMMAND</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.READY_STATE_COMMAND"><code class="docutils literal notranslate"><span class="pre">READY_STATE_COMMAND</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.MOTOR_INFO_COMMMAND"><code class="docutils literal notranslate"><span class="pre">MOTOR_INFO_COMMMAND</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.RESET_COMMAND"><code class="docutils literal notranslate"><span class="pre">RESET_COMMAND</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_operate_by_torque"><code class="docutils literal notranslate"><span class="pre">motor_operate_by_torque()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_operate_by_speed"><code class="docutils literal notranslate"><span class="pre">motor_operate_by_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_operate_by_position"><code class="docutils literal notranslate"><span class="pre">motor_operate_by_position()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_ready_state"><code class="docutils literal notranslate"><span class="pre">uart_ready_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_operational_state"><code class="docutils literal notranslate"><span class="pre">uart_operational_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_set_sender_delay"><code class="docutils literal notranslate"><span class="pre">uart_set_sender_delay()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_set_motor_drive_mode"><code class="docutils literal notranslate"><span class="pre">uart_set_motor_drive_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_test_button"><code class="docutils literal notranslate"><span class="pre">uart_test_button()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_test_encoder"><code class="docutils literal notranslate"><span class="pre">uart_test_encoder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_test_angle"><code class="docutils literal notranslate"><span class="pre">uart_test_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_timer_callback"><code class="docutils literal notranslate"><span class="pre">sensor_timer_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.twai_request"><code class="docutils literal notranslate"><span class="pre">twai_request()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.twai_request_wo_id_check"><code class="docutils literal notranslate"><span class="pre">twai_request_wo_id_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.twai_output"><code class="docutils literal notranslate"><span class="pre">twai_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.find_my_id"><code class="docutils literal notranslate"><span class="pre">find_my_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request"><code class="docutils literal notranslate"><span class="pre">motor_request()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_wo_reply"><code class="docutils literal notranslate"><span class="pre">motor_request_wo_reply()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_stop"><code class="docutils literal notranslate"><span class="pre">motor_request_stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_system_reset"><code class="docutils literal notranslate"><span class="pre">motor_request_system_reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_info"><code class="docutils literal notranslate"><span class="pre">motor_request_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_shutdown"><code class="docutils literal notranslate"><span class="pre">motor_request_shutdown()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_torque"><code class="docutils literal notranslate"><span class="pre">motor_request_torque()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_speed"><code class="docutils literal notranslate"><span class="pre">motor_request_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_request_is_connected"><code class="docutils literal notranslate"><span class="pre">motor_request_is_connected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_control_task"><code class="docutils literal notranslate"><span class="pre">motor_control_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_init_function"><code class="docutils literal notranslate"><span class="pre">motor_init_function()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_self_saver_task"><code class="docutils literal notranslate"><span class="pre">motor_self_saver_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_init_setup"><code class="docutils literal notranslate"><span class="pre">uart_init_setup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_event_task"><code class="docutils literal notranslate"><span class="pre">uart_event_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.rtoo"><code class="docutils literal notranslate"><span class="pre">rtoo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.otor"><code class="docutils literal notranslate"><span class="pre">otor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_get_mode"><code class="docutils literal notranslate"><span class="pre">uart_get_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_get_delay"><code class="docutils literal notranslate"><span class="pre">uart_get_delay()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_oper_state"><code class="docutils literal notranslate"><span class="pre">uart_oper_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_info_sender_task"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_info_sender_timer"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_timer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.gpio_init_setup"><code class="docutils literal notranslate"><span class="pre">gpio_init_setup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.cpu_setup"><code class="docutils literal notranslate"><span class="pre">cpu_setup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_tests"><code class="docutils literal notranslate"><span class="pre">sensor_tests()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_test_btn_state"><code class="docutils literal notranslate"><span class="pre">uart_test_btn_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_test_encoder_state"><code class="docutils literal notranslate"><span class="pre">uart_test_encoder_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_test_angle_state"><code class="docutils literal notranslate"><span class="pre">uart_test_angle_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.app_main"><code class="docutils literal notranslate"><span class="pre">app_main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.can_timing_config"><code class="docutils literal notranslate"><span class="pre">can_timing_config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.can_filter_config"><code class="docutils literal notranslate"><span class="pre">can_filter_config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.can_general_config"><code class="docutils literal notranslate"><span class="pre">can_general_config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.restart_command_semaphore"><code class="docutils literal notranslate"><span class="pre">restart_command_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.initialization_start_semaphore"><code class="docutils literal notranslate"><span class="pre">initialization_start_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.initialization_done_semaphore"><code class="docutils literal notranslate"><span class="pre">initialization_done_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.button_press_semaphore"><code class="docutils literal notranslate"><span class="pre">button_press_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_command_semaphore"><code class="docutils literal notranslate"><span class="pre">motor_command_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_data_request_semaphore"><code class="docutils literal notranslate"><span class="pre">sensor_data_request_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.test_sync_semaphore"><code class="docutils literal notranslate"><span class="pre">test_sync_semaphore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_can_id"><code class="docutils literal notranslate"><span class="pre">motor_can_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_recieved_packet"><code class="docutils literal notranslate"><span class="pre">uart_recieved_packet</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_operate"><code class="docutils literal notranslate"><span class="pre">motor_operate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.current_encoder_position"><code class="docutils literal notranslate"><span class="pre">current_encoder_position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.current_encoder_angle"><code class="docutils literal notranslate"><span class="pre">current_encoder_angle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.previous_encoder_position"><code class="docutils literal notranslate"><span class="pre">previous_encoder_position</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.previous_encoder_angle"><code class="docutils literal notranslate"><span class="pre">previous_encoder_angle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.initialization_in_progress"><code class="docutils literal notranslate"><span class="pre">initialization_in_progress</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.not_initiazatied_yet"><code class="docutils literal notranslate"><span class="pre">not_initiazatied_yet</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.system_in_safe_state"><code class="docutils literal notranslate"><span class="pre">system_in_safe_state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_state"><code class="docutils literal notranslate"><span class="pre">uart_state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_timer_delay"><code class="docutils literal notranslate"><span class="pre">sensor_timer_delay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_timer_handle"><code class="docutils literal notranslate"><span class="pre">sensor_timer_handle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.motor_control_task_handle"><code class="docutils literal notranslate"><span class="pre">motor_control_task_handle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.uart_event_task_handle"><code class="docutils literal notranslate"><span class="pre">uart_event_task_handle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.safety_monitor_task_handle"><code class="docutils literal notranslate"><span class="pre">safety_monitor_task_handle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.sensor_info_sender_task_handle"><code class="docutils literal notranslate"><span class="pre">sensor_info_sender_task_handle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.hardware_test_task_handle"><code class="docutils literal notranslate"><span class="pre">hardware_test_task_handle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c.hardware_tests_passed"><code class="docutils literal notranslate"><span class="pre">hardware_tests_passed</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#swing-up-v1-0-firmware">Swing-Up v1.0 Firmware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="electronics.html">Electronics and Schematics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="electronics.html#connector-interfaces">Connector Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronics.html#schematic-diagrams">Schematic Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="electronics.html#pcb-layout">PCB Layout</a></li>
 </ul>
 </li>
 </ul>
@@ -222,133 +235,83 @@
              
   <section id="firmware-documentation">
 <h1>Firmware Documentation<a class="headerlink" href="#firmware-documentation" title="Link to this heading"></a></h1>
-<<<<<<< HEAD
-<p>Main application entry point. </p>
-=======
+<section id="cart-pole-v1-0-firmware">
+<h2>Cart-Pole v1.0 Firmware<a class="headerlink" href="#cart-pole-v1-0-firmware" title="Link to this heading"></a></h2>
 <p>Main application entry point and firmware for CartPole controller. </p>
 <p>Initializes CPU power management, GPIOs, UART, and CAN interfaces. Creates FreeRTOS tasks for motor control, safety monitoring, UART command handling, sensor data reporting, and hardware tests. </p>
->>>>>>> main
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.CTRL_TSK_PRIO">
 <span class="target" id="main_8c_1a7b5e0b4f961899d86c33d9e13ca7633a"></span><span class="sig-name descname"><span class="n"><span class="pre">CTRL_TSK_PRIO</span></span></span><a class="headerlink" href="#c.CTRL_TSK_PRIO" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>&lt; Motor control task priority UART and sensor info task priority </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SERIAL_TSK_PRIO">
 <span class="target" id="main_8c_1ab6ca39f48ecd3c48ffd44ab7acc49a08"></span><span class="sig-name descname"><span class="n"><span class="pre">SERIAL_TSK_PRIO</span></span></span><a class="headerlink" href="#c.SERIAL_TSK_PRIO" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Safety monitor task priority </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SAVER_TSK_PRIO">
 <span class="target" id="main_8c_1ab2e0bab723af75f956a0ad1660d95ae8"></span><span class="sig-name descname"><span class="n"><span class="pre">SAVER_TSK_PRIO</span></span></span><a class="headerlink" href="#c.SAVER_TSK_PRIO" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Hardware test task priority </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.TEST_TASK_PRIO">
 <span class="target" id="main_8c_1a18b821454d423ce574a4e08c3d35d1be"></span><span class="sig-name descname"><span class="n"><span class="pre">TEST_TASK_PRIO</span></span></span><a class="headerlink" href="#c.TEST_TASK_PRIO" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Default interrupt flag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ESP_INTR_FLAG_DEFAULT">
 <span class="target" id="main_8c_1af8baf7d9859733667317e58c0ff707d1"></span><span class="sig-name descname"><span class="n"><span class="pre">ESP_INTR_FLAG_DEFAULT</span></span></span><a class="headerlink" href="#c.ESP_INTR_FLAG_DEFAULT" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>CAN TX GPIO </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.TX_GPIO_CAN">
 <span class="target" id="main_8c_1a98b0a06b2764e462ea87110a5aa91ca5"></span><span class="sig-name descname"><span class="n"><span class="pre">TX_GPIO_CAN</span></span></span><a class="headerlink" href="#c.TX_GPIO_CAN" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>CAN RX GPIO </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RX_GPIO_CAN">
 <span class="target" id="main_8c_1aa95f54fc36b7962a273ae23f57262c29"></span><span class="sig-name descname"><span class="n"><span class="pre">RX_GPIO_CAN</span></span></span><a class="headerlink" href="#c.RX_GPIO_CAN" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Linear encoder channel A </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_LINEAR_GPIO_1">
 <span class="target" id="main_8c_1a915403e642b167c299184f42c797d992"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_LINEAR_GPIO_1</span></span></span><a class="headerlink" href="#c.ENC_LINEAR_GPIO_1" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Linear encoder channel B </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_LINEAR_GPIO_2">
 <span class="target" id="main_8c_1ae2ae2d204f050a9bbba2b10129cece43"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_LINEAR_GPIO_2</span></span></span><a class="headerlink" href="#c.ENC_LINEAR_GPIO_2" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Angular encoder channel A </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_ANGULAR_GPIO_A">
 <span class="target" id="main_8c_1a9e4f2ac9257ce6f3572c176005693d38"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_ANGULAR_GPIO_A</span></span></span><a class="headerlink" href="#c.ENC_ANGULAR_GPIO_A" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Angular encoder channel B </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_ANGULAR_GPIO_B">
 <span class="target" id="main_8c_1ae757297f37dc8a86ef65e94ca81bbd26"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_ANGULAR_GPIO_B</span></span></span><a class="headerlink" href="#c.ENC_ANGULAR_GPIO_B" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Angular encoder index signal </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ENC_ANGULAR_GPIO_C">
 <span class="target" id="main_8c_1ac8ffb6e9d68e4a092a57637b71135f5e"></span><span class="sig-name descname"><span class="n"><span class="pre">ENC_ANGULAR_GPIO_C</span></span></span><a class="headerlink" href="#c.ENC_ANGULAR_GPIO_C" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>User button GPIO </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.BTN_GPIO">
@@ -358,222 +321,134 @@
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.GPIO_PIN_MASK">
 <span class="target" id="main_8c_1a284c58b2f63f601826cfcd46eaea929b"></span><span class="sig-name descname"><span class="n"><span class="pre">GPIO_PIN_MASK</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">PIN</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.GPIO_PIN_MASK" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Angular step [rad] </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ANGLE_STEP_SIZE">
 <span class="target" id="main_8c_1aee5d1576823e62ca3a2782773b592c2c"></span><span class="sig-name descname"><span class="n"><span class="pre">ANGLE_STEP_SIZE</span></span></span><a class="headerlink" href="#c.ANGLE_STEP_SIZE" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Linear encoder max count </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MAX_ECNODER_DATA">
 <span class="target" id="main_8c_1a0000f4371ef9bcd0f10f610aa8b33713"></span><span class="sig-name descname"><span class="n"><span class="pre">MAX_ECNODER_DATA</span></span></span><a class="headerlink" href="#c.MAX_ECNODER_DATA" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Safe region threshold </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SAFE_REGION">
 <span class="target" id="main_8c_1aad4992ec0ccc026b5ba5926650548255"></span><span class="sig-name descname"><span class="n"><span class="pre">SAFE_REGION</span></span></span><a class="headerlink" href="#c.SAFE_REGION" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Initial torque for motor initialization </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.INIT_TORQUE">
 <span class="target" id="main_8c_1afb21a93b38c1ccbd2a1635f9086ed645"></span><span class="sig-name descname"><span class="n"><span class="pre">INIT_TORQUE</span></span></span><a class="headerlink" href="#c.INIT_TORQUE" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Reinitialization torque for motor </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.REINIT_TORQUE">
 <span class="target" id="main_8c_1aaa61e74d6a0accc4b34f963b13083c6f"></span><span class="sig-name descname"><span class="n"><span class="pre">REINIT_TORQUE</span></span></span><a class="headerlink" href="#c.REINIT_TORQUE" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>UART TX pin </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.TXD_PIN">
 <span class="target" id="main_8c_1a271a735bd865e77e0d27b09e5fd958f2"></span><span class="sig-name descname"><span class="n"><span class="pre">TXD_PIN</span></span></span><a class="headerlink" href="#c.TXD_PIN" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>UART RX pin </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RXD_PIN">
 <span class="target" id="main_8c_1adc7d6fe2220359137dc87ba264524f96"></span><span class="sig-name descname"><span class="n"><span class="pre">RXD_PIN</span></span></span><a class="headerlink" href="#c.RXD_PIN" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>UART port </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.UART_PORT">
 <span class="target" id="main_8c_1aa7a5950d998e44d87137de0780bd0af3"></span><span class="sig-name descname"><span class="n"><span class="pre">UART_PORT</span></span></span><a class="headerlink" href="#c.UART_PORT" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>UART buffer size </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.BUF_SIZE">
 <span class="target" id="main_8c_1a6821bafc3c88dfb2e433a095df9940c6"></span><span class="sig-name descname"><span class="n"><span class="pre">BUF_SIZE</span></span></span><a class="headerlink" href="#c.BUF_SIZE" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>UART baud rate </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.BAUD_RATE">
 <span class="target" id="main_8c_1ad4455691936f92fdd6c37566fc58ba1f"></span><span class="sig-name descname"><span class="n"><span class="pre">BAUD_RATE</span></span></span><a class="headerlink" href="#c.BAUD_RATE" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>UART read delay [ms] </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SERIAL_MS_DELAY">
 <span class="target" id="main_8c_1a3cbb1e90a146fdb8c3b9da69f159e29d"></span><span class="sig-name descname"><span class="n"><span class="pre">SERIAL_MS_DELAY</span></span></span><a class="headerlink" href="#c.SERIAL_MS_DELAY" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Error log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.ERROR_TAG">
 <span class="target" id="main_8c_1aa29007116d11e676da62a3ae1dae4402"></span><span class="sig-name descname"><span class="n"><span class="pre">ERROR_TAG</span></span></span><a class="headerlink" href="#c.ERROR_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Main log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MAIN_TAG">
 <span class="target" id="main_8c_1aafe49c5964527e250000ab014d9e541b"></span><span class="sig-name descname"><span class="n"><span class="pre">MAIN_TAG</span></span></span><a class="headerlink" href="#c.MAIN_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Debug log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.DEBUG_TAG">
 <span class="target" id="main_8c_1ae6f84e8321c3bc4f546cf4a2a4798064"></span><span class="sig-name descname"><span class="n"><span class="pre">DEBUG_TAG</span></span></span><a class="headerlink" href="#c.DEBUG_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Motor sending log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.SEND_TAG">
 <span class="target" id="main_8c_1a1e7be5183998bdbe8079e0f3276ada46"></span><span class="sig-name descname"><span class="n"><span class="pre">SEND_TAG</span></span></span><a class="headerlink" href="#c.SEND_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Motor receiving log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RECIEVE_TAG">
 <span class="target" id="main_8c_1a3191b64f52225c44bead05ce0937704b"></span><span class="sig-name descname"><span class="n"><span class="pre">RECIEVE_TAG</span></span></span><a class="headerlink" href="#c.RECIEVE_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>PC receiving log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.READ_TAG">
 <span class="target" id="main_8c_1a0a1ec8eb6dcc1a3e9c83347f9a04974f"></span><span class="sig-name descname"><span class="n"><span class="pre">READ_TAG</span></span></span><a class="headerlink" href="#c.READ_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>PC sending log tag </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.WRITE_TAG">
 <span class="target" id="main_8c_1aa602e63aac535b9c1f7b9fcb18edb895"></span><span class="sig-name descname"><span class="n"><span class="pre">WRITE_TAG</span></span></span><a class="headerlink" href="#c.WRITE_TAG" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Stop command code </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MOTOR_STOP_COMMAND">
 <span class="target" id="main_8c_1a2012f1090db37579663427aece0ec815"></span><span class="sig-name descname"><span class="n"><span class="pre">MOTOR_STOP_COMMAND</span></span></span><a class="headerlink" href="#c.MOTOR_STOP_COMMAND" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Ready state command code </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.READY_STATE_COMMAND">
 <span class="target" id="main_8c_1a439fa6d18fd0b0edb588a9ead0e1c96d"></span><span class="sig-name descname"><span class="n"><span class="pre">READY_STATE_COMMAND</span></span></span><a class="headerlink" href="#c.READY_STATE_COMMAND" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Info request command code </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.MOTOR_INFO_COMMMAND">
 <span class="target" id="main_8c_1a3dfba5629cbd9c6fd33e0705f38223ef"></span><span class="sig-name descname"><span class="n"><span class="pre">MOTOR_INFO_COMMMAND</span></span></span><a class="headerlink" href="#c.MOTOR_INFO_COMMMAND" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Reset command code </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.RESET_COMMAND">
@@ -584,11 +459,23 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_ready_state">
-<span class="target" id="main_8c_1ab41dd3d732fbd82f82f73b9ab83fd4f4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_ready_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_ready_state" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.motor_operate_by_torque">
+<span class="target" id="main_8c_1ad660a07ca8c737428da215b61e8bd76a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_operate_by_torque</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">torque</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_operate_by_torque" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.motor_operate_by_speed">
+<span class="target" id="main_8c_1ab8d21881bae79f36a6dd60ca06035b8c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_operate_by_speed</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">speed</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_operate_by_speed" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.motor_operate_by_position">
+<span class="target" id="main_8c_1ac7660dcbd695ec59c86d4534844cea3d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_operate_by_position</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_operate_by_position" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_ready_state">
+<span class="target" id="main_8c_1ab41dd3d732fbd82f82f73b9ab83fd4f4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_ready_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_ready_state" title="Link to this definition"></a><br /></dt>
 <dd><p>UART handler for READY state commands. </p>
 <p>Parses incoming text commands such as START_OPER, RESTART, HELP, and routes to appropriate actions or state transitions.</p>
 <dl class="field-list simple">
@@ -599,158 +486,45 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_get_delay">
-<span class="target" id="main_8c_1af5ca2d9536e8bfd0d54948d9475c2a81"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_get_delay</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_get_delay" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.uart_operational_state">
+<span class="target" id="main_8c_1a4b16c11fd7c43cf6a5bd738b717bb399"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_operational_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_operational_state" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>UART handler to configure sensor info delay. </p>
-<p>Converts ASCII data to integer and updates delay for sensor info timer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – Null-terminated numeric string. </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_get_mode">
-<span class="target" id="main_8c_1ae167c28d1ebe9d2b4a4036ab6bc7a1a5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_get_mode</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_get_mode" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.uart_set_sender_delay">
+<span class="target" id="main_8c_1ab77abeaa59284b40381bd43da99a747a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_set_sender_delay</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_set_sender_delay" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>UART handler to set control mode. </p>
-<p>Parses TORQUE, SPEED, or POSITION strings and logs selected mode. Then returns to ready state.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – Null-terminated mode string. </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_oper_state">
-<span class="target" id="main_8c_1a5a0f0d155cedf05c93c7d3fa48a4c553"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_oper_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_oper_state" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.uart_set_motor_drive_mode">
+<span class="target" id="main_8c_1ae57e57df2a44ddbc17db25241e4e0866"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_set_motor_drive_mode</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_set_motor_drive_mode" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>UART handler for OPERATIONAL state control packets. </p>
-<p>Parses numeric packets for torque commands or special commands (stop, ready, info, reset), with safety checks on encoder limits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – Null-terminated ASCII packet string. </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_test_btn_state">
-<span class="target" id="main_8c_1a96867752fbeb1da02accb4566f93b96e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_btn_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_btn_state" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.uart_test_button">
+<span class="target" id="main_8c_1ade2308f9034a263f8b37667db5659615"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_button</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_button" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>Handles UART input to verify button test result. </p>
-<p>Parses user input string to determine whether the button works. Logs result, updates test status, and advances test sequence.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_test_encoder_state">
-<span class="target" id="main_8c_1afdcf4f2da0664ad2650b1facbe66b331"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_encoder_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_encoder_state" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.uart_test_encoder">
+<span class="target" id="main_8c_1a3ddc9edac2be37fc5ae249d937a3292a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_encoder</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_encoder" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>Handles UART input to verify linear encoder test result. </p>
-<p>Parses user input string to determine whether the linear encoder works. Logs result, updates test status, and advances test sequence.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.uart_test_angle_state">
-<span class="target" id="main_8c_1a1b4a31580b1b4f18a80998192c2bac70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_angle_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_angle_state" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.uart_test_angle">
+<span class="target" id="main_8c_1a5812d4908078838a53bfdd55e04d758b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_angle</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_angle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>Handles UART input to verify angular encoder test result. </p>
-<p>Parses user input string to determine whether the angular encoder works. Logs result, updates test status, and finishes test sequence.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
-<dt class="sig sig-object c" id="c.sensor_info_sender_timer">
-<span class="target" id="main_8c_1a212b17df6656d3d5d40f2bd9555ccd6e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_timer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_info_sender_timer" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
+<dt class="sig sig-object c" id="c.sensor_timer_callback">
+<span class="target" id="main_8c_1a9a8c516ee8fa0f9af81d773e050095d7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_timer_callback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_timer_callback" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
-=======
-<dd><p>Timer callback to trigger sensor info task. </p>
-<p>Gives the info_please_sem semaphore to schedule data reporting. </p>
-</dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.twai_request">
 <span class="target" id="main_8c_1a0e05a85bd6b4f3dbdb41a50b395bfd03"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twai_request</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_tx_message</span></span>, <span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_rx_message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.twai_request" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd><p>Sends a TWAI message and waits for a response with ID verification. </p>
-<p>Transmits a specified message and waits for a response. Verifies that the received message identifier matches the expected motor ID.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Blocks indefinitely during transmission </p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Uses 100ms timeout for reception</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Logs error if no reply from motor </p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_tx_message</strong> – <strong>[in]</strong> Pointer to the transmit message structure </p></li>
-<li><p><strong>_rx_message</strong> – <strong>[out]</strong> Pointer to the receive message structure</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>true if valid response received with matching motor ID </p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>false if no response or ID mismatch</p>
-=======
 <dd><p>Sends TWAI message and verifies response ID. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -761,7 +535,6 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>true if response ID matches, false otherwise. </p>
->>>>>>> main
 </dd>
 </dl>
 </dd></dl>
@@ -769,26 +542,6 @@
 <dl class="c function">
 <dt class="sig sig-object c" id="c.twai_request_wo_id_check">
 <span class="target" id="main_8c_1aa7c38b979cd25bdacde2558ab945a494"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twai_request_wo_id_check</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_tx_message</span></span>, <span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">_rx_message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.twai_request_wo_id_check" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd><p>Sends a TWAI message and waits for any response without ID check. </p>
-<p>Transmits a message and receives the first available response without verifying the message identifier. Used for general communication.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Safer version should use ID verification in production </p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_tx_message</strong> – <strong>[in]</strong> Pointer to the transmit message structure </p></li>
-<li><p><strong>_rx_message</strong> – <strong>[out]</strong> Pointer to the receive message structure</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>true if any response received within timeout </p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>false if no response received</p>
-=======
 <dd><p>Sends TWAI message without ID check. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -799,7 +552,6 @@
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>true if any response received, false otherwise. </p>
->>>>>>> main
 </dd>
 </dl>
 </dd></dl>
@@ -807,31 +559,6 @@
 <dl class="c function">
 <dt class="sig sig-object c" id="c.twai_output">
 <span class="target" id="main_8c_1ae3afa3e3e8d58277446681e206489ebb"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">twai_output</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">tag</span></span>, <span class="n"><span class="pre">twai_message_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.twai_output" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-
-<dl class="c function">
-<dt class="sig sig-object c" id="c.find_my_id">
-<span class="target" id="main_8c_1a791d27b63eaa17c98f506c90e1c5bc96"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_my_id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.find_my_id" title="Link to this definition"></a><br /></dt>
-<dd><p>Discovers motor ID by scanning the address range. </p>
-<p>Iterates through possible motor IDs (0x141 to 0x160) sending discovery messages. Sets global motor_id when valid response is received.</p>
-<p>
-\uses twai_request() for communication</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Uses fixed discovery message: {.identifier = motor_id, .data = {0x9A, 0x00,…}}</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Modifies global motor_id variable </p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Post<span class="colon">:</span></dt>
-<dd class="field-odd"><p>On success: Sets global motor_id and logs found ID </p>
-</dd>
-<dt class="field-even">Post<span class="colon">:</span></dt>
-<dd class="field-even"><p>On failure: Logs error and motor_id remains unchanged</p>
-=======
 <dd><p>Logs TWAI message content. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -839,17 +566,11 @@
 <li><p><strong>tag</strong> – <strong>[in]</strong> Log tag string. </p></li>
 <li><p><strong>message</strong> – <strong>[in]</strong> Message pointer to log. </p></li>
 </ul>
->>>>>>> main
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="c function">
-<<<<<<< HEAD
-<dt class="sig sig-object c" id="c.motor_request">
-<span class="target" id="main_8c_1aeff2a9c6e23b3b05a7624bd8f133dbd4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d0</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d1</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d2</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d3</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d4</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d5</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d6</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d7</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
-=======
 <dt class="sig sig-object c" id="c.find_my_id">
 <span class="target" id="main_8c_1a791d27b63eaa17c98f506c90e1c5bc96"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_my_id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.find_my_id" title="Link to this definition"></a><br /></dt>
 <dd><p>Discovers motor CAN ID by scanning range. </p>
@@ -871,14 +592,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_wo_reply">
 <span class="target" id="main_8c_1a001f71d8e7e29ae8d19f60e95fae2245"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_wo_reply</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d0</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d1</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d2</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d3</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d4</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d5</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d6</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n"><span class="pre">d7</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_wo_reply" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Sends motor command over CAN without waiting for a reply. </p>
 <p>Constructs and transmits a CAN frame with the provided data bytes, then ignores any response.</p>
 <dl class="field-list simple">
@@ -889,57 +606,37 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_stop">
 <span class="target" id="main_8c_1aa4705fbdc5ad49b3ba0d37135dd67fca"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_stop</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_stop" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Issues immediate stop command to motor. </p>
 <p>Sends two sequential stop frames to ensure motor halts. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_system_reset">
 <span class="target" id="main_8c_1a1914a3422bd63d08fd10135853977cb4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_system_reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_system_reset" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Triggers a system reset command on the motor. </p>
 <p>Sends reset frame and delays for 1 second to allow reboot. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_info">
 <span class="target" id="main_8c_1a257f9d7889c17f33ef15c84536567bc1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_info</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_info" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Requests telemetry information from the motor. </p>
 <p>Sends info request frame to retrieve voltage, temperature, and error codes. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_shutdown">
 <span class="target" id="main_8c_1a6d7831f565c6bc48efb152373c264f4f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_shutdown</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_shutdown" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Commands motor to enter shutdown state. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_torque">
 <span class="target" id="main_8c_1aaacae416b2e9d21a5cc0d3a0279e35c2"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_torque</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="n"><span class="pre">tau</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_torque" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Applies signed torque command to the motor. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -949,14 +646,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_speed">
 <span class="target" id="main_8c_1aa6f9027af67c1b8972544a2d23a82d53"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_speed</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="n"><span class="pre">vel</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_speed" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Sets motor target velocity. </p>
 <p>Multiplies velocity by 100 (unit scaling) and sends command frame.</p>
 <dl class="field-list simple">
@@ -967,14 +660,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_request_is_connected">
 <span class="target" id="main_8c_1a717bfdfa7a83aa8a4bd4d508f1af8391"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_request_is_connected</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_request_is_connected" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Checks if motor responds to info request. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -982,14 +671,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_control_task">
 <span class="target" id="main_8c_1a1e936f31cf2296f01fa0a053106549e1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_control_task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_control_task" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>FreeRTOS task for motor control operations. </p>
 <p>Performs a system reset and info request on the motor, then enters a loop waiting for torque commands via the move_sem semaphore.</p>
 <dl class="field-list simple">
@@ -1000,25 +685,17 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_init_function">
 <span class="target" id="main_8c_1ad5e7f46eaaaece91cf40c40b898f5f23"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_init_function</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_init_function" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Initializes motor by centering encoder and establishing zero position. </p>
 <p>Applies torque in opposite directions and waits for user confirmation via btn_sem. Monitors encoder_position to detect center; enforces timeout of 3 seconds. Signals completion through init_done_sem if first initialization. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.motor_self_saver_task">
 <span class="target" id="main_8c_1aac9e41e227414ff8651286d553adae42"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_self_saver_task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">arg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.motor_self_saver_task" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>FreeRTOS safety monitor task for motor encoder limits. </p>
 <p>Waits for initial motor setup completion, then continuously checks the encoder_position against SAFE_REGION boundaries. If out-of-bounds, logs danger, reinitializes the motor, and restores safe state.</p>
 <dl class="field-list simple">
@@ -1029,25 +706,17 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_init_setup">
 <span class="target" id="main_8c_1a1c90310885ebfe159cd31b44df1c5dca"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_init_setup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_init_setup" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Configures UART parameters and installs driver. </p>
 <p>Sets UART baud rate, data bits, parity, stop bits, and flow control, then configures TX/RX pins and installs the UART driver with buffer. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.uart_event_task">
 <span class="target" id="main_8c_1ac31eb8ff9ad443774bf4b0eebd3bc7bd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_event_task</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pvParameters</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_event_task" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>FreeRTOS task for UART event processing. </p>
 <p>Continuously reads bytes from UART into a buffer and invokes the current state handler function pointer with the received data.</p>
 <dl class="field-list simple">
@@ -1058,47 +727,80 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.rtoo">
 <span class="target" id="main_8c_1ae8467b3be586b5c49f21920cb7ff60c2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rtoo</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.rtoo" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Switches UART handler to operational state. </p>
 <p>Creates and starts a periodic timer to trigger sensor info reporting. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.otor">
 <span class="target" id="main_8c_1affaa7fe52fc78b5f41a2caa46772043d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">otor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.otor" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Switches UART handler to ready state. </p>
 <p>Stops and deletes the sensor info reporting timer if active. </p>
 </dd></dl>
->>>>>>> main
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_get_mode">
+<span class="target" id="main_8c_1ae167c28d1ebe9d2b4a4036ab6bc7a1a5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_get_mode</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_get_mode" title="Link to this definition"></a><br /></dt>
+<dd><p>UART handler to set control mode. </p>
+<p>Parses TORQUE, SPEED, or POSITION strings and logs selected mode. Then returns to ready state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated mode string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_get_delay">
+<span class="target" id="main_8c_1af5ca2d9536e8bfd0d54948d9475c2a81"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_get_delay</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_get_delay" title="Link to this definition"></a><br /></dt>
+<dd><p>UART handler to configure sensor info delay. </p>
+<p>Converts ASCII data to integer and updates delay for sensor info timer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated numeric string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_oper_state">
+<span class="target" id="main_8c_1a5a0f0d155cedf05c93c7d3fa48a4c553"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_oper_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_oper_state" title="Link to this definition"></a><br /></dt>
+<dd><p>UART handler for OPERATIONAL state control packets. </p>
+<p>Parses numeric packets for torque commands or special commands (stop, ready, info, reset), with safety checks on encoder limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Null-terminated ASCII packet string. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.sensor_info_sender_task">
 <span class="target" id="main_8c_1ac8fe4baeda0e2093aee337024f3fcf89"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_task</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_info_sender_task" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>FreeRTOS task to publish sensor information. </p>
 <p>Waits on info_please_sem, computes linear and angular velocities, and prints position, velocities, and angle if safe. </p>
 </dd></dl>
->>>>>>> main
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.sensor_info_sender_timer">
+<span class="target" id="main_8c_1a212b17df6656d3d5d40f2bd9555ccd6e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_timer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_info_sender_timer" title="Link to this definition"></a><br /></dt>
+<dd><p>Timer callback to trigger sensor info task. </p>
+<p>Gives the info_please_sem semaphore to schedule data reporting. </p>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1aff4587bedecb7764243868874ab89eb8"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">enc_linear_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Interrupt Service Routine for linear encoder channel. </p>
 <p>Called on any edge of the linear encoder’s first channel. Compares states of both encoder channels to determine movement direction and increments or decrements the linear encoder position counter.</p>
 <dl class="field-list simple">
@@ -1109,14 +811,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1ab0103c68f3e011afcda90de458194fd1"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">enc_angular_change_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Interrupt Service Routine for angular encoder channel B. </p>
 <p>Called on the rising edge of angular encoder channel B. Updates the angular position by a fixed step size depending on the state of channel A to determine direction.</p>
 <dl class="field-list simple">
@@ -1127,14 +825,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1aebbc131dd6416542599b41ef0b0bdc7d"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">enc_angular_zero_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Interrupt Service Routine for angular encoder zero marker. </p>
 <p>Called when the zero position marker is detected on channel C. Resets the angular encoder position to zero for calibration.</p>
 <dl class="field-list simple">
@@ -1145,14 +839,10 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c">
 <span class="target" id="main_8c_1a7bb6608f7fb818c004a48f3f575f4821"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">btn_isr_handler</span> <span class="pre">(void</span> <span class="pre">*arg)</span></span></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Interrupt Service Routine for button press. </p>
 <p>If initialization is active, gives semaphore from ISR context to signal that the button was pressed.</p>
 <dl class="field-list simple">
@@ -1163,158 +853,178 @@
 </dd>
 </dl>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gpio_init_setup">
 <span class="target" id="main_8c_1a7884487d464c8d15b17d77dfb58fa544"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gpio_init_setup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_init_setup" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Initialize GPIO pins and configure interrupts. </p>
 <p>Configures all required GPIOs for the linear and angular encoders and the user button. Sets pin modes, pull-downs, and interrupt types. Installs ISR service and attaches handlers to GPIO pins. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.cpu_setup">
 <span class="target" id="main_8c_1a5b74c511125700f64d5e221ec037277c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cpu_setup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.cpu_setup" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Configure CPU power management settings. </p>
 <p>Sets the minimum and maximum CPU clock frequencies to maximum value, and disables light sleep to ensure full performance during operation. </p>
 </dd></dl>
->>>>>>> main
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.sensor_tests">
 <span class="target" id="main_8c_1a22a979fedddea9d9cfa7ea5b412831fe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_tests</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.sensor_tests" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Runs a full sensor and button test sequence. </p>
 <p>Runs in a separate FreeRTOS task. Guides the user through manual tests for the button, linear encoder, and angular encoder. Waits for user confirmation via UART after each step and logs results. Loops endlessly. </p>
 </dd></dl>
->>>>>>> main
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_test_btn_state">
+<span class="target" id="main_8c_1a96867752fbeb1da02accb4566f93b96e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_btn_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_btn_state" title="Link to this definition"></a><br /></dt>
+<dd><p>Handles UART input to verify button test result. </p>
+<p>Parses user input string to determine whether the button works. Logs result, updates test status, and advances test sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_test_encoder_state">
+<span class="target" id="main_8c_1afdcf4f2da0664ad2650b1facbe66b331"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_encoder_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_encoder_state" title="Link to this definition"></a><br /></dt>
+<dd><p>Handles UART input to verify linear encoder test result. </p>
+<p>Parses user input string to determine whether the linear encoder works. Logs result, updates test status, and advances test sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.uart_test_angle_state">
+<span class="target" id="main_8c_1a1b4a31580b1b4f18a80998192c2bac70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_test_angle_state</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.uart_test_angle_state" title="Link to this definition"></a><br /></dt>
+<dd><p>Handles UART input to verify angular encoder test result. </p>
+<p>Parses user input string to determine whether the angular encoder works. Logs result, updates test status, and finishes test sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Pointer to user input string (yes/no). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.app_main">
 <span class="target" id="main_8c_1a630544a7f0a2cc40d8a7fefab7e2fe70"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">app_main</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.app_main" title="Link to this definition"></a><br /></dt>
-<<<<<<< HEAD
-<dd></dd></dl>
-=======
 <dd><p>Main entry point for the application. </p>
 <p>Initializes CPU, GPIO, UART, CAN bus, tasks, and semaphores. Starts all system tasks and waits for completion. After tasks finish, cleans up all resources and restarts the device. </p>
 </dd></dl>
->>>>>>> main
 
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
 <dl class="c var">
-<dt class="sig sig-object c" id="c.t_config">
-<span class="target" id="main_8c_1ab158aca60145d27b56b0fd2457c07f72"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_timing_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">t_config</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_TIMING_CONFIG_1MBITS</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.t_config" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.can_timing_config">
+<span class="target" id="main_8c_1a4e8264cbbc80f9e64171962e057cebd5"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_timing_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">can_timing_config</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_TIMING_CONFIG_1MBITS</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.can_timing_config" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.f_config">
-<span class="target" id="main_8c_1a79589468673fbf10181e23d0b4c089e0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_filter_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">f_config</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_FILTER_CONFIG_ACCEPT_ALL</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.f_config" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.can_filter_config">
+<span class="target" id="main_8c_1a285f23e585582623ca254246d6d62709"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_filter_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">can_filter_config</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_FILTER_CONFIG_ACCEPT_ALL</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.can_filter_config" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.g_config">
-<span class="target" id="main_8c_1ac25d69ac591839b233a7f62728ab9359"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_general_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">g_config</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_GENERAL_CONFIG_DEFAULT</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#c.TX_GPIO_CAN" title="TX_GPIO_CAN"><span class="n"><span class="pre">TX_GPIO_CAN</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.RX_GPIO_CAN" title="RX_GPIO_CAN"><span class="n"><span class="pre">RX_GPIO_CAN</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_MODE_NORMAL</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.g_config" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.can_general_config">
+<span class="target" id="main_8c_1af8caffe722c84623f00646199e7d794b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">twai_general_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">can_general_config</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_GENERAL_CONFIG_DEFAULT</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">TX_CAN_GPIO</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">RX_CAN_GPIO</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">TWAI_MODE_NORMAL</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.can_general_config" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.motor_control_task_start_sem">
-<span class="target" id="main_8c_1ada82194adf287ba8cc4494cffbe20cb8"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_control_task_start_sem</span></span></span><a class="headerlink" href="#c.motor_control_task_start_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.restart_command_semaphore">
+<span class="target" id="main_8c_1a7319d79ce7cba1449ceaeb04c7519290"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">restart_command_semaphore</span></span></span><a class="headerlink" href="#c.restart_command_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.all_done_sem">
-<span class="target" id="main_8c_1a25b67dd34e5beae40d635006c3b1bf32"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">all_done_sem</span></span></span><a class="headerlink" href="#c.all_done_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.initialization_start_semaphore">
+<span class="target" id="main_8c_1a6077f91cd840aa51f8fc2f4d9943aa74"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialization_start_semaphore</span></span></span><a class="headerlink" href="#c.initialization_start_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.init_start_sem">
-<span class="target" id="main_8c_1ad0387a839002915fe6baa8559a408cba"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_start_sem</span></span></span><a class="headerlink" href="#c.init_start_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.initialization_done_semaphore">
+<span class="target" id="main_8c_1a634e59001c5a7edeff2f9cbd61011654"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialization_done_semaphore</span></span></span><a class="headerlink" href="#c.initialization_done_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.init_done_sem">
-<span class="target" id="main_8c_1a7d86b2264671841f2bbf7d0c83a30f47"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_done_sem</span></span></span><a class="headerlink" href="#c.init_done_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.button_press_semaphore">
+<span class="target" id="main_8c_1a25c9a4a6f413a81b09c576928291518d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">button_press_semaphore</span></span></span><a class="headerlink" href="#c.button_press_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.btn_sem">
-<span class="target" id="main_8c_1a17fb07af0dd771bfec73431f890acdd4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">btn_sem</span></span></span><a class="headerlink" href="#c.btn_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.motor_command_semaphore">
+<span class="target" id="main_8c_1aa299a531c1b911305dacb04fa380ccf5"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_command_semaphore</span></span></span><a class="headerlink" href="#c.motor_command_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.move_sem">
-<span class="target" id="main_8c_1a33a51797d196bd2c2f8826a7cefa93ee"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">move_sem</span></span></span><a class="headerlink" href="#c.move_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.sensor_data_request_semaphore">
+<span class="target" id="main_8c_1a454b3de05aa2bc38dd82d43eaeaff100"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_data_request_semaphore</span></span></span><a class="headerlink" href="#c.sensor_data_request_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.smert_sem">
-<span class="target" id="main_8c_1a5d97b6819b726a82d9ad46649816a206"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">smert_sem</span></span></span><a class="headerlink" href="#c.smert_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.test_sync_semaphore">
+<span class="target" id="main_8c_1a2a9680ac266694d83b57b2c41d9f794f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">test_sync_semaphore</span></span></span><a class="headerlink" href="#c.test_sync_semaphore" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.info_please_sem">
-<span class="target" id="main_8c_1ab350c9a292eccd57baa8a2f300d5ed4c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">info_please_sem</span></span></span><a class="headerlink" href="#c.info_please_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.motor_can_id">
+<span class="target" id="main_8c_1afcae15934f6d39f2b8cd26d5decdc8ad"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_can_id</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x141</span></span><a class="headerlink" href="#c.motor_can_id" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.test_sem">
-<span class="target" id="main_8c_1aa65cbc9ecbbc1c199db09d03750f5731"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">SemaphoreHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">test_sem</span></span></span><a class="headerlink" href="#c.test_sem" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.uart_recieved_packet">
+<span class="target" id="main_8c_1af422f836b6e67e4007093489381061fa"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_recieved_packet</span></span></span><a class="headerlink" href="#c.uart_recieved_packet" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.motor_id">
-<span class="target" id="main_8c_1adfb44453bd87fd4f93ceb901cbf8749c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_id</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x141</span></span><a class="headerlink" href="#c.motor_id" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.motor_operate">
+<span class="target" id="main_8c_1a1dc0fdc221105e6115fb04a5255921a0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">motor_operate</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">uint32_t</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.motor_operate_by_torque" title="motor_operate_by_torque"><span class="n"><span class="pre">motor_operate_by_torque</span></span></a><a class="headerlink" href="#c.motor_operate" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.recieved_packet">
-<span class="target" id="main_8c_1ac9f7634fea30227a987a9fe5d221bf0d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">recieved_packet</span></span></span><a class="headerlink" href="#c.recieved_packet" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.current_encoder_position">
+<span class="target" id="main_8c_1a2ef9867a18907056af24f527fd08caad"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">current_encoder_position</span></span></span><a class="headerlink" href="#c.current_encoder_position" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.encoder_position">
-<span class="target" id="main_8c_1a5be258b451963084dd49c7e3ccef3d03"></span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encoder_position</span></span></span><a class="headerlink" href="#c.encoder_position" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.current_encoder_angle">
+<span class="target" id="main_8c_1abb298ad776154ffb195444302fcd2503"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">current_encoder_angle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">179.93</span></span><a class="headerlink" href="#c.current_encoder_angle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.encoder_position_prev">
-<span class="target" id="main_8c_1a58c1edc2adf8f6f31bb595a21e782081"></span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encoder_position_prev</span></span></span><a class="headerlink" href="#c.encoder_position_prev" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.previous_encoder_position">
+<span class="target" id="main_8c_1a6ad65fcfa8b93be28658c7b8ba1295b8"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">previous_encoder_position</span></span></span><a class="headerlink" href="#c.previous_encoder_position" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.encoder_angle">
-<span class="target" id="main_8c_1a4e42802c1621c60dd5ab0ffed27fa02b"></span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encoder_angle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">83</span></span><a class="headerlink" href="#c.encoder_angle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.previous_encoder_angle">
+<span class="target" id="main_8c_1aa75af8215fae64238b502653440ed193"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">previous_encoder_angle</span></span></span><a class="headerlink" href="#c.previous_encoder_angle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.encoder_angle_prev">
-<span class="target" id="main_8c_1aa5f009e33ce5a1af4dfdbadb816bed87"></span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encoder_angle_prev</span></span></span><a class="headerlink" href="#c.encoder_angle_prev" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.initialization_in_progress">
+<span class="target" id="main_8c_1ac6185459295c47d4b5f748ced7dcdaee"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initialization_in_progress</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#c.initialization_in_progress" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.init_in_progress">
-<span class="target" id="main_8c_1ae3a785c814c6a7227a4d1f012a8e1a7d"></span><span class="k"><span class="pre">volatile</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_in_progress</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#c.init_in_progress" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.not_initiazatied_yet">
+<span class="target" id="main_8c_1af226cfc2f36439e5c9920dfde75651c7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">not_initiazatied_yet</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#c.not_initiazatied_yet" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.not_inited_yet">
-<span class="target" id="main_8c_1adb0e31fc791c18cfa22fce905e03782e"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">not_inited_yet</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#c.not_inited_yet" title="Link to this definition"></a><br /></dt>
-<dd></dd></dl>
-
-<dl class="c var">
-<dt class="sig sig-object c" id="c.in_safe_state">
-<span class="target" id="main_8c_1aa9fd3235e6537c9b1abb6ee562b3cd35"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">in_safe_state</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#c.in_safe_state" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.system_in_safe_state">
+<span class="target" id="main_8c_1a76f99cdc0edd3bc98fad096abf19e295"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">system_in_safe_state</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#c.system_in_safe_state" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
@@ -1323,46 +1033,50 @@
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.sensor_info_sender_delay">
-<span class="target" id="main_8c_1a5e191d15e5657b1a787e0c05b9553975"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_delay</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.SERIAL_MS_DELAY" title="SERIAL_MS_DELAY"><span class="n"><span class="pre">SERIAL_MS_DELAY</span></span></a><a class="headerlink" href="#c.sensor_info_sender_delay" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.sensor_timer_delay">
+<span class="target" id="main_8c_1ac0b4618c1d2327f84554ad0976920882"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_timer_delay</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">UART_DEFAULT_SEND_DELAY</span></span><a class="headerlink" href="#c.sensor_timer_delay" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.sensor_info_sender_timer_handle">
-<span class="target" id="main_8c_1aea86bca882c1dff18b6d7bcfe737d526"></span><span class="n"><span class="pre">TimerHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_timer_handle</span></span></span><a class="headerlink" href="#c.sensor_info_sender_timer_handle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.sensor_timer_handle">
+<span class="target" id="main_8c_1abaf2edf7a1292305203623720b26d4e9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TimerHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_timer_handle</span></span></span><a class="headerlink" href="#c.sensor_timer_handle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.mct_handle">
-<span class="target" id="main_8c_1a3fc1dc2caf0675215399535ee7d119e1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mct_handle</span></span></span><a class="headerlink" href="#c.mct_handle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.motor_control_task_handle">
+<span class="target" id="main_8c_1af00bb0095c4222b40b300208ef8ba6ae"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">motor_control_task_handle</span></span></span><a class="headerlink" href="#c.motor_control_task_handle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.uet_handle">
-<span class="target" id="main_8c_1af3af826787b86e0d6455da68b290fbc1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uet_handle</span></span></span><a class="headerlink" href="#c.uet_handle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.uart_event_task_handle">
+<span class="target" id="main_8c_1a6e0df4a8b56c774b726fb47ed2d7c9ed"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uart_event_task_handle</span></span></span><a class="headerlink" href="#c.uart_event_task_handle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.msst_handle">
-<span class="target" id="main_8c_1ae4c17a2d5197a424f3b4249ab9f244e1"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">msst_handle</span></span></span><a class="headerlink" href="#c.msst_handle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.safety_monitor_task_handle">
+<span class="target" id="main_8c_1aa092f31aabdab0b24999368a391435c9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">safety_monitor_task_handle</span></span></span><a class="headerlink" href="#c.safety_monitor_task_handle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.sist_handle">
-<span class="target" id="main_8c_1a5465382970260e68c20be62201134588"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sist_handle</span></span></span><a class="headerlink" href="#c.sist_handle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.sensor_info_sender_task_handle">
+<span class="target" id="main_8c_1af62a46c39e3233d29f8a8c525f69c9a0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sensor_info_sender_task_handle</span></span></span><a class="headerlink" href="#c.sensor_info_sender_task_handle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.stt_handle">
-<span class="target" id="main_8c_1a6a9349403642edeeec2bf4f742c299ed"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stt_handle</span></span></span><a class="headerlink" href="#c.stt_handle" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.hardware_test_task_handle">
+<span class="target" id="main_8c_1a458746892e56721cc1fd4ed839433efe"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">TaskHandle_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hardware_test_task_handle</span></span></span><a class="headerlink" href="#c.hardware_test_task_handle" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c var">
-<dt class="sig sig-object c" id="c.tested">
-<span class="target" id="main_8c_1a4497ae342d9058ddf35eb3726f63703e"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tested</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#c.tested" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.hardware_tests_passed">
+<span class="target" id="main_8c_1a3d6fc0779dd5c14a0d55ce810df8e792"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hardware_tests_passed</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><a class="headerlink" href="#c.hardware_tests_passed" title="Link to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
+</section>
+<section id="swing-up-v1-0-firmware">
+<h2>Swing-Up v1.0 Firmware<a class="headerlink" href="#swing-up-v1-0-firmware" title="Link to this heading"></a></h2>
+</section>
 </section>
 
 
@@ -1370,6 +1084,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="api.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="electronics.html" class="btn btn-neutral float-right" title="Electronics and Schematics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
