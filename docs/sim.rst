@@ -16,11 +16,11 @@ MuJoCo (Multi-Joint dynamics with Contact) is a physics engine for robotic simul
 Installation
 ------------
 
-Downloading MuJoCo
+Downloading MuJoCo (Linux)
 ~~~~~~~~~~~~~~~~~
 
 1. Visit the official site: https://mujoco.org/download
-2. Download the appropriate version for your OS (Linux/Windows/macOS)
+2. Download the appropriate version for your OS (Linux)
 3. Extract to your home directory:
 
 .. code-block:: bash
@@ -66,72 +66,31 @@ Linux dependencies (Ubuntu/Debian):
 
    sudo apt install libosmesa6-dev libgl1-mesa-glx patchelf
 
-Verification
+Testing
 ------------
 
 Create `test_mujoco.py`:
 
 .. code-block:: python
 
-   import mujoco
-   import mujoco.viewer
-   import numpy as np
+import mujoco
+import os
 
-   model = mujoco.MjModel.from_xml_string("""
-   <mujoco>
-     <worldbody>
-       <geom name="floor" type="plane" size="5 5 0.1"/>
-       <body name="box" pos="0 0 1">
-         <joint type="free"/>
-         <geom name="box" type="box" size="0.1 0.1 0.1" rgba="1 0 0 1"/>
-       </body>
-     </worldbody>
-   </mujoco>
-   """)
+# Path to the model (change it to suit your system)
+model_path = os.path.expanduser('<path_to_model>')
 
-   data = mujoco.MjData(model)
+model = mujoco.MjModel.from_xml_path(model_path)
+data = mujoco.MjData(model)
 
-   with mujoco.viewer.launch_passive(model, data) as viewer:
-       while viewer.is_running():
-           mujoco.mj_step(model, data)
-           viewer.sync()
+for _ in range(1000):
+    mujoco.mj_step(model, data)
+    print(data.qpos)
 
 Run the test:
 
 .. code-block:: bash
 
    python test_mujoco.py
-
-Example: Cartpole Model
------------------------
-
-Create `cartpole.xml`:
-
-.. literalinclude:: cartpole.xml
-   :language: xml
-   :caption: cartpole.xml
-
-Run with this script:
-
-.. code-block:: python
-
-   import mujoco
-   import mujoco.viewer
-   import numpy as np
-
-   model = mujoco.MjModel.from_xml_path("cartpole.xml")
-   data = mujoco.MjData(model)
-
-   # Initialization
-   data.qpos[1] = 0  # Cart position
-   data.qpos[2] = np.pi  # Pendulum angle
-
-   with mujoco.viewer.launch_passive(model, data) as viewer:
-       while viewer.is_running():
-           # Random control inputs
-           data.ctrl[0] = 0.1 * np.random.randn()
-           mujoco.mj_step(model, data)
-           viewer.sync()
 
 Troubleshooting
 ---------------
@@ -145,6 +104,8 @@ Troubleshooting
 
 3. Video driver problems:
    - Update your OpenGL drivers
+
+4. Most of the problems with mujoco py lib can be soleved by suggestions from lib error
 
 Additional Resources
 -------------------
