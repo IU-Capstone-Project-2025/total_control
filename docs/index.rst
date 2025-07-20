@@ -27,3 +27,4 @@ Key Features:
    firmware
    electronics
    troubleshooting
+   sim
