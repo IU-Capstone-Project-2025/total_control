@@ -73,18 +73,18 @@ Create `test_mujoco.py`:
 
 .. code-block:: python
 
-import mujoco
-import os
-
-# Path to the model (change it to suit your system)
-model_path = os.path.expanduser('<path_to_model>')
-
-model = mujoco.MjModel.from_xml_path(model_path)
-data = mujoco.MjData(model)
-
-for _ in range(1000):
-    mujoco.mj_step(model, data)
-    print(data.qpos)
+   import mujoco
+   import os
+   
+   # Path to the model (change it to suit your system)
+   model_path = os.path.expanduser('<path_to_model>')
+   
+   model = mujoco.MjModel.from_xml_path(model_path)
+   data = mujoco.MjData(model)
+   
+   for _ in range(1000):
+       mujoco.mj_step(model, data)
+       print(data.qpos)
 
 Run the test:
 
