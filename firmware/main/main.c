@@ -17,7 +17,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_timer.h"
-#include "esp_pm.h
+#include "esp_pm.h"
 #include "driver/twai.h"
 #include "driver/uart.h"
 #include "driver/timer.h"
@@ -35,9 +35,9 @@
 /**< Default interrupt flag */
 #define ESP_INTR_FLAG_DEFAULT   0           
 /**< CAN TX GPIO */
-#define TX_GPIO_CAN             22          
+#define TX_GPIO_CAN             21          
 /**< CAN RX GPIO */
-#define RX_GPIO_CAN             21          
+#define RX_GPIO_CAN             22          
 /**< Linear encoder channel A */
 #define ENC_LINEAR_GPIO_1       19          
 /**< Linear encoder channel B */
