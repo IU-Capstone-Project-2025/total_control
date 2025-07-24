@@ -4,8 +4,6 @@ from typing import Optional
 from time import sleep
 
 
-
-
 class CartPole(LabDevice):
     """
     Interface for controlling and reading from a physical Cart-Pole system via an ESP32 device.
@@ -62,8 +60,6 @@ class CartPole(LabDevice):
             
         except (ValueError, DeviceCommandError) as e:
             raise DeviceConfigurationError(f"Initialization failed: {str(e)}") from e
-        
-
 
     def re_init(self):
         """TODO"""

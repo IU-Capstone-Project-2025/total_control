@@ -51,10 +51,12 @@ class LabDevice:
             # Device-specific initialization
             if do_init_activity:
                 self._initialize_device()
-            
+
+
         except serial.SerialException as e:
             raise DeviceConnectionError(f"Connection to {self._port} failed: {str(e)}")
-    
+
+
     def disconnect(self) -> None:
         """        
         Closes the serial port if it is open and clears the connection attribute.
@@ -67,6 +69,8 @@ class LabDevice:
         """Device-specific initialization (override in child classes)"""
         pass
     
+
+
     def _send_command(self, command: str, read_response: bool = False, 
                     encoding: str = 'utf-8') -> Optional[str]:
         """
