@@ -1,0 +1,59 @@
+<mujoco model="cartpole">
+  
+  <asset>
+    <mesh name="motor_module" file="mesh/motor_module.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="pulley_module" file="mesh/pulley_module.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="pillars" file="mesh/pillars.obj" scale="0.001 0.001 0.002"/>
+    <mesh name="pendulum" file="mesh/pendulum.obj" scale="0.001 0.001 0.001"/>
+    <mesh name="cart" file="mesh/cart.obj" scale="0.001 0.001 0.001"/>
+  </asset>
+  
+  <compiler angle="radian" autolimits="true"/>
+  
+  <worldbody>
+    <!-- Base (fixed to the world) -->
+    <body name="base" pos="0 0 0">
+      
+      <!-- Guide rails -->
+      <body name="rail1" pos="0 0 0">
+        <inertial pos="0 0 0" mass="0.1" diaginertia="0.001 0.001 0.001"/>
+        <geom type="mesh" mesh="pillars" pos="0 0 0" quat="0.5 0.5 0.5 0.5"/>
+      </body>
+      <body name="rail2" pos="0 0 0">
+        <inertial pos="0 0 0" mass="0.1" diaginertia="0.001 0.001 0.001"/>
+        <geom type="mesh" mesh="pillars" pos="0 0 0" quat="0.5 0.5 0.5 0.5"/>
+      </body>
+
+      <!-- Stoppers -->
+      <body name="stop1" pos="-0.510 0 0.025">
+        <inertial pos="0 0 0" mass="0.1" diaginertia="0.001 0.001 0.001"/>
+        <geom type="mesh" mesh="motor_module" pos="0 0 0" quat="0.5 0.5 0.5 0.5"/>
+      </body>
+      <body name="stop2" pos="0.510 0.03 0.045">
+        <inertial pos="0 0 0" mass="0.1" diaginertia="0.001 0.001 0.001"/>
+        <geom type="mesh" mesh="pulley_module" pos="0 0 0" quat="-0.5 -0.5 0.5 0.5"/>
+      </body>
+
+      <!-- Carriage with linear motion -->
+      <body name="carriage" pos="0 0 0.045">
+        <inertial pos="0 0 0" mass="0.7" diaginertia="0.001 0.001 0.001"/>
+        <joint name="carriage_slide" type="slide" axis="1 0 0" range="-0.3 0.3"/>
+        <!-- <geom type="box" size="0.05 0.05 0.025"/> -->
+        <geom type="mesh" mesh="cart" pos="-.216 0 -0.045" quat="0.5 0.5 0.5 0.5"/>
+
+        <!-- Pendulum attached to carriage -->
+        <body name="pendulum" pos="0.0005 -0.07 0.039">
+          <inertial pos="0 0 .36" mass="0.38" diaginertia="0.001 0.001 0.001"/>
+          <joint name="pendulum_hinge" type="hinge" axis="0 1 0" damping="0.01"/>
+          <!-- <geom type="capsule" size="0.001" fromto="0 0 0 0 0 -0.5"/> -->
+          <geom type="mesh" mesh="pendulum" pos="0.2163 0.06 0.08325" quat="-0.5 0.5 0.5 -0.5"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <!-- Direct control of carriage slide -->
+    <motor name="carriage_motor" joint="carriage_slide" gear="1" ctrlrange="-1000 1000"/>
+  </actuator>
+</mujoco>

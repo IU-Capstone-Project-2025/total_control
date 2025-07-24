@@ -1,3 +1,6 @@
+import warnings
+from typing import Optional, Type, Any
+
 class LabDeviceError(Exception):
     """
     Base exception for all lab equipment related errors.
@@ -147,3 +150,36 @@ class DeviceConfigurationError(LabDeviceError):
         if details:
             message = f"{message} ({', '.join(details)})"
         super().__init__(message, device, original_exception)
+
+def issue_warning(
+    message: str,
+    category: Optional[Type[Warning]] = None,
+    stacklevel: int = 2,
+    source: Optional[Any] = None
+) -> None:
+    """
+    Issue a warning with standardized formatting.
+    
+    Parameters:
+        message (str): The warning message text
+        category (Type[Warning]): The warning category (default: UserWarning)
+        stacklevel (int): How many levels up to show in the warning source (default: 2)
+        source (Any): The source object emitting the warning
+        
+    Example:
+        >>> issue_warning("This feature is deprecated", DeprecationWarning)
+    """
+    if category is None:
+        category = UserWarning
+    
+    warning_msg = f"\n{'*' * 50}\nWARNING: {message}\n{'*' * 50}"
+    
+    warnings.warn(
+        warning_msg,
+        category=category,
+        stacklevel=stacklevel,
+        source=source
+    )
+
+def sim_disconnect():
+    issue_warning("You cannot use the 'disconnect' function in simulation mode.")

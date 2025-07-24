@@ -6,7 +6,12 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     install_requires=[
-        "pyserial>=3.5"
+        "pyserial>=3.5",
+        "mujoco>=3.3",
+        "gymnasium",
+        "torch",
+        "nupy"
+
     ],
     author="Dungeon team",
     author_email="e.shlomov@innopolis.university",
