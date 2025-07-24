@@ -1,4 +1,4 @@
-MuJoCo Installation and Python Setup Guide
+Simulation guide
 =========================================
 
 .. contents:: Table of Contents
@@ -113,3 +113,12 @@ Additional Resources
 - Official docs: https://mujoco.readthedocs.io
 - Examples: https://github.com/deepmind/mujoco
 - Forum: https://github.com/deepmind/mujoco/discussions
+
+
+MuJoCo simulation
+-----------------
+
+.. autoclass:: inno_control.mujoco
+   :members:
+   :undoc-members:
+   :show-inheritance:

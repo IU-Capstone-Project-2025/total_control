@@ -56,3 +56,10 @@ such as LQR, swing-up control, and reinforcement learning.
    :members:
    :undoc-members:
    :show-inheritance:
+
+Exceptions
+----------
+.. autoclass:: inno_control.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
