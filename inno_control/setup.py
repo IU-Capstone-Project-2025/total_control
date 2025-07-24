@@ -6,12 +6,14 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     install_requires=[
-        "pyserial>=3.5",
+        "numpy>=1.22",
+        "scipy>=1.10",
+        "matplotlib>=3.7",
+        "control>=0.9",
+        "gymnasium>=0.28",
         "mujoco>=3.3",
-        "gymnasium",
-        "torch",
-        "nupy"
-
+        "torch>=2.0",
+        "pyserial>=3.5"
     ],
     author="Dungeon team",
     author_email="e.shlomov@innopolis.university",

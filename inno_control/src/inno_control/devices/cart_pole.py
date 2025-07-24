@@ -2,9 +2,6 @@ from inno_control.devices import LabDevice
 from inno_control.exceptions import DeviceConfigurationError, DeviceCommandError
 from typing import Optional
 from time import sleep
-import threading
-from inno_control.mujoco import Simulation
-import os
 
 
 class CartPole(LabDevice):
@@ -22,7 +19,7 @@ class CartPole(LabDevice):
         _state (str): Current state of the system, can be 'UNKNOWN', 'READY', or 'STARTED'.
     """
 
-    def __init__(self, port: str="SIM", baudrate: int = 921600, timeout: float = 1.0):
+    def __init__(self, port: str, baudrate: int = 921600, timeout: float = 1.0):
         """
         Create a new CartPole device interface.
 
@@ -63,17 +60,6 @@ class CartPole(LabDevice):
             
         except (ValueError, DeviceCommandError) as e:
             raise DeviceConfigurationError(f"Initialization failed: {str(e)}") from e
-        
-    def start_simulation(self):
-        """Start simulation in MuJoCo"""
-        model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'cart_pole', 'cart-pole.xml')
-        model_path = os.path.abspath(model_path)
-        self._connection = Simulation(model_path)
-        self._sim_thread = threading.Thread(target=self._connection.run)
-        self._sim_thread.start()
-
-    def delete(self):
-        return self._connection
 
     def re_init(self):
         """TODO"""

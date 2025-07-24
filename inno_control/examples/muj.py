@@ -1,8 +1,6 @@
-import time
 import inno_control
 import inno_control.mujoco
 import numpy as np
-import mujoco
 
 
 sim = inno_control.mujoco.Simulation()
@@ -13,7 +11,7 @@ sim = inno_control.mujoco.Simulation()
 m_p = 0.38 # mass of pendulum bob
 m_c = 0.7 # mass of cart
 M = m_c + m_p
-l = 0.36 # length of pendulum
+l = 0.38 # length of pendulum
 g = 9.81 
 
 import numpy as np
@@ -83,38 +81,3 @@ while True:
     except (Exception) as e:
         print(e)
         continue
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import mujoco
-# import mujoco.viewer
-# import numpy as np
-# import os
-
-# # Загрузка модели
-# model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'inno_control', 'src', 'inno_control', 'models', 'cart_pole', 'cart-pole.xml')
-# model_path = os.path.abspath(model_path)
-# model = mujoco.MjModel.from_xml_path(model_path)
-# data = mujoco.MjData(model)
-# # # Пример управления: постоянно подаём положительный ток на мотор каретки
-# # def control(data):
-# #     data.ctrl[0] = 5.0  # это индекс actuators[0] — `carriage_motor`
-
-# # Открываем визуализатор и запускаем симуляцию
-# with mujoco.viewer.launch_passive(model, data) as viewer:
-#     while viewer.is_running():
-#         # control(data)                  # применяем управляющее воздействие
-#         mujoco.mj_step(model, data)   # один шаг симуляции
-#         viewer.sync()

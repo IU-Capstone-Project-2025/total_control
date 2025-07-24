@@ -61,11 +61,8 @@ class LabDevice:
         """        
         Closes the serial port if it is open and clears the connection attribute.
         """
-        if self._port!="SIM" and self._connection and self._connection.is_open:
+        if self._connection and self._connection.is_open:
             self._connection.close()
-        else:
-            self._connection.stop()
-            self._sim_thread.join()
         self._connection = None
     
     def _initialize_device(self) -> None:
