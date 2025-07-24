@@ -118,7 +118,7 @@ Additional Resources
 MuJoCo simulation
 -----------------
 
-.. autoclass:: inno_control.mujoco
+.. autoclass:: inno_control.mujoco.Simulation
    :members:
    :undoc-members:
    :show-inheritance:

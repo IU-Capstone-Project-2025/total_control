@@ -10,14 +10,24 @@ class Simulation:
 
     This class handles MuJoCo model initialization, actuator control,
     simulation stepping, viewer integration, and external controller callbacks.
+
+    Attributes:
+        model (mujoco.MjModel): MuJoCo model object.
+        data (mujoco.MjData): MuJoCo simulation data object.
+        viewer: Visualization window handle (when active).
+        running (bool): Flag indicating if simulation loop is active.
     """
+
 
     def __init__(self, model_path: str = None):
         """Initializes the Simulation object.
 
+        Loads the MuJoCo model, initializes simulation data, prepares joint lookups,
+        and starts the simulation thread.
+
         Args:
-            model_path (str, optional): Path to the MuJoCo XML model file. If not provided,
-                defaults to "../inno_control/models/cart_pole/cart-pole.xml".
+            model_path: Path to MuJoCo XML model file. Defaults to:
+                "../inno_control/models/cart_pole/cart-pole.xml" relative to this file.
         """
         if not model_path:
             self.model_path = os.path.join(
@@ -45,10 +55,10 @@ class Simulation:
     def set_control(self, value: float):
         """Sets the raw actuator control value.
 
-        This method is ignored if a custom controller is registered.
+        Note: Has no effect if a custom controller is registered.
 
         Args:
-            value (float): Control signal (e.g., motor torque or force).
+            value: Control signal (e.g., motor torque or force).
         """
         with self._lock:
             self._control_value = value
@@ -56,11 +66,11 @@ class Simulation:
     def set_controller(self, fn):
         """Registers a user-defined control function.
 
-        This function will override direct control values.
+        This function will override direct control values set by `set_control()`.
 
         Args:
-            fn (Callable[[Simulation], None]): A function that accepts the current
-                Simulation instance and applies control logic to it.
+            fn: Callable accepting the Simulation instance as argument.
+                Expected signature: `controller(sim: Simulation) -> None`
         """
         self._custom_controller = fn
 
@@ -68,11 +78,11 @@ class Simulation:
         """Retrieves the full system state from the simulation.
 
         Returns:
-            tuple: A 4-element tuple containing:
-                - x (float): Cart position.
-                - x_dot (float): Cart velocity.
-                - theta (float): Pendulum angle (in radians).
-                - theta_dot (float): Pendulum angular velocity.
+            Tuple containing four float values:
+            - x: Cart position [m]
+            - x_dot: Cart velocity [m/s]
+            - theta: Pendulum angle [rad]
+            - theta_dot: Pendulum angular velocity [rad/s]
         """
         x = self.data.qpos[self._carriage_id]
         x_dot = self.data.qvel[self._carriage_id]
@@ -85,13 +95,14 @@ class Simulation:
         mujoco.mj_step(self.model, self.data)
 
     def run(self, realtime: bool = True, duration: float = None):
-        """Starts the simulation loop with visualization.
+        """Main simulation loop with visualization.
+
+        Runs until stopped explicitly or until duration expires. Applies control
+        signals, steps physics, and updates visualization.
 
         Args:
-            realtime (bool, optional): Whether to run the simulation in real time.
-                If True, steps are synced to wall-clock time.
-            duration (float, optional): If provided, the simulation stops automatically
-                after the specified duration (in seconds).
+            realtime: Attempt to maintain real-time synchronization (not guaranteed).
+            duration: Automatic shutdown duration in seconds (optional).
         """
         with mujoco.viewer.launch_passive(self.model, self.data) as viewer:
             self.viewer = viewer
